@@ -154,9 +154,9 @@ def relax_bcc_energy(alat, nk, ecut, forc_conv_thr, press_conv_thr):
                                         functional='GGA', name=potname)
                   }
     struc = make_bcc_struc(alat=alat)
-    kpts = Kpoints(gridsize=[2*nk, 2*nk, nk], option='automatic', offset=False)
+    kpts = Kpoints(gridsize=[nk, nk, nk], option='automatic', offset=False)
     dirname = 'Fe_a_{}_ecut_{}_nk_{}'.format(alat, ecut, nk)
-    runpath = Dir(path=os.path.join(os.environ['WORKDIR'], "Lab3/Problem1", dirname))
+    runpath = Dir(path=os.path.join(os.environ['WORKDIR'], "Lab3/Problem1_bcc", dirname))
     input_params = PWscf_inparam({
         'CONTROL': {
             'calculation': 'vc-relax',
@@ -231,7 +231,7 @@ def relax_scan_nk_conv():
 
 
 def relax_scan_bcc_nk_conv():
-    nk_list = [6, 8, 10, 12]
+    nk_list = [14, 16, 18]
     ecut = 30
     alat = 2.86
 
