@@ -134,13 +134,32 @@ def lattice_scan():
     output = compute_energy(alat=alat, ecut=ecut, nk=nk)
     print(output)
 
+
 def relax_scan():
     nk = 3
     ecut = 30
     alat = 3.0
-    output = relax_energy(alat=alat, ecut=ecut, nk=nk)
+
+    forc_conv_thr = 0.001
+    press_conv_thr = 0.5
+
+    output = relax_energy(alat=alat, ecut=ecut, nk=nk, forc_conv_thr=forc_conv_thr, press_conv_thr=press_conv_thr)
     print(output)
+
+
+def relax_scan_nk_conv():
+    nk_list = [3, 4, 5, 6]
+    ecut = 30
+    alat = 2.5
+
+    forc_conv_thr = 0.001
+    press_conv_thr = 0.5
+
+    output = [relax_energy(alat=alat, ecut=ecut, nk=nk, forc_conv_thr=forc_conv_thr, press_conv_thr=press_conv_thr) for nk in nk_list]
+    print(output)
+
 
 if __name__ == '__main__':
     # put here the function that you actually want to run
-    relax_scan()
+    #lattice_scan()
+    relax_scan_nk_conv()
