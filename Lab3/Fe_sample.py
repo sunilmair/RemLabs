@@ -162,7 +162,7 @@ def compute_bcc_energy(alat, nk, ecut):
                   'Co': PseudoPotential(path=potpath, ptype='uspp', element='Fe',
                                         functional='GGA', name=potname)
                   }
-    struc = make_bcc_struc(alat=alat, clat=clat)
+    struc = make_bcc_struc(alat=alat)
     kpts = Kpoints(gridsize=[nk, nk, nk], option='automatic', offset=False)
     dirname = 'Fe_bcc_a_{}_ecut_{}_nk_{}'.format(alat, ecut, nk)
     runpath = Dir(path=os.path.join(os.environ['WORKDIR'], "Lab3/Problem1B/bcc", dirname))
@@ -387,4 +387,4 @@ def volume_scan_bcc():
 
 if __name__ == '__main__':
     # put here the function that you actually want to run
-    volume_scan_hcp()
+    volume_scan_bcc()
