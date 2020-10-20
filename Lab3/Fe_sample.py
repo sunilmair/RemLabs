@@ -1,4 +1,5 @@
 from labutil.src.plugins.pwscf import *
+from ase import Atoms
 from ase.spacegroup import crystal
 from ase.io import write
 from ase.build import *
@@ -38,6 +39,21 @@ def make_bcc_struc(alat):
     print(structure.species)
     return structure
 
+
+def make_anti_bcc_struc(alat):
+    """
+    Creates the crystal structure using ASE.
+    :param alat: Lattice parameter in angstrom
+    :return: structure object converted from ase
+    """
+    fecell = Atoms('Fe2', [(0, 0, 0), (alat/2, alat/2, alat/2)], cell=[alat, alat, alat, 90, 90, 90], pbc=True)
+    # check how your cell looks like
+    #write('s.cif', gecell)
+    print(fecell, fecell.get_atomic_numbers())
+    #fecell.set_atomic_numbers([26, 27])
+    structure = Struc(ase2struc(fecell))
+    print(structure.species)
+    return structure
 
 def make_hcp_struc(alat, clat):
     """
@@ -180,6 +196,109 @@ def compute_bcc_energy(alat, nk, ecut):
             'ecutrho': ecut * 8,
             'nspin': 2,
             'starting_magnetization(1)': 0.7,
+            'occupations': 'smearing',
+            'smearing': 'mp',
+            'degauss': 0.02
+             },
+        'ELECTRONS': {
+            'diagonalization': 'david',
+            'mixing_beta': 0.5,
+            'conv_thr': 1e-7,
+        },
+        'IONS': {},
+        'CELL': {},
+        })
+
+    output_file = run_qe_pwscf(runpath=runpath, struc=struc,  pseudopots=pseudopots,
+                               params=input_params, kpoints=kpts, ncpu=2)
+    output = parse_qe_pwscf_output(outfile=output_file)
+    return output
+
+
+def compute_bcc_single_atom_mag_energy(alat, nk, ecut, mag_state):
+    """
+    Make an input template and select potential and structure, and the path where to run
+    """
+    if (mag_state == 'non'):
+        mag_start = 0
+    elif (mag_state == 'ferro'):
+        mag_start = 1
+    else:
+        mag_start = 0.7
+
+    potname = 'Fe.pbe-nd-rrkjus.UPF'
+    potpath = os.path.join(os.environ['ESPRESSO_PSEUDO'], potname)
+    pseudopots = {'Fe': PseudoPotential(path=potpath, ptype='uspp', element='Fe',
+                                        functional='GGA', name=potname),
+                  'Co': PseudoPotential(path=potpath, ptype='uspp', element='Fe',
+                                        functional='GGA', name=potname)
+                  }
+    struc = make_bcc_struc(alat=alat)
+    kpts = Kpoints(gridsize=[nk, nk, nk], option='automatic', offset=False)
+    dirname = 'Fe_'+mag_state+'_a_{}_ecut_{}_nk_{}'.format(alat, ecut, nk)
+    runpath = Dir(path=os.path.join(os.environ['WORKDIR'], "Lab3/Problem1C/"+"mag_state", dirname))
+    input_params = PWscf_inparam({
+        'CONTROL': {
+            'calculation': 'scf',
+            'pseudo_dir': os.environ['ESPRESSO_PSEUDO'],
+            'outdir': runpath.path,
+            'tstress': True,
+            'tprnfor': True,
+            'disk_io': 'none',
+        },
+        'SYSTEM': {
+            'ecutwfc': ecut,
+            'ecutrho': ecut * 8,
+            'nspin': 2,
+            'starting_magnetization(1)': mag_start,
+            'occupations': 'smearing',
+            'smearing': 'mp',
+            'degauss': 0.02
+             },
+        'ELECTRONS': {
+            'diagonalization': 'david',
+            'mixing_beta': 0.5,
+            'conv_thr': 1e-7,
+        },
+        'IONS': {},
+        'CELL': {},
+        })
+
+    output_file = run_qe_pwscf(runpath=runpath, struc=struc,  pseudopots=pseudopots,
+                               params=input_params, kpoints=kpts, ncpu=2)
+    output = parse_qe_pwscf_output(outfile=output_file)
+    return output
+
+def compute_bcc_anti_mag_energy(alat, nk, ecut):
+    """
+    Make an input template and select potential and structure, and the path where to run
+    """
+    potname = 'Fe.pbe-nd-rrkjus.UPF'
+    potpath = os.path.join(os.environ['ESPRESSO_PSEUDO'], potname)
+    pseudopots = {'Fe': PseudoPotential(path=potpath, ptype='uspp', element='Fe',
+                                        functional='GGA', name=potname),
+                  'Co': PseudoPotential(path=potpath, ptype='uspp', element='Fe',
+                                        functional='GGA', name=potname)
+                  }
+    struc = make_anti_bcc_struc(alat=alat)
+    kpts = Kpoints(gridsize=[nk, nk, nk], option='automatic', offset=False)
+    dirname = 'Fe_anti_a_{}_ecut_{}_nk_{}'.format(alat, ecut, nk)
+    runpath = Dir(path=os.path.join(os.environ['WORKDIR'], "Lab3/Problem1C/anti", dirname))
+    input_params = PWscf_inparam({
+        'CONTROL': {
+            'calculation': 'scf',
+            'pseudo_dir': os.environ['ESPRESSO_PSEUDO'],
+            'outdir': runpath.path,
+            'tstress': True,
+            'tprnfor': True,
+            'disk_io': 'none',
+        },
+        'SYSTEM': {
+            'ecutwfc': ecut,
+            'ecutrho': ecut * 8,
+            'nspin': 2,
+            'starting_magnetization(1)': 1.0,
+            'starting_magnetization(2)': -1.0,
             'occupations': 'smearing',
             'smearing': 'mp',
             'degauss': 0.02
@@ -385,6 +504,20 @@ def volume_scan_bcc():
     output = [compute_bcc_energy(alat, nk, ecut) for alat in alat_list]
     print(output)
 
+
+def mag_evaluate():
+    nk = 14
+    ecut = 30
+
+    equil_a = 2.845479126
+
+    output = [compute_bcc_single_atom_mag_energy(equil_a, nk, ecut, 'default'),
+              compute_bcc_single_atom_mag_energy(equil_a, nk, ecut, 'non'),
+              compute_bcc_single_atom_mag_energy(equil_a, nk, ecut, 'ferro'),
+              compute_bcc_anti_mag_energy(equil_a, nk, ecut)]
+
+    print(output)
+
 if __name__ == '__main__':
     # put here the function that you actually want to run
-    volume_scan_bcc()
+    mag_evaluate()
