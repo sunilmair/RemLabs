@@ -32,7 +32,7 @@ def make_bcc_struc(alat):
     # check how your cell looks like
     #write('s.cif', gecell)
     print(fecell, fecell.get_atomic_numbers())
-    fecell.set_atomic_numbers([26, 27])
+    #fecell.set_atomic_numbers([26, 27])
     structure = Struc(ase2struc(fecell))
     print(structure.species)
     return structure
