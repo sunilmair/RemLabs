@@ -178,6 +178,7 @@ def compute_CuAu_energy(alat, clat, nk, ecut):
     """
     Make an input template and select potential and structure, and the path where to run
     """
+    print(nk)
     pseudopots = {'Cu': PseudoPotential(ptype='uspp', element='Cu', functional='LDA', name='Cu.pz-d-rrkjus.UPF'),
                  'Au': PseudoPotential(ptype='uspp', element='Au', functional='LDA', name='Au.pz-d-rrkjus.UPF')}
     struc = make_CuAu_struc(alat=alat, clat=clat)
@@ -252,16 +253,16 @@ def problem3c_CuAu_relax():
     nk = 12
     ecut = 40
 
-    force_conv_thr = 0.001
+    forc_conv_thr = 0.001
     press_conv_thr = 0.1
 
-    output = relax_CuAu_energy(alat=alat, clat=clat, nk=nk, ecut=ecut, force_conv_thr=force_conv_thr, press_conv_thr=press_conv_thr)
+    output = relax_CuAu_energy(alat=alat, clat=clat, nk=nk, ecut=ecut, forc_conv_thr=forc_conv_thr, press_conv_thr=press_conv_thr)
     print(output)
 
 
 def problem3c_CuAu_nk_conv():
-    alat = 1 #change to equil
-    clat = 1 #change to equil
+    alat = 3.107264592
+    clat = 2.879738548
     nk_list = numpy.arange(4, 16, 2)
     ecut = 40
 
@@ -272,5 +273,5 @@ def problem3c_CuAu_nk_conv():
 if __name__ == '__main__':
     #problem3a_Cu_relax()
     #problem3a_Au_relax()
-    problem3c_CuAu_relax()
-    #problem3c_CuAu_nk_conv()
+    #problem3c_CuAu_relax()
+    problem3c_CuAu_nk_conv()
