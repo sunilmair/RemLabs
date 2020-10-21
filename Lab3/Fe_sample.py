@@ -65,7 +65,7 @@ def make_hcp_struc(alat, clat):
     # check how your cell looks like
     #write('s.cif', gecell)
     print(fecell, fecell.get_atomic_numbers())
-    fecell.set_atomic_numbers([26, 27])
+    #fecell.set_atomic_numbers([26, 27])
     structure = Struc(ase2struc(fecell))
     print(structure.species)
     return structure
@@ -133,7 +133,7 @@ def compute_hcp_energy(alat, clat, nk, ecut):
     struc = make_hcp_struc(alat=alat, clat=clat)
     kpts = Kpoints(gridsize=[2*nk, 2*nk, nk], option='automatic', offset=False)
     dirname = 'Fe_hcp_a_{}_ecut_{}_nk_{}'.format(alat, ecut, nk)
-    runpath = Dir(path=os.path.join(os.environ['WORKDIR'], "Lab3/Problem1B/hcp", dirname))
+    runpath = Dir(path=os.path.join(os.environ['WORKDIR'], "Lab3/Problem1B/hcpv2", dirname))
     input_params = PWscf_inparam({
         'CONTROL': {
             'calculation': 'scf',
@@ -332,7 +332,7 @@ def relax_energy(alat, nk, ecut, forc_conv_thr, press_conv_thr):
     struc = make_struc(alat=alat)
     kpts = Kpoints(gridsize=[2*nk, 2*nk, nk], option='automatic', offset=False)
     dirname = 'Fe_a_{}_ecut_{}_nk_{}'.format(alat, ecut, nk)
-    runpath = Dir(path=os.path.join(os.environ['WORKDIR'], "Lab3/Problem1v1", dirname))
+    runpath = Dir(path=os.path.join(os.environ['WORKDIR'], "Lab3/Problem1a_hcp_conv_v1", dirname))
     input_params = PWscf_inparam({
         'CONTROL': {
             'calculation': 'vc-relax',
@@ -478,13 +478,13 @@ def volume_scan_hcp():
     nk = 7
     ecut = 30
 
-    c_over_a = 4.01870773/2.469607124
-    equil_a = 2.469607124
+    c_over_a = 4.393156594/2.542281076
+    equil_a = 2.542281076
 
     max_a_multiplier = 1.05
-    min_a_multiplier = 0.9
+    min_a_multiplier = 0.85
 
-    alat_list = numpy.linspace(min_a_multiplier*equil_a, max_a_multiplier*equil_a, 5)
+    alat_list = numpy.linspace(min_a_multiplier*equil_a, max_a_multiplier*equil_a, 6)
 
     output = [compute_hcp_energy(alat, c_over_a*alat, nk, ecut) for alat in alat_list]
     print(output)
@@ -520,4 +520,6 @@ def mag_evaluate():
 
 if __name__ == '__main__':
     # put here the function that you actually want to run
-    relax_scan()
+    #relax_scan()
+    #relax_scan_nk_conv()
+    volume_scan_hcp()
