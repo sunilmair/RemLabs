@@ -203,9 +203,9 @@ def problem2b_Ti_disp_scan():
 
 def problem2c_Ti_relax():
     nk = 4
-    ecut = 90  # change based on conv
-    alat = 3.88  # change based on eq
-    disp = 0.0275 # change based on eq
+    ecut = 90
+    alat = 3.88
+    disp = 0.0275
 
     output = compute_Ti_relax(alat=alat, ecut=ecut, nk=nk, displ=disp)
     print(output)
