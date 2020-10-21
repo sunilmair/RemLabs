@@ -34,7 +34,7 @@ def compute_energy(alat, nk, ecut, displ=0):
     constraint = Constraint(atoms={'0': [0,0,0], '1': [0,0,0]})
     kpts = Kpoints(gridsize=[nk, nk, nk], option='automatic', offset=True)
     dirname = 'PbTiO3_a_{}_ecut_{}_nk_{}_displ_{}'.format(alat, ecut, nk, displ)
-    runpath = Dir(path=os.path.join(os.environ['WORKDIR'], "Lab3/Problem2/a/conv", dirname))
+    runpath = Dir(path=os.path.join(os.environ['WORKDIR'], "Lab3/Problem2/a/lat1", dirname))
     input_params = PWscf_inparam({
         'CONTROL': {
             'calculation': 'scf',
@@ -69,6 +69,7 @@ def compute_Ti_disp_energy(alat, nk, ecut, displ=0):
     """
     Make an input template and select potential and structure, and the path where to run
     """
+    #print(displ)
     pseudopots = {'Pb': PseudoPotential(ptype='uspp', element='Pb', functional='LDA', name='Pb.pz-d-van.UPF'),
                   'Ti': PseudoPotential(ptype='uspp', element='Ti', functional='LDA', name='Ti.pz-sp-van_ak.UPF'),
                   'O': PseudoPotential(ptype='uspp', element='O', functional='LDA', name='O.pz-rrkjus.UPF')}
@@ -77,7 +78,7 @@ def compute_Ti_disp_energy(alat, nk, ecut, displ=0):
     constraint = Constraint(atoms={'0': [0,0,0], '1': [0,0,0]})
     kpts = Kpoints(gridsize=[nk, nk, nk], option='automatic', offset=True)
     dirname = 'PbTiO3_a_{}_ecut_{}_nk_{}_displ_{}'.format(alat, ecut, nk, displ)
-    runpath = Dir(path=os.path.join(os.environ['WORKDIR'], "Lab3/Problem2/b", dirname))
+    runpath = Dir(path=os.path.join(os.environ['WORKDIR'], "Lab3/Problem2/b1", dirname))
     input_params = PWscf_inparam({
         'CONTROL': {
             'calculation': 'relax',
@@ -116,7 +117,7 @@ def compute_Ti_relax(alat, nk, ecut, displ=0):
                   'Ti': PseudoPotential(ptype='uspp', element='Ti', functional='LDA', name='Ti.pz-sp-van_ak.UPF'),
                   'O': PseudoPotential(ptype='uspp', element='O', functional='LDA', name='O.pz-rrkjus.UPF')}
     struc = make_struc(alat=alat, displacement=displ)
-    # fix the Pb and Ti atoms in place during relaxation
+    # fix the Pb atoms in place during relaxation
     constraint = Constraint(atoms={'0': [0,0,0]})
     kpts = Kpoints(gridsize=[nk, nk, nk], option='automatic', offset=True)
     dirname = 'PbTiO3_a_{}_ecut_{}_nk_{}_displ_{}'.format(alat, ecut, nk, displ)
@@ -169,7 +170,7 @@ def lattice_scan():
 
 def problem2_ecut_conv():
     nk = 4
-    ecut_list = numpy.arange(10.0, 40.0, 5)
+    ecut_list = numpy.arange(45.0, 100.0, 10)
     alat = 3.97
     output = [compute_energy(alat=alat, ecut=ecut, nk=nk)['energy'] for ecut in ecut_list]
 
@@ -178,10 +179,9 @@ def problem2_ecut_conv():
 
 
 def problem2a_lattice_scan():
-    #change out dir
     nk = 4
-    ecut = 30 #change based on conv
-    alat_list = numpy.linspace(3.9, 4.1, 11)
+    ecut = 90
+    alat_list = numpy.linspace(3.8, 4.0, 11)
 
     output = [compute_energy(alat=alat, ecut=ecut, nk=nk)['energy'] for alat in alat_list]
 
@@ -191,8 +191,8 @@ def problem2a_lattice_scan():
 
 def problem2b_Ti_disp_scan():
     nk = 4
-    ecut = 30 #change based on conv
-    alat = 3.97 #change based on eq
+    ecut = 70
+    alat = 3.88
     disp_list = numpy.linspace(0, 0.05, 11)
 
     output = [compute_Ti_disp_energy(alat=alat, ecut=ecut, nk=nk, displ=disp)['energy'] for disp in disp_list]
@@ -203,16 +203,16 @@ def problem2b_Ti_disp_scan():
 
 def problem2c_Ti_relax():
     nk = 4
-    ecut = 30  # change based on conv
-    alat = 3.97  # change based on eq
-    disp = 0.01 # change based on eq
+    ecut = 90  # change based on conv
+    alat = 3.88  # change based on eq
+    disp = 0.0275 # change based on eq
 
     output = compute_Ti_relax(alat=alat, ecut=ecut, nk=nk, displ=disp)
     print(output)
 
 if __name__ == '__main__':
     # put here the function that you actually want to run
-    problem2_ecut_conv()
+    #problem2_ecut_conv()
     #problem2a_lattice_scan()
     #problem2b_Ti_disp_scan()
-    #problem2c_Ti_relax()
+    problem2c_Ti_relax()
