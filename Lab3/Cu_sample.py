@@ -31,7 +31,7 @@ def relax_Cu_energy(alat, nk, ecut, forc_conv_thr, press_conv_thr):
     struc = make_fcc_struc(element='Cu', alat=alat)
     kpts = Kpoints(gridsize=[nk, nk, nk], option='automatic', offset=False)
     dirname = 'Cu_a_{}_ecut_{}_nk_{}'.format(alat, ecut, nk)
-    runpath = Dir(path=os.path.join(os.environ['WORKDIR'], "Lab3/Problem3a/Cu", dirname))
+    runpath = Dir(path=os.path.join(os.environ['WORKDIR'], "Lab3/Problem3a/Cu2", dirname))
     input_params = PWscf_inparam({
         'CONTROL': {
             'calculation': 'vc-relax',
@@ -71,14 +71,14 @@ def relax_Cu_energy(alat, nk, ecut, forc_conv_thr, press_conv_thr):
     return output
 
 def problem3a_Cu_relax():
-    alat = sqrt(2)*2.561
-    nk_list = numpy.arange(3, 9, 1)
+    alat = numpy.sqrt(2)*2.561
+    nk_list = numpy.arange(4, 16, 2)
     ecut = 40
 
     forc_conv_thr = 0.001
-    press_conv_thr = 0.5
+    press_conv_thr = 0.1
 
-    output = [relax_Cu_energy(alat=alat, nk=nk, ecut=ecut, forc_conv_thr=forc_conv_thr, press_conv_thr=press_conv_thr)
+    output = [relax_Cu_energy(alat=alat, nk=nk, ecut=ecut, forc_conv_thr=forc_conv_thr, press_conv_thr=press_conv_thr)['energy']
               for nk in nk_list]
 
     print(output)
