@@ -18,7 +18,7 @@ def make_struc(alat):
     # check how your cell looks like
     #write('s.cif', gecell)
     print(fecell, fecell.get_atomic_numbers())
-    fecell.set_atomic_numbers([26, 27])
+    #fecell.set_atomic_numbers([26, 27])
     structure = Struc(ase2struc(fecell))
     print(structure.species)
     return structure
@@ -332,7 +332,7 @@ def relax_energy(alat, nk, ecut, forc_conv_thr, press_conv_thr):
     struc = make_struc(alat=alat)
     kpts = Kpoints(gridsize=[2*nk, 2*nk, nk], option='automatic', offset=False)
     dirname = 'Fe_a_{}_ecut_{}_nk_{}'.format(alat, ecut, nk)
-    runpath = Dir(path=os.path.join(os.environ['WORKDIR'], "Lab3/Problem1", dirname))
+    runpath = Dir(path=os.path.join(os.environ['WORKDIR'], "Lab3/Problem1v1", dirname))
     input_params = PWscf_inparam({
         'CONTROL': {
             'calculation': 'vc-relax',
@@ -520,4 +520,4 @@ def mag_evaluate():
 
 if __name__ == '__main__':
     # put here the function that you actually want to run
-    mag_evaluate()
+    relax_scan()
