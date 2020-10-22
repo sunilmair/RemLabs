@@ -134,7 +134,7 @@ def relax_CuAu_energy(alat, clat, nk, ecut, forc_conv_thr, press_conv_thr):
     struc = make_CuAu_struc(alat=alat, clat=clat)
     kpts = Kpoints(gridsize=[nk, nk, nk], option='automatic', offset=False)
     dirname = 'CuAu_a_{}_c_{}_ecut_{}_nk_{}'.format(alat, clat, ecut, nk)
-    runpath = Dir(path=os.path.join(os.environ['WORKDIR'], "Lab3/Problem3c/CuAu_relax", dirname))
+    runpath = Dir(path=os.path.join(os.environ['WORKDIR'], "Lab3/Problem3c/CuAu_relaxv1", dirname))
     input_params = PWscf_inparam({
         'CONTROL': {
             'calculation': 'vc-relax',
@@ -184,7 +184,7 @@ def compute_CuAu_energy(alat, clat, nk, ecut):
     struc = make_CuAu_struc(alat=alat, clat=clat)
     kpts = Kpoints(gridsize=[nk, nk, nk], option='automatic', offset=False)
     dirname = 'CuAu_a_{}_c_{}_ecut_{}_nk_{}'.format(alat, clat, ecut, nk)
-    runpath = Dir(path=os.path.join(os.environ['WORKDIR'], "Lab3/Problem3c/CuAu_conv", dirname))
+    runpath = Dir(path=os.path.join(os.environ['WORKDIR'], "Lab3/Problem3c/CuAu_convv1", dirname))
     input_params = PWscf_inparam({
         'CONTROL': {
             'calculation': 'scf',
@@ -248,8 +248,8 @@ def problem3a_Au_relax():
 
 def problem3c_CuAu_relax():
     average_parameter = (3.55078382 + 4.047458838)/2
-    alat = average_parameter
-    clat = 0.9*average_parameter
+    alat = average_parameter/numpy.sqrt(2)
+    clat = average_parameter
     nk = 12
     ecut = 40
 
@@ -261,8 +261,8 @@ def problem3c_CuAu_relax():
 
 
 def problem3c_CuAu_nk_conv():
-    alat = 3.107264592
-    clat = 2.879738548
+    alat = 2.809846895
+    clat = 3.527086544
     nk_list = numpy.arange(4, 16, 2)
     ecut = 40
 
