@@ -203,13 +203,13 @@ def md_analyze_melt_nvt(min_temp, max_temp, temp_step, size, timestep, nsteps):
 
     fig1.savefig('/home/modeler/RemLabs/Lab4/Problem2A/KE_MSD_time.png')
 
-    ax2[0].plot(temperatures, mean_KE, color='tab:red')
-    ax2[0].set_title('KE and MSD vs Temp')
-    ax2[0].set_xlabel('Temp (K)')
-    ax2[0].set_ylabel('KE (units)') # change energy units
-    ax3.tick_params(axis='y', labelcolor='tab:red')
+    ax2.plot(temperatures, mean_KE, color='tab:red')
+    ax2.set_title('KE and MSD vs Temp')
+    ax2.set_xlabel('Temp (K)')
+    ax2.set_ylabel('KE (units)') # change energy units
+    ax2.tick_params(axis='y', labelcolor='tab:red')
 
-    ax3 = ax2[0].twinx()
+    ax3 = ax2.twinx()
     ax3.plot(temperatures, mean_MSD, color='tab:blue')
     ax3.set_ylabel('MSD (distance') # change distance units
     ax3.tick_params(axis='y', labelcolor='tab:blue')
