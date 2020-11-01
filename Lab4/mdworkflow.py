@@ -11,7 +11,7 @@ def make_struc(size):
     :return: structure object converted from ase
     """
     alat = 4.10
-    unitcell = crystal('Al', [(0, 0, 0)], spacegroup=225, cellpar=[alat, alat, alat, 90, 90, 90])
+    unitcell = crystal('Ag', [(0, 0, 0)], spacegroup=225, cellpar=[alat, alat, alat, 90, 90, 90])
     multiplier = numpy.identity(3) * size
     supercell = make_supercell(unitcell, multiplier)
     structure = Struc(ase2struc(supercell))
@@ -31,8 +31,8 @@ def compute_dynamics(size, timestep, nsteps, temperature):
     boundary   p p p
     read_data $DATAINPUT
 
-    pair_style eam/alloy
-    pair_coeff * * $POTENTIAL  Al
+    pair_style eam
+    pair_coeff * * $POTENTIAL  Ag
 
     velocity  all create $TEMPERATURE 87287 dist gaussian
 
@@ -54,8 +54,8 @@ def compute_dynamics(size, timestep, nsteps, temperature):
     run $NSTEPS
     """
 
-    potential = ClassicalPotential(ptype='eam', element='Al', name='Al_zhou.eam.alloy')
-    runpath = Dir(path=os.path.join(os.environ['WORKDIR'], "Lab4/Problem1", "size_" + str(size)))
+    potential = ClassicalPotential(ptype='eam', element='Ag', name='Ag_u3.eam')
+    runpath = Dir(path=os.path.join(os.environ['WORKDIR'], "RemLabs/Lab4/Problem1", "size_" + str(size)))
     struc = make_struc(size=size)
     inparam = {
         'TEMPERATURE': temperature,
@@ -74,18 +74,22 @@ def compute_dynamics(size, timestep, nsteps, temperature):
 
 
 def md_run():
+    savepath = '/home/modeler/RemLabs/Lab4/Problem1/Run1/'
     output, rdfs = compute_dynamics(size=3, timestep=0.001, nsteps=1000, temperature=300)
     [simtime, pe, ke, energy, temp, press, dens, msd] = output
     ## ------- plot output properties
-    #plt.plot(simtime, temp)
+    plt.plot(simtime, temp)
     #plt.show()
+    plt.savefig(savepath + 'temp.png')
     plt.plot(simtime, press)
-    plt.show()
+    #plt.show()
+    plt.savefig(savepath + 'press.png')
 
     # ----- plot radial distribution functions
     for rdf in rdfs:
         plt.plot(rdf[0], rdf[1])
-    plt.show()
+    #plt.show()
+    plt.savefig(savepath + 'rdf.png')
 
 
 if __name__ == '__main__':
