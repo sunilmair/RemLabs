@@ -10,7 +10,7 @@ def make_struc(size):
     :param size: supercell multiplier
     :return: structure object converted from ase
     """
-    alat = 4.10
+    alat = 4.09
     unitcell = crystal('Ag', [(0, 0, 0)], spacegroup=225, cellpar=[alat, alat, alat, 90, 90, 90])
     multiplier = numpy.identity(3) * size
     supercell = make_supercell(unitcell, multiplier)
