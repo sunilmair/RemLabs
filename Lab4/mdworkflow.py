@@ -116,8 +116,8 @@ def md_analyze_timestep(total_time, timestep_smallest, timestep_largest, num_run
         #single run plots here
         fig2, ax2 = plt.subplots(1, 2, figsize=(18, 6))
         ax2[0].plot(simtime*timestep, temp)
-        ax2[0].set_xlabel()
-        ax2[0].set_ylabel()
+        ax2[0].set_xlabel('Time (ps)')
+        ax2[0].set_ylabel('Temp (K)')
 
         ax2[1].plot(simtime*timestep, pe, color='tab:blue')
         ax2[1].set_xlabel('Time (ps)')
