@@ -119,15 +119,15 @@ def md_analyze_timestep(total_time, timestep_smallest, timestep_largest, num_run
         ax2[0].set_xlabel('Time (ps)')
         ax2[0].set_ylabel('Temp (K)')
 
-        ax2[1].plot(simtime*timestep, pe, color='tab:blue')
+        ax2[1].plot(simtime*timestep, pe, color='tab:red')
         ax2[1].set_xlabel('Time (ps)')
-        ax2[1].set_ylabel('PE (units)', color='tab:blue') #change energy units
-        ax2[1].tick_params(axis='y', labelcolor='tab:blue')
+        ax2[1].set_ylabel('PE (units)', color='tab:red') #change energy units
+        ax2[1].tick_params(axis='y', labelcolor='tab:red')
 
         ax3 = ax2[1].twinx()
-        ax3.plot(simtime*timestep, ke, color='tab:red')
-        ax3.set_ylabel('KE (units)', color='tab:red') #change energy units
-        ax3.tick_params(axis='y', labelcolor='tab:red')
+        ax3.plot(simtime*timestep, ke, color='tab:blue')
+        ax3.set_ylabel('KE (units)', color='tab:blue') #change energy units
+        ax3.tick_params(axis='y', labelcolor='tab:blue')
 
         fig2.tight_layout()
         fig2.savefig(savepath + 'energy.png')
