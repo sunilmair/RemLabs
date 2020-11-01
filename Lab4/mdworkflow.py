@@ -74,7 +74,7 @@ def compute_dynamics(size, timestep, nsteps, temperature):
 
 
 def md_run():
-    savepath = '/home/modeler/RemLabs/Lab4/Problem1/Run1/'
+    savepath = '/home/modeler/RemLabs/Lab4/Problem1/size_3/'
     output, rdfs = compute_dynamics(size=3, timestep=0.001, nsteps=1000, temperature=300)
     [simtime, pe, ke, energy, temp, press, dens, msd] = output
     ## ------- plot output properties
