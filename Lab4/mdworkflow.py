@@ -173,8 +173,8 @@ def md_analyze_supercell_size(sizes, timestep=0.001, nsteps=10000, temperature=3
 
 def md_analyze_melt_nvt(min_temp, max_temp, temp_step, size, timestep, nsteps):
     temperatures = np.arange(min_temp, max_temp, temp_step)
-    mean_KE = []
-    mean_MSD = []
+    mean_pres = []
+    mean_dens = []
     fig1, ax1 = plt.subplots(1, 2, figsize=(12, 6))
     fig2, ax2 = plt.subplots(1, 1, figsize=(6, 6))
     for temperature in temperatures:
@@ -185,41 +185,41 @@ def md_analyze_melt_nvt(min_temp, max_temp, temp_step, size, timestep, nsteps):
 
         [simtime, pe, ke, energy, temp, pres, dens, msd] = output
 
-        mean_KE.append(np.mean(ke[1:]))
-        mean_MSD.append(np.mean(msd[1:]))
+        mean_pres.append(np.mean(pres[1:]))
+        mean_dens.append(np.mean(dens[1:]))
 
-        ax1[0].plot(simtime*timestep, ke, label=str(temperature))
-        ax1[1].plot(simtime*timestep, msd, label=str(temperature))
+        ax1[0].plot(simtime*timestep, pres, label=str(temperature))
+        ax1[1].plot(simtime*timestep, dens, label=str(temperature))
 
     ax1[0].legend()
-    ax1[0].set_title('KE vs Time')
+    ax1[0].set_title('Pressure  vs Time')
     ax1[0].set_xlabel('Time (ps)')
-    ax1[0].set_ylabel('KE (units)') # change energy units
+    ax1[0].set_ylabel('Pressure (units)') # change energy units
 
     ax1[1].legend()
-    ax1[1].set_title('MSD vs Time')
+    ax1[1].set_title('Density vs Time')
     ax1[1].set_xlabel('Time (ps)')
-    ax1[1].set_ylabel('MSD (distance)') # change distance units
+    ax1[1].set_ylabel('Density (distance)') # change distance units
 
-    fig1.savefig('/home/modeler/RemLabs/Lab4/Problem2A_size_' + str(size) + '/KE_MSD_time.png')
+    fig1.savefig('/home/modeler/RemLabs/Lab4/Problem2A_size_' + str(size) + '/pres_dens_time.png')
 
-    ax2.plot(temperatures, mean_KE, color='tab:red')
-    ax2.set_title('KE and MSD vs Temp')
+    ax2.plot(temperatures, mean_pres, color='tab:red')
+    ax2.set_title('Pressure and Density vs Temp')
     ax2.set_xlabel('Temp (K)')
-    ax2.set_ylabel('KE (units)') # change energy units
+    ax2.set_ylabel('Pressure (units)') # change energy units
     ax2.tick_params(axis='y', labelcolor='tab:red')
 
     ax3 = ax2.twinx()
-    ax3.plot(temperatures, mean_MSD, color='tab:blue')
-    ax3.set_ylabel('MSD (distance') # change distance units
+    ax3.plot(temperatures, mean_dens, color='tab:blue')
+    ax3.set_ylabel('Density (units)') # change distance units
     ax3.tick_params(axis='y', labelcolor='tab:blue')
 
     fig2.tight_layout()
-    fig2.savefig('/home/modeler/RemLabs/Lab4/Problem2A_size_' + str(size) + '/KE_MSD_temp.png')
+    fig2.savefig('/home/modeler/RemLabs/Lab4/Problem2A_size_' + str(size) + '/pres_dens_temp.png')
 
 
 if __name__ == '__main__':
     # put here the function that you actually want to run
     #md_analyze_timestep(10, 0.001, 0.02, 8) # 1A and 1B
     #md_analyze_supercell_size([3, 4, 5]) # 1C
-    md_analyze_melt_nvt(1000, 1500, 20, 4, 0.001, 10000)
+    md_analyze_melt_nvt(1000, 1500, 20, 3, 0.001, 10000)
