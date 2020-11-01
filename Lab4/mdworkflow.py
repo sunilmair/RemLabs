@@ -2,6 +2,7 @@ from labutil.src.plugins.lammps import *
 from ase.spacegroup import crystal
 from ase.build import *
 import matplotlib.pyplot as plt
+import numpy as np
 
 
 def make_struc(size):
@@ -55,7 +56,7 @@ def compute_dynamics(size, timestep, nsteps, temperature):
     """
 
     potential = ClassicalPotential(ptype='eam', element='Ag', name='Ag_u3.eam')
-    runpath = Dir(path=os.path.join(os.environ['WORKDIR'], "RemLabs/Lab4/Problem1", "size_" + str(size)))
+    runpath = Dir(path=os.path.join(os.environ['WORKDIR'], "RemLabs/Lab4/Problem1", "timestep_" + str(timestep)))
     struc = make_struc(size=size)
     inparam = {
         'TEMPERATURE': temperature,
@@ -73,11 +74,16 @@ def compute_dynamics(size, timestep, nsteps, temperature):
     return output, rdfs
 
 
-def md_run():
-    savepath = '/home/modeler/RemLabs/Lab4/Problem1/size_3/'
-    output, rdfs = compute_dynamics(size=3, timestep=0.001, nsteps=1000, temperature=300)
+def md_run(size=3, timestep=0.001):
+    savepath = '/home/modeler/RemLabs/Lab4/Problem1/timestep_' + str(timestep) + '/'
+    output, rdfs = compute_dynamics(size, timestep, nsteps=1000, temperature=300)
+    print(output)
     [simtime, pe, ke, energy, temp, press, dens, msd] = output
     ## ------- plot output properties
+    fig1, ax1 = plt.subplots()
+    ax1.plot(simtime, temp)
+
+
     plt.plot(simtime, temp)
     #plt.show()
     plt.savefig(savepath + 'temp.png')
@@ -92,6 +98,36 @@ def md_run():
     plt.savefig(savepath + 'rdf.png')
 
 
+def md_analyze_timestep(total_time, timestep_smallest, timestep_largest, num_runs, size=3, temperature=300)
+    timesteps = np.logspace(timestep_smallest, timestep_largest, num_runs)
+    data = []
+    mean_energies = []
+    fig1, ax1 = plt.subplots()
+    for timestep in timesteps:
+        savepath = '/home/modeler/RemLabs/Lab4/Problem1A/timestep_' + str(timestep) + '/'
+        nsteps = np.ceil(total_time/timestep)
+        output, rdfs = compute_dynamics(size, timestep, nsteps, temperature)
+        [simtime, pe, ke, energy, temp, pres, dens, msd] = output
+
+        for col in output:
+            print(type(col[0]))
+
+        mean_energies.append(np.mean(energy))
+
+        #single run plots here
+        fig2, ax2 = plt.subplots()
+        ax2.plot(simtime, energy)
+        fig2.savefig(savepath + 'energy.png')
+
+        data.append(output)
+        ax1.plot(simtime, energy)
+
+    fig3, ax3 = plt.subplots()
+    ax3.plot(timesteps, mean_energies)
+
+    fig1.savefig('/home/modeler/RemLabs/Lab4/Problem1A/energy_vs_time.png')
+    fig3.savefig('/home/modeler/RemLabs/Lab4/Problem1A/mean_energies.png')
+
 if __name__ == '__main__':
     # put here the function that you actually want to run
-    md_run()
+    md_analyze_timestep(10, 0.001, 0.02, 3)
