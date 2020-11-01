@@ -173,7 +173,10 @@ def md_analyze_supercell_size(sizes, timestep=0.001, nsteps=10000, temperature=3
 
 def md_analyze_melt_nvt(min_temp, max_temp, temp_step, size, timestep, nsteps):
     temperatures = np.arange(min_temp, max_temp, temp_step)
+    mean_KE = []
+    mean_MSD = []
     fig1, ax1 = plt.subplots(1, 2, figsize=(12, 6))
+    fig2, ax2 = plt.subplots(1, 1, figsize=(6, 6))
     for temperature in temperatures:
         savepath = '/home/modeler/RemLabs/Lab4/Problem2A/temp_' + str(temperature) + '/'
 
@@ -181,6 +184,9 @@ def md_analyze_melt_nvt(min_temp, max_temp, temp_step, size, timestep, nsteps):
         output = output.astype(np.float)
 
         [simtime, pe, ke, energy, temp, pres, dens, msd] = output
+
+        mean_KE.append(np.mean(ke[1:]))
+        mean_MSD.append(np.mean(msd[1:]))
 
         ax1[0].plot(simtime*timestep, ke, label=str(temperature))
         ax1[1].plot(simtime*timestep, msd, label=str(temperature))
@@ -195,7 +201,20 @@ def md_analyze_melt_nvt(min_temp, max_temp, temp_step, size, timestep, nsteps):
     ax1[1].set_xlabel('Time (ps)')
     ax1[1].set_ylabel('MSD (distance)') # change distance units
 
-    fig1.savefig('/home/modeler/RemLabs/Lab4/Problem2A/KE_MSD.png')
+    fig1.savefig('/home/modeler/RemLabs/Lab4/Problem2A/KE_MSD_time.png')
+
+    ax2[0].plot(temperatures, mean_KE, color='tab:red')
+    ax2[0].set_title('KE and MSD vs Temp')
+    ax2[0].set_xlabel('Temp (K)')
+    ax2[0].set_ylabel('KE (units)') # change energy units
+    ax3.tick_params(axis='y', labelcolor='tab:red')
+
+    ax3 = ax2[0].twinx()
+    ax3.plot(temperatures, mean_MSD, color='tab:blue')
+    ax3.set_ylabel('MSD (distance') # change distance units
+    ax3.tick_params(axis='y', labelcolor='tab:blue')
+
+    fig2.savefig('/home/modeler/RemLabs/Lab4/Problem2A/KE_MSD_temp.png')
 
 
 if __name__ == '__main__':
