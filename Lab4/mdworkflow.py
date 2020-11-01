@@ -102,7 +102,7 @@ def md_analyze_timestep(total_time, timestep_smallest, timestep_largest, num_run
     timesteps = np.logspace(np.log10(timestep_smallest), np.log10(timestep_largest), num_runs)
     data = []
     mean_energies = []
-    fig1, ax1 = plt.subplots(1, 2)
+    fig1, ax1 = plt.subplots(1, 2, figsize=(6, 12))
     for timestep in timesteps:
         savepath = '/home/modeler/RemLabs/Lab4/Problem1A/timestep_' + str(timestep) + '/'
         nsteps = int(np.ceil(total_time/timestep))
@@ -119,7 +119,7 @@ def md_analyze_timestep(total_time, timestep_smallest, timestep_largest, num_run
         fig2.savefig(savepath + 'energy.png')
 
         data.append(output)
-        ax1[0].plot(simtime*timestep, energy, label=str(timestep)[:4])
+        ax1[0].plot(simtime*timestep, energy, label=str(timestep)[:7])
 
     ax1[0].legend()
     ax1[1].plot(timesteps, mean_energies)
