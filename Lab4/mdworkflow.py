@@ -32,7 +32,7 @@ def compute_dynamics(size, timestep, nsteps, temperature):
     read_data $DATAINPUT
 
     pair_style eam
-    pair_coeff * * $POTENTIAL  Ag
+    pair_coeff * * $POTENTIAL
 
     velocity  all create $TEMPERATURE 87287 dist gaussian
 
