@@ -221,4 +221,4 @@ if __name__ == '__main__':
     # put here the function that you actually want to run
     #md_analyze_timestep(10, 0.001, 0.02, 8) # 1A and 1B
     #md_analyze_supercell_size([3, 4, 5]) # 1C
-    md_analyze_melt_nvt(300, 350, 10, 3, 0.001, 10000)
+    md_analyze_melt_nvt(1200, 1300, 10, 3, 0.001, 10000)
