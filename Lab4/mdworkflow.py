@@ -122,7 +122,7 @@ def md_analyze_timestep(total_time, timestep_smallest, timestep_largest, num_run
         ax1[0].plot(simtime*timestep, energy, label=str(timestep)[:7])
 
     ax1[0].legend()
-    ax1[1].plot(timesteps, mean_energies)
+    ax1[1].plot(timesteps, mean_energies, marker='o')
 
     ax1[0].set_xlabel('Time (ps)')
     ax1[0].set_ylabel('Total Energy (units)')
