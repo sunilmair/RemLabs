@@ -56,7 +56,8 @@ def compute_dynamics(size, timestep, nsteps, temperature):
     """
 
     potential = ClassicalPotential(ptype='eam', element='Ag', name='Ag_u3.eam')
-    runpath = Dir(path=os.path.join(os.environ['WORKDIR'], "RemLabs/Lab4/Problem1A", "timestep_" + str(timestep)))
+    #runpath = Dir(path=os.path.join(os.environ['WORKDIR'], "RemLabs/Lab4/Problem1A", "timestep_" + str(timestep)))
+    runpath = Dir(path=os.path.join(os.environ['WORKDIR'], "RemLabs/Lab4/Problem1C", "size_" + str(size)))
     struc = make_struc(size=size)
     inparam = {
         'TEMPERATURE': temperature,
@@ -74,28 +75,19 @@ def compute_dynamics(size, timestep, nsteps, temperature):
     return output, rdfs
 
 
-def md_run(size=3, timestep=0.001):
-    savepath = '/home/modeler/RemLabs/Lab4/Problem1/timestep_' + str(timestep) + '/'
-    output, rdfs = compute_dynamics(size, timestep, nsteps=1000, temperature=300)
-    print(output)
+def md_run():
+    output, rdfs = compute_dynamics(size=3, timestep=0.001, nsteps=1000, temperature=300)
     [simtime, pe, ke, energy, temp, press, dens, msd] = output
     ## ------- plot output properties
-    fig1, ax1 = plt.subplots()
-    ax1.plot(simtime, temp)
-
-
-    plt.plot(simtime, temp)
+    #plt.plot(simtime, temp)
     #plt.show()
-    plt.savefig(savepath + 'temp.png')
     plt.plot(simtime, press)
-    #plt.show()
-    plt.savefig(savepath + 'press.png')
+    plt.show()
 
     # ----- plot radial distribution functions
     for rdf in rdfs:
         plt.plot(rdf[0], rdf[1])
-    #plt.show()
-    plt.savefig(savepath + 'rdf.png')
+    plt.show()
 
 
 def md_analyze_timestep(total_time, timestep_smallest, timestep_largest, num_runs, size=3, temperature=300):
@@ -116,10 +108,12 @@ def md_analyze_timestep(total_time, timestep_smallest, timestep_largest, num_run
         #single run plots here
         fig2, ax2 = plt.subplots(1, 2, figsize=(18, 6))
         ax2[0].plot(simtime*timestep, temp)
+        ax2[0].title('Temp vs Time')
         ax2[0].set_xlabel('Time (ps)')
         ax2[0].set_ylabel('Temp (K)')
 
         ax2[1].plot(simtime*timestep, pe, color='tab:red')
+        ax2[1].title('Energy vs Time')
         ax2[1].set_xlabel('Time (ps)')
         ax2[1].set_ylabel('PE (units)', color='tab:red') #change energy units
         ax2[1].tick_params(axis='y', labelcolor='tab:red')
@@ -130,23 +124,53 @@ def md_analyze_timestep(total_time, timestep_smallest, timestep_largest, num_run
         ax3.tick_params(axis='y', labelcolor='tab:blue')
 
         fig2.tight_layout()
-        fig2.savefig(savepath + 'energy.png')
+        fig2.savefig(savepath + 'temp.png')
 
         data.append(output)
 
         ax1[0].plot(simtime*timestep, energy, label=str(timestep)[:7])
 
     ax1[0].legend()
-    ax1[1].plot(timesteps, mean_energies, marker='o')
-
+    ax1[0].title('Total Energy vs Time')
     ax1[0].set_xlabel('Time (ps)')
     ax1[0].set_ylabel('Total Energy (units)') #change energy units
 
+    ax1[1].plot(timesteps, mean_energies, marker='o')
+    ax1[1].title('Mean Energy vs Timestep')
     ax1[1].set_xlabel('Timestep (ps)')
     ax1[1].set_ylabel('Mean Energy (units)') #change energy units
 
     fig1.savefig('/home/modeler/RemLabs/Lab4/Problem1A/energies.png')
 
+
+def md_analyze_supercell_size(sizes, timestep=0.001, nsteps=10000, temperature=300):
+    fig1, ax1 = plt.subplots(1, 2, figsize=(12, 6))
+    temp_stds = []
+    for size in sizes:
+        savepath = '/home/modeler/RemLabs/Lab4/Problem1C/size_' + str(size) + '/'
+
+        output, rdfs = compute_dynamics(size, timestep, nsteps, temperature)
+        output = output.astype(np.float)
+
+        [simtime, pe, ke, energy, temp, pres, dens, msd] = output
+        temp_stds.append(np.std(temp[1:]))
+
+        ax1[0].plot(simtime*timstep, temp, label=str(size))
+
+    ax1[0].legend()
+    ax1[0].title('Temp vs Time')
+    ax1[0].set_xlabel('Time (ps)')
+    ax1[0].set_ylabel('Temp (K)')
+
+    ax1[1].plot(sizes, temp_stds, marker='o')
+    ax1[1].title('Temp Std Dev vs Supercell Size')
+    ax1[1].set_xlabel('Supercell Size')
+    ax1[1].set_ylabel('Temp Std Dev (K)')
+
+    fig1.savefig('/home/modeler/RemLabs/Lab4/Problem1C/temps_sizes.png')
+
+
 if __name__ == '__main__':
     # put here the function that you actually want to run
-    md_analyze_timestep(10, 0.001, 0.02, 8)
+    #md_analyze_timestep(10, 0.001, 0.02, 8)
+    md_analyze_supercell_size([3, 4, 5])
