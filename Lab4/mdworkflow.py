@@ -214,6 +214,7 @@ def md_analyze_melt_nvt(min_temp, max_temp, temp_step, size, timestep, nsteps):
     ax3.set_ylabel('MSD (distance') # change distance units
     ax3.tick_params(axis='y', labelcolor='tab:blue')
 
+    fig2.tight_layout()
     fig2.savefig('/home/modeler/RemLabs/Lab4/Problem2A/KE_MSD_temp.png')
 
 
@@ -221,4 +222,4 @@ if __name__ == '__main__':
     # put here the function that you actually want to run
     #md_analyze_timestep(10, 0.001, 0.02, 8) # 1A and 1B
     #md_analyze_supercell_size([3, 4, 5]) # 1C
-    md_analyze_melt_nvt(1200, 1300, 10, 3, 0.001, 10000)
+    md_analyze_melt_nvt(1000, 1500, 20, 3, 0.001, 10000)

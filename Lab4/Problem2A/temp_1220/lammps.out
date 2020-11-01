@@ -4,7 +4,7 @@ Reading data file ...
   1 by 1 by 1 MPI processor grid
   reading atoms ...
   108 atoms
-  read_data CPU = 0.000907244 secs
+  read_data CPU = 0.000900881 secs
 Reading potential file /usr/share/lammps-stable/potentials/Ag_u3.eam with DATE: 2007-06-11
 Neighbor list info ...
   update every 1 steps, delay 10 steps, check yes
@@ -130,20 +130,20 @@ Step PotEng KinEng TotEng Temp Press Density c_msdall[4]
     9800   -290.49768    15.889181    -274.6085    1148.8229    68469.791    10.472245   0.10436949 
     9900   -289.88723    17.845924   -272.04131    1290.2998    72298.127    10.472245   0.10118027 
    10000   -287.61335    16.517259   -271.09609    1194.2344    77457.412    10.472245   0.10957669 
-Loop time of 2.09723 on 1 procs for 10000 steps with 108 atoms
+Loop time of 2.10443 on 1 procs for 10000 steps with 108 atoms
 
-Performance: 411.973 ns/day, 0.058 hours/ns, 4768.202 timesteps/s
+Performance: 410.563 ns/day, 0.058 hours/ns, 4751.885 timesteps/s
 100.0% CPU use with 1 MPI tasks x no OpenMP threads
 
 MPI task timing breakdown:
 Section |  min time  |  avg time  |  max time  |%varavg| %total
 ---------------------------------------------------------------
-Pair    | 1.3892     | 1.3892     | 1.3892     |   0.0 | 66.24
+Pair    | 1.3925     | 1.3925     | 1.3925     |   0.0 | 66.17
 Neigh   | 0          | 0          | 0          |   0.0 |  0.00
-Comm    | 0.041191   | 0.041191   | 0.041191   |   0.0 |  1.96
-Output  | 0.0015299  | 0.0015299  | 0.0015299  |   0.0 |  0.07
-Modify  | 0.65587    | 0.65587    | 0.65587    |   0.0 | 31.27
-Other   |            | 0.009461   |            |       |  0.45
+Comm    | 0.041571   | 0.041571   | 0.041571   |   0.0 |  1.98
+Output  | 0.0015592  | 0.0015592  | 0.0015592  |   0.0 |  0.07
+Modify  | 0.65928    | 0.65928    | 0.65928    |   0.0 | 31.33
+Other   |            | 0.009512   |            |       |  0.45
 
 Nlocal:    108 ave 108 max 108 min
 Histogram: 1 0 0 0 0 0 0 0 0 0
