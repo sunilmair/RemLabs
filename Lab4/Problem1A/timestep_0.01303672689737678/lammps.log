@@ -5,12 +5,12 @@ LAMMPS (3 Mar 2020)
     atom_style atomic
     dimension  3
     boundary   p p p
-    read_data /home/modeler/RemLabs/Lab4/Problem1A/timestep_0.020000000000000004/lammps.data
+    read_data /home/modeler/RemLabs/Lab4/Problem1A/timestep_0.01303672689737678/lammps.data
   orthogonal box = (0 0 0) to (12.27 12.27 12.27)
   1 by 1 by 1 MPI processor grid
   reading atoms ...
   108 atoms
-  read_data CPU = 0.000870766 secs
+  read_data CPU = 0.000847882 secs
 
     pair_style eam
     pair_coeff * * /usr/share/lammps-stable/potentials/Ag_u3.eam
@@ -25,15 +25,15 @@ Reading potential file /usr/share/lammps-stable/potentials/Ag_u3.eam with DATE: 
 
     # ---------- Specify ensemble  ---------------------
     fix  1 all nve
-    #fix  1 all nvt temp 300 300 1.0000000000000002
+    #fix  1 all nvt temp 300 300 0.651836344868839
 
     # --------- Compute RDF ---------------
     compute rdfall all rdf 100 1 1
-    fix 2 all ave/time 1 125 125 c_rdfall[*] file /home/modeler/RemLabs/Lab4/Problem1A/timestep_0.020000000000000004/lammps.rdf mode vector
+    fix 2 all ave/time 1 192 192 c_rdfall[*] file /home/modeler/RemLabs/Lab4/Problem1A/timestep_0.01303672689737678/lammps.rdf mode vector
 
     # --------- Run -------------
-    timestep 0.020000000000000004
-    run 500
+    timestep 0.01303672689737678
+    run 768
 Neighbor list info ...
   update every 1 steps, delay 10 steps, check yes
   max neighbors/atom: 2000, page size: 100000
@@ -54,25 +54,28 @@ Neighbor list info ...
 Per MPI rank memory allocation (min/avg/max) = 3.723 | 3.723 | 3.723 Mbytes
 Step PotEng KinEng TotEng Temp Press Density c_msdall[4] 
        0       -307.8    4.1492507   -303.65075          300     2399.079    10.472245            0 
-     100   -305.41112    1.8812141    -303.5299    136.01594    9683.7426    10.472245  0.010698049 
-     200   -305.48129    1.9573775   -303.52391    141.52272    9563.2103    10.472245  0.010260552 
-     300    -305.3522    1.8263716   -303.52583    132.05071     9795.845    10.472245  0.010843719 
-     400   -305.62859    2.0886831   -303.53991    151.01641    8858.5303    10.472245  0.010993028 
-     500   -305.68006    2.1475025   -303.53255    155.26918    8882.7545    10.472245 0.0094479557 
-Loop time of 0.0958066 on 1 procs for 500 steps with 108 atoms
+     100   -305.88675    2.2781904   -303.60856    164.71821     8150.602    10.472245 0.0087171744 
+     200     -305.655    2.0507439   -303.60426    148.27332    8951.6392    10.472245 0.0097239186 
+     300   -305.63104    2.0298309   -303.60121    146.76126    9041.9271    10.472245 0.0088972668 
+     400   -305.76213    2.1571964   -303.60494    155.97007    8525.2647    10.472245  0.008916727 
+     500   -305.72309    2.1204603   -303.60263    153.31397    8650.3149    10.472245 0.0094542975 
+     600   -305.32471    1.7298046   -303.59491     125.0687    9870.6963    10.472245   0.01106492 
+     700   -305.84363    2.2390881   -303.60454    161.89102    8318.0974    10.472245 0.0086316499 
+     768    -305.7903    2.1835538   -303.60675    157.87577    8486.4948    10.472245  0.010199407 
+Loop time of 0.146677 on 1 procs for 768 steps with 108 atoms
 
-Performance: 9018.171 ns/day, 0.003 hours/ns, 5218.849 timesteps/s
-99.6% CPU use with 1 MPI tasks x no OpenMP threads
+Performance: 5897.667 ns/day, 0.004 hours/ns, 5235.980 timesteps/s
+100.0% CPU use with 1 MPI tasks x no OpenMP threads
 
 MPI task timing breakdown:
 Section |  min time  |  avg time  |  max time  |%varavg| %total
 ---------------------------------------------------------------
-Pair    | 0.064598   | 0.064598   | 0.064598   |   0.0 | 67.43
+Pair    | 0.098644   | 0.098644   | 0.098644   |   0.0 | 67.25
 Neigh   | 0          | 0          | 0          |   0.0 |  0.00
-Comm    | 0.0020498  | 0.0020498  | 0.0020498  |   0.0 |  2.14
-Output  | 5.8925e-05 | 5.8925e-05 | 5.8925e-05 |   0.0 |  0.06
-Modify  | 0.028625   | 0.028625   | 0.028625   |   0.0 | 29.88
-Other   |            | 0.0004747  |            |       |  0.50
+Comm    | 0.0031652  | 0.0031652  | 0.0031652  |   0.0 |  2.16
+Output  | 0.00011034 | 0.00011034 | 0.00011034 |   0.0 |  0.08
+Modify  | 0.044037   | 0.044037   | 0.044037   |   0.0 | 30.02
+Other   |            | 0.0007214  |            |       |  0.49
 
 Nlocal:    108 ave 108 max 108 min
 Histogram: 1 0 0 0 0 0 0 0 0 0

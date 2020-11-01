@@ -102,7 +102,7 @@ def md_analyze_timestep(total_time, timestep_smallest, timestep_largest, num_run
     timesteps = np.logspace(np.log10(timestep_smallest), np.log10(timestep_largest), num_runs)
     data = []
     mean_energies = []
-    fig1, ax1 = plt.subplots(1, 2, figsize=(12, 6))
+    fig1, ax1 = plt.subplots(1, 2, figsize=(18, 6))
     for timestep in timesteps:
         savepath = '/home/modeler/RemLabs/Lab4/Problem1A/timestep_' + str(timestep) + '/'
         nsteps = int(np.ceil(total_time/timestep))
@@ -134,4 +134,4 @@ def md_analyze_timestep(total_time, timestep_smallest, timestep_largest, num_run
 
 if __name__ == '__main__':
     # put here the function that you actually want to run
-    md_analyze_timestep(10, 0.001, 0.02, 5)
+    md_analyze_timestep(10, 0.001, 0.02, 8)
