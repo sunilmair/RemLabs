@@ -102,7 +102,7 @@ def md_analyze_timestep(total_time, timestep_smallest, timestep_largest, num_run
     timesteps = np.logspace(np.log10(timestep_smallest), np.log10(timestep_largest), num_runs)
     data = []
     mean_energies = []
-    fig1, ax1 = plt.subplots()
+    fig1, ax1 = plt.subplots(1, 2)
     for timestep in timesteps:
         savepath = '/home/modeler/RemLabs/Lab4/Problem1A/timestep_' + str(timestep) + '/'
         nsteps = int(np.ceil(total_time/timestep))
@@ -119,15 +119,18 @@ def md_analyze_timestep(total_time, timestep_smallest, timestep_largest, num_run
         fig2.savefig(savepath + 'energy.png')
 
         data.append(output)
-        ax1.plot(simtime*timestep, energy, label=str(timestep)[:4])
+        ax1[0].plot(simtime*timestep, energy, label=str(timestep)[:4])
 
-    fig1.legend()
+    ax1[0].legend()
+    ax1[1].plot(timesteps, mean_energies)
 
-    fig3, ax3 = plt.subplots()
-    ax3.plot(timesteps, mean_energies)
+    ax1[0].set_xlabel('Time (ps)')
+    ax1[0].set_ylabel('Total Energy (units)')
 
-    fig1.savefig('/home/modeler/RemLabs/Lab4/Problem1A/energy_vs_time.png')
-    fig3.savefig('/home/modeler/RemLabs/Lab4/Problem1A/mean_energies.png')
+    ax1[1].set_xlabel('Timestep (ps)')
+    ax1[1].set_ylabel('Mean Energy (units)')
+
+    fig1.savefig('/home/modeler/RemLabs/Lab4/Problem1A/energies.png')
 
 if __name__ == '__main__':
     # put here the function that you actually want to run
