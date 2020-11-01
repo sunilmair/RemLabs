@@ -56,7 +56,7 @@ def compute_dynamics(size, timestep, nsteps, temperature):
     """
 
     potential = ClassicalPotential(ptype='eam', element='Ag', name='Ag_u3.eam')
-    runpath = Dir(path=os.path.join(os.environ['WORKDIR'], "RemLabs/Lab4/Problem1", "timestep_" + str(timestep)))
+    runpath = Dir(path=os.path.join(os.environ['WORKDIR'], "RemLabs/Lab4/Problem1A", "timestep_" + str(timestep)))
     struc = make_struc(size=size)
     inparam = {
         'TEMPERATURE': temperature,
@@ -98,19 +98,18 @@ def md_run(size=3, timestep=0.001):
     plt.savefig(savepath + 'rdf.png')
 
 
-def md_analyze_timestep(total_time, timestep_smallest, timestep_largest, num_runs, size=3, temperature=300)
-    timesteps = np.logspace(timestep_smallest, timestep_largest, num_runs)
+def md_analyze_timestep(total_time, timestep_smallest, timestep_largest, num_runs, size=3, temperature=300):
+    timesteps = np.logspace(np.log10(timestep_smallest), np.log10(timestep_largest), num_runs)
     data = []
     mean_energies = []
     fig1, ax1 = plt.subplots()
     for timestep in timesteps:
         savepath = '/home/modeler/RemLabs/Lab4/Problem1A/timestep_' + str(timestep) + '/'
-        nsteps = np.ceil(total_time/timestep)
-        output, rdfs = compute_dynamics(size, timestep, nsteps, temperature)
-        [simtime, pe, ke, energy, temp, pres, dens, msd] = output
+        nsteps = int(np.ceil(total_time/timestep))
 
-        for col in output:
-            print(type(col[0]))
+        output, rdfs = compute_dynamics(size, timestep, nsteps, temperature)
+        output = output.astype(np.float)
+        [simtime, pe, ke, energy, temp, pres, dens, msd] = output
 
         mean_energies.append(np.mean(energy))
 
