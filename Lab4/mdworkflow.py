@@ -114,21 +114,36 @@ def md_analyze_timestep(total_time, timestep_smallest, timestep_largest, num_run
         mean_energies.append(np.mean(energy[1:]))
 
         #single run plots here
-        fig2, ax2 = plt.subplots()
-        ax2.plot(simtime*timestep, energy)
+        fig2, ax2 = plt.subplots(1, 2, figsize=(18, 6))
+        ax2[0].plot(simtime*timestep, temp)
+        ax2[0].set_xlabel()
+        ax2[0].set_ylabel()
+
+        ax2[1].plot(simtime*timestep, pe, color='tab:blue')
+        ax2[1].set_xlabel('Time (ps)')
+        ax2[1].set_ylabel('PE (units)', color='tab:blue') #change energy units
+        ax2[1].tick_params(axis='y', labelcolor='tab:blue')
+
+        ax3 = ax2[1].twinx()
+        ax3.plot(simtime*timestep, ke, color='tab:red')
+        ax3.set_ylabel('KE (units)', color='tab:red') #change energy units
+        ax3.tick_params(axis='y', labelcolor='tab:red')
+
+        fig2.tight_layout()
         fig2.savefig(savepath + 'energy.png')
 
         data.append(output)
+
         ax1[0].plot(simtime*timestep, energy, label=str(timestep)[:7])
 
     ax1[0].legend()
     ax1[1].plot(timesteps, mean_energies, marker='o')
 
     ax1[0].set_xlabel('Time (ps)')
-    ax1[0].set_ylabel('Total Energy (units)')
+    ax1[0].set_ylabel('Total Energy (units)') #change energy units
 
     ax1[1].set_xlabel('Timestep (ps)')
-    ax1[1].set_ylabel('Mean Energy (units)')
+    ax1[1].set_ylabel('Mean Energy (units)') #change energy units
 
     fig1.savefig('/home/modeler/RemLabs/Lab4/Problem1A/energies.png')
 
