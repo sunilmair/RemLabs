@@ -115,11 +115,13 @@ def md_analyze_timestep(total_time, timestep_smallest, timestep_largest, num_run
 
         #single run plots here
         fig2, ax2 = plt.subplots()
-        ax2.plot(simtime, energy)
+        ax2.plot(simtime*timestep, energy)
         fig2.savefig(savepath + 'energy.png')
 
         data.append(output)
-        ax1.plot(simtime, energy)
+        ax1.plot(simtime*timestep, energy, label=str(timestep)[:4])
+
+    fig1.legend()
 
     fig3, ax3 = plt.subplots()
     ax3.plot(timesteps, mean_energies)
