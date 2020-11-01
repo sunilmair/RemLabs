@@ -43,8 +43,8 @@ def compute_dynamics(size, timestep, nsteps, temperature):
     thermo $TOUTPUT
 
     # ---------- Specify ensemble  ---------------------
-    fix  1 all nve
-    #fix  1 all nvt temp $TEMPERATURE $TEMPERATURE $TDAMP
+    #fix  1 all nve
+    fix  1 all nvt temp $TEMPERATURE $TEMPERATURE $TDAMP
 
     # --------- Compute RDF ---------------
     compute rdfall all rdf 100 1 1
@@ -56,8 +56,9 @@ def compute_dynamics(size, timestep, nsteps, temperature):
     """
 
     potential = ClassicalPotential(ptype='eam', element='Ag', name='Ag_u3.eam')
-    runpath = Dir(path=os.path.join(os.environ['WORKDIR'], "RemLabs/Lab4/Problem1A", "timestep_" + str(timestep)))
+    #runpath = Dir(path=os.path.join(os.environ['WORKDIR'], "RemLabs/Lab4/Problem1A", "timestep_" + str(timestep)))
     #runpath = Dir(path=os.path.join(os.environ['WORKDIR'], "RemLabs/Lab4/Problem1C", "size_" + str(size)))
+    runpath = Dir(path=os.path.join(os.environ['WORKDIR'], "RemLabs/Lab4/Problem2A", "temp_" + str(temperature)))
     struc = make_struc(size=size)
     inparam = {
         'TEMPERATURE': temperature,
@@ -194,7 +195,7 @@ def md_analyze_melt_nvt(min_temp, max_temp, temp_step, size, timestep, nsteps):
     ax1[1].set_xlabel('Time (ps)')
     ax1[1].set_ylabel('MSD (distance)') # change distance units
 
-    fig1.savefig('/home/modeler/RemLabs/Lab4/Problem2A')
+    fig1.savefig('/home/modeler/RemLabs/Lab4/Problem2A/KE_MSD.png')
 
 
 if __name__ == '__main__':
