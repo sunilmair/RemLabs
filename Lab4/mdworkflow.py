@@ -170,7 +170,35 @@ def md_analyze_supercell_size(sizes, timestep=0.001, nsteps=10000, temperature=3
     fig1.savefig('/home/modeler/RemLabs/Lab4/Problem1C/temps_sizes.png')
 
 
+def md_analyze_melt_nvt(min_temp, max_temp, temp_step, size, timestep, nsteps):
+    temperatures = np.arange(min_temp, max_temp, temp_step)
+    fig1, ax1 = plt.subplots(1, 2, figsize=(12, 6))
+    for temperature in temperatures:
+        savepath = '/home/modeler/RemLabs/Lab4/Problem2A/temp_' + str(temperature) + '/'
+
+        output, rdfs = compute_dynamics(size, timestep, nsteps, temperature)
+        output = output.astype(np.float)
+
+        [simtime, pe, ke, energy, temp, pres, dens, msd] = output
+
+        ax1[0].plot(simtime*timestep, ke, label=str(temperature))
+        ax1[1].plot(simtime*timestep, msd, label=str(temperature))
+
+    ax1[0].legend()
+    ax1[0].set_title('KE vs Time')
+    ax1[0].set_xlabel('Time (ps)')
+    ax1[0].set_ylabel('KE (units)') # change energy units
+
+    ax1[1].legend()
+    ax1[1].set_title('MSD vs Time')
+    ax1[1].set_xlabel('Time (ps)')
+    ax1[1].set_ylabel('MSD (distance)') # change distance units
+
+    fig1.savefig('/home/modeler/RemLabs/Lab4/Problem2A')
+
+
 if __name__ == '__main__':
     # put here the function that you actually want to run
-    md_analyze_timestep(10, 0.001, 0.02, 8)
-    #md_analyze_supercell_size([3, 4, 5])
+    #md_analyze_timestep(10, 0.001, 0.02, 8) # 1A and 1B
+    #md_analyze_supercell_size([3, 4, 5]) # 1C
+    md_analyze_melt_nvt(300, 350, 10, 3, 0.001, 10000)
