@@ -173,6 +173,7 @@ def md_analyze_supercell_size(sizes, timestep=0.001, nsteps=10000, temperature=3
 
 def md_analyze_melt_nvt(min_temp, max_temp, temp_step, size, timestep, nsteps):
     temperatures = np.arange(min_temp, max_temp, temp_step)
+    means = []
     mean_pres = []
     mean_dens = []
     fig1, ax1 = plt.subplots(1, 2, figsize=(12, 6))
@@ -184,38 +185,39 @@ def md_analyze_melt_nvt(min_temp, max_temp, temp_step, size, timestep, nsteps):
         output = output.astype(np.float)
 
         [simtime, pe, ke, energy, temp, pres, dens, msd] = output
+        mean = []
+        for col in output:
+            mean.append(np.mean(col[:1]))
+        means.append(mean)
 
-        mean_pres.append(np.mean(pres[1:]))
-        mean_dens.append(np.mean(dens[1:]))
-
-        ax1[0].plot(simtime*timestep, pres, label=str(temperature))
-        ax1[1].plot(simtime*timestep, dens, label=str(temperature))
+        ax1[0].plot(simtime*timestep, msd, label=str(temperature))
+        ax1[1].plot(simtime*timestep, ke, label=str(temperature))
 
     ax1[0].legend()
-    ax1[0].set_title('Pressure  vs Time')
+    ax1[0].set_title('MSD  vs Time')
     ax1[0].set_xlabel('Time (ps)')
-    ax1[0].set_ylabel('Pressure (units)') # change energy units
+    ax1[0].set_ylabel('MSD (units)') # change units
 
     ax1[1].legend()
-    ax1[1].set_title('Density vs Time')
+    ax1[1].set_title('KE vs Time')
     ax1[1].set_xlabel('Time (ps)')
-    ax1[1].set_ylabel('Density (distance)') # change distance units
+    ax1[1].set_ylabel('KE (units)') # change units
 
-    fig1.savefig('/home/modeler/RemLabs/Lab4/Problem2A_size_' + str(size) + '/pres_dens_time.png')
+    fig1.savefig('/home/modeler/RemLabs/Lab4/Problem2A_size_' + str(size) + '/time.png')
 
-    ax2.plot(temperatures, mean_pres, color='tab:red')
-    ax2.set_title('Pressure and Density vs Temp')
+    ax2.plot(temperatures, [mean[7] for mean in means], color='tab:red')
+    ax2.set_title('MSD and KE vs Temp')
     ax2.set_xlabel('Temp (K)')
-    ax2.set_ylabel('Pressure (units)') # change energy units
+    ax2.set_ylabel('MSD (units)') # change  units
     ax2.tick_params(axis='y', labelcolor='tab:red')
 
     ax3 = ax2.twinx()
-    ax3.plot(temperatures, mean_dens, color='tab:blue')
-    ax3.set_ylabel('Density (units)') # change distance units
+    ax3.plot(temperatures, [mean[2] for mean in means], color='tab:blue')
+    ax3.set_ylabel('KE (units)') # change units
     ax3.tick_params(axis='y', labelcolor='tab:blue')
 
     fig2.tight_layout()
-    fig2.savefig('/home/modeler/RemLabs/Lab4/Problem2A_size_' + str(size) + '/pres_dens_temp.png')
+    fig2.savefig('/home/modeler/RemLabs/Lab4/Problem2A_size_' + str(size) + '/temp.png')
 
 
 if __name__ == '__main__':
