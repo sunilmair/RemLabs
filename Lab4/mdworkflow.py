@@ -183,6 +183,9 @@ def md_analyze_melt_nvt(min_temp, max_temp, temp_step, size, timestep, nsteps):
         output, rdfs = compute_dynamics(size, timestep, nsteps, temperature)
         output = output.astype(np.float)
         print(type(rdfs))
+        print(len(rdfs))
+        print(type(rdfs[0]))
+        print(len(rdfs[0]))
 
         [simtime, pe, ke, energy, temp, pres, dens, msd] = output
         mean = []
@@ -226,4 +229,4 @@ if __name__ == '__main__':
     # put here the function that you actually want to run
     #md_analyze_timestep(10, 0.001, 0.02, 8) # 1A and 1B
     #md_analyze_supercell_size([3, 4, 5]) # 1C
-    md_analyze_melt_nvt(2000, 3100, 100, 5, 0.005, 100000)
+    md_analyze_melt_nvt(2000, 3100, 500, 5, 0.005, 10000)
