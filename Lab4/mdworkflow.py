@@ -189,7 +189,7 @@ def md_analyze_melt_nvt(min_temp, max_temp, temp_step, size, timestep, nsteps):
         means.append(mean)
 
         ax1[0].plot(simtime*timestep, msd, label=str(temperature))
-        ax1[1].plot(simtime*timestep, ke, label=str(temperature))
+        ax1[1].plot(simtime*timestep, energy, label=str(temperature))
 
     ax1[0].legend()
     ax1[0].set_title('MSD  vs Time')
@@ -197,21 +197,21 @@ def md_analyze_melt_nvt(min_temp, max_temp, temp_step, size, timestep, nsteps):
     ax1[0].set_ylabel('MSD (units)') # change units
 
     ax1[1].legend()
-    ax1[1].set_title('KE vs Time')
+    ax1[1].set_title('Energy vs Time')
     ax1[1].set_xlabel('Time (ps)')
-    ax1[1].set_ylabel('KE (units)') # change units
+    ax1[1].set_ylabel('Energy (units)') # change units
 
     fig1.savefig('/home/modeler/RemLabs/Lab4/Problem2A_size_' + str(size) + '/time.png')
 
     ax2.plot(temperatures, [entry[7] for entry in means], color='tab:red')
-    ax2.set_title('MSD and KE vs Temp')
+    ax2.set_title('MSD and Energy vs Temp')
     ax2.set_xlabel('Temp (K)')
     ax2.set_ylabel('MSD (units)', color='tab:red') # change  units
     ax2.tick_params(axis='y', labelcolor='tab:red')
 
     ax3 = ax2.twinx()
-    ax3.plot(temperatures, [entry[2] for entry in means], color='tab:blue')
-    ax3.set_ylabel('KE (units)', color='tab:blue') # change units
+    ax3.plot(temperatures, [entry[3] for entry in means], color='tab:blue')
+    ax3.set_ylabel('Energy (units)', color='tab:blue') # change units
     ax3.tick_params(axis='y', labelcolor='tab:blue')
 
     fig2.tight_layout()
@@ -222,4 +222,4 @@ if __name__ == '__main__':
     # put here the function that you actually want to run
     #md_analyze_timestep(10, 0.001, 0.02, 8) # 1A and 1B
     #md_analyze_supercell_size([3, 4, 5]) # 1C
-    md_analyze_melt_nvt(1000, 2000, 50, 7, 0.001, 10000)
+    md_analyze_melt_nvt(200, 2000, 100, 7, 0.001, 10000)

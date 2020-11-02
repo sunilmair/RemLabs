@@ -4,7 +4,7 @@ Reading data file ...
   1 by 1 by 1 MPI processor grid
   reading atoms ...
   1372 atoms
-  read_data CPU = 0.00196198 secs
+  read_data CPU = 0.00187541 secs
 Reading potential file /usr/share/lammps-stable/potentials/Ag_u3.eam with DATE: 2007-06-11
 Neighbor list info ...
   update every 1 steps, delay 10 steps, check yes
@@ -130,20 +130,20 @@ Step PotEng KinEng TotEng Temp Press Density c_msdall[4]
     9800   -3572.0748    339.79734   -3232.2775    1917.4227    104154.34    10.472245   0.17767056 
     9900   -3569.2108    342.64679    -3226.564    1933.5018    105118.55    10.472245   0.19192388 
    10000   -3554.9665    345.14267   -3209.8238    1947.5856    109040.06    10.472245   0.19759697 
-Loop time of 38.3606 on 1 procs for 10000 steps with 1372 atoms
+Loop time of 37.9609 on 1 procs for 10000 steps with 1372 atoms
 
-Performance: 22.523 ns/day, 1.066 hours/ns, 260.684 timesteps/s
+Performance: 22.760 ns/day, 1.054 hours/ns, 263.429 timesteps/s
 100.0% CPU use with 1 MPI tasks x no OpenMP threads
 
 MPI task timing breakdown:
 Section |  min time  |  avg time  |  max time  |%varavg| %total
 ---------------------------------------------------------------
-Pair    | 24.071     | 24.071     | 24.071     |   0.0 | 62.75
-Neigh   | 0.43       | 0.43       | 0.43       |   0.0 |  1.12
-Comm    | 0.18255    | 0.18255    | 0.18255    |   0.0 |  0.48
-Output  | 0.0050298  | 0.0050298  | 0.0050298  |   0.0 |  0.01
-Modify  | 13.598     | 13.598     | 13.598     |   0.0 | 35.45
-Other   |            | 0.07334    |            |       |  0.19
+Pair    | 23.754     | 23.754     | 23.754     |   0.0 | 62.57
+Neigh   | 0.42653    | 0.42653    | 0.42653    |   0.0 |  1.12
+Comm    | 0.17943    | 0.17943    | 0.17943    |   0.0 |  0.47
+Output  | 0.0048873  | 0.0048873  | 0.0048873  |   0.0 |  0.01
+Modify  | 13.525     | 13.525     | 13.525     |   0.0 | 35.63
+Other   |            | 0.0713     |            |       |  0.19
 
 Nlocal:    1372 ave 1372 max 1372 min
 Histogram: 1 0 0 0 0 0 0 0 0 0
@@ -156,4 +156,4 @@ Total # of neighbors = 70721
 Ave neighs/atom = 51.5459
 Neighbor list builds = 139
 Dangerous builds = 0
-Total wall time: 0:00:38
+Total wall time: 0:00:37
