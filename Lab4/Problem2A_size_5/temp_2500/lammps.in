@@ -22,9 +22,9 @@
 
     # --------- Compute RDF ---------------
     compute rdfall all rdf 100 1 1
-    fix 2 all ave/time 1 25000 25000 c_rdfall[*] file /home/modeler/RemLabs/Lab4/Problem2A_size_5/temp_2500/lammps.rdf mode vector
+    fix 2 all ave/time 1 2500 2500 c_rdfall[*] file /home/modeler/RemLabs/Lab4/Problem2A_size_5/temp_2500/lammps.rdf mode vector
 
     # --------- Run -------------
     timestep 0.005
-    run 100000
+    run 10000
     
