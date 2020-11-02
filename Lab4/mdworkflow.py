@@ -192,33 +192,38 @@ def md_analyze_melt_nvt(min_temp, max_temp, temp_step, size, timestep, nsteps):
             mean.append(np.mean(col[1:]))
         means.append(mean)
 
-        ax1[0].plot(simtime*timestep, msd, label=str(temperature))
-        ax1[1].plot(simtime*timestep, energy, label=str(temperature))
+        ax1[0].plot(simtime*timestep, energy, label=str(temperature))
+        ax1[1].plot(simtime*timestep, msd, label=str(temperature))
 
         ax2[1].plot(rdfs[-1][0], rdfs[-1][1], label=str(temperature))
 
     ax1[0].legend()
-    ax1[0].set_title('MSD  vs Time')
+    ax1[0].set_title('Energy vs Time')
     ax1[0].set_xlabel('Time (ps)')
-    ax1[0].set_ylabel('MSD (units)') # change units
+    ax1[0].set_ylabel('Energy (units)') # change units
 
     ax1[1].legend()
-    ax1[1].set_title('Energy vs Time')
+    ax1[1].set_title('MSD  vs Time')
     ax1[1].set_xlabel('Time (ps)')
-    ax1[1].set_ylabel('Energy (units)') # change units
+    ax1[1].set_ylabel('MSD (units)')  # change units
 
     fig1.savefig('/home/modeler/RemLabs/Lab4/Problem2A_size_' + str(size) + '/time.png')
 
-    ax2[0].plot(temperatures, [entry[7] for entry in means], color='tab:red')
+    ax2[0].plot(temperatures, [entry[3] for entry in means], color='tab:red')
     ax2[0].set_title('MSD and Energy vs Temp')
     ax2[0].set_xlabel('Temp (K)')
-    ax2[0].set_ylabel('MSD (units)', color='tab:red') # change  units
+    ax2[0].set_ylabel('Energy (units)', color='tab:red') # change  units
     ax2[0].tick_params(axis='y', labelcolor='tab:red')
 
     ax3 = ax2[0].twinx()
-    ax3.plot(temperatures, [entry[3] for entry in means], color='tab:blue')
-    ax3.set_ylabel('Energy (units)', color='tab:blue') # change units
+    ax3.plot(temperatures, [entry[7] for entry in means], color='tab:blue')
+    ax3.set_ylabel('MSD (units)', color='tab:blue') # change units
     ax3.tick_params(axis='y', labelcolor='tab:blue')
+
+    ax2[1].legend()
+    ax2[1].set_title('Last RDF')
+    ax2[1].set_xlabel('Distance (units)') # change units
+    ax2[1].set_ylabel('RDF (units)') # change units
 
     fig2.tight_layout()
     fig2.savefig('/home/modeler/RemLabs/Lab4/Problem2A_size_' + str(size) + '/temp.png')
