@@ -10,7 +10,7 @@ LAMMPS (3 Mar 2020)
   1 by 1 by 1 MPI processor grid
   reading atoms ...
   1372 atoms
-  read_data CPU = 0.00186012 secs
+  read_data CPU = 0.00196398 secs
 
     pair_style eam
     pair_coeff * * /usr/share/lammps-stable/potentials/Ag_u3.eam
@@ -154,20 +154,20 @@ Step PotEng KinEng TotEng Temp Press Density c_msdall[4]
     9800   -3653.2591    254.43998   -3398.8191    1435.7646    80135.641    10.472245   0.12973977 
     9900   -3658.3627    257.36646   -3400.9963    1452.2783    79410.868    10.472245   0.12739592 
    10000   -3650.4907    252.53776   -3397.9529    1425.0307    80670.154    10.472245   0.13224922 
-Loop time of 38.2955 on 1 procs for 10000 steps with 1372 atoms
+Loop time of 38.1125 on 1 procs for 10000 steps with 1372 atoms
 
-Performance: 22.561 ns/day, 1.064 hours/ns, 261.127 timesteps/s
+Performance: 22.670 ns/day, 1.059 hours/ns, 262.381 timesteps/s
 100.0% CPU use with 1 MPI tasks x no OpenMP threads
 
 MPI task timing breakdown:
 Section |  min time  |  avg time  |  max time  |%varavg| %total
 ---------------------------------------------------------------
-Pair    | 24.026     | 24.026     | 24.026     |   0.0 | 62.74
-Neigh   | 0.35665    | 0.35665    | 0.35665    |   0.0 |  0.93
-Comm    | 0.18891    | 0.18891    | 0.18891    |   0.0 |  0.49
-Output  | 0.0051636  | 0.0051636  | 0.0051636  |   0.0 |  0.01
-Modify  | 13.634     | 13.634     | 13.634     |   0.0 | 35.60
-Other   |            | 0.08442    |            |       |  0.22
+Pair    | 23.811     | 23.811     | 23.811     |   0.0 | 62.48
+Neigh   | 0.35823    | 0.35823    | 0.35823    |   0.0 |  0.94
+Comm    | 0.18392    | 0.18392    | 0.18392    |   0.0 |  0.48
+Output  | 0.004985   | 0.004985   | 0.004985   |   0.0 |  0.01
+Modify  | 13.678     | 13.678     | 13.678     |   0.0 | 35.89
+Other   |            | 0.07624    |            |       |  0.20
 
 Nlocal:    1372 ave 1372 max 1372 min
 Histogram: 1 0 0 0 0 0 0 0 0 0
