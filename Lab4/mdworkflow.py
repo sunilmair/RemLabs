@@ -174,8 +174,6 @@ def md_analyze_supercell_size(sizes, timestep=0.001, nsteps=10000, temperature=3
 def md_analyze_melt_nvt(min_temp, max_temp, temp_step, size, timestep, nsteps):
     temperatures = np.arange(min_temp, max_temp, temp_step)
     means = []
-    mean_pres = []
-    mean_dens = []
     fig1, ax1 = plt.subplots(1, 2, figsize=(12, 6))
     fig2, ax2 = plt.subplots(1, 1, figsize=(6, 6))
     for temperature in temperatures:
@@ -187,7 +185,7 @@ def md_analyze_melt_nvt(min_temp, max_temp, temp_step, size, timestep, nsteps):
         [simtime, pe, ke, energy, temp, pres, dens, msd] = output
         mean = []
         for col in output:
-            mean.append(np.mean(col[:1]))
+            mean.append(np.mean(col[1:]))
         means.append(mean)
 
         ax1[0].plot(simtime*timestep, msd, label=str(temperature))
@@ -205,15 +203,15 @@ def md_analyze_melt_nvt(min_temp, max_temp, temp_step, size, timestep, nsteps):
 
     fig1.savefig('/home/modeler/RemLabs/Lab4/Problem2A_size_' + str(size) + '/time.png')
 
-    ax2.plot(temperatures, [mean[7] for mean in means], color='tab:red')
+    ax2.plot(temperatures, [entry[7] for entry in means], color='tab:red')
     ax2.set_title('MSD and KE vs Temp')
     ax2.set_xlabel('Temp (K)')
-    ax2.set_ylabel('MSD (units)') # change  units
+    ax2.set_ylabel('MSD (units)', color='tab:red') # change  units
     ax2.tick_params(axis='y', labelcolor='tab:red')
 
     ax3 = ax2.twinx()
-    ax3.plot(temperatures, [mean[2] for mean in means], color='tab:blue')
-    ax3.set_ylabel('KE (units)') # change units
+    ax3.plot(temperatures, [entry[2] for entry in means], color='tab:blue')
+    ax3.set_ylabel('KE (units)', color='tab:blue') # change units
     ax3.tick_params(axis='y', labelcolor='tab:blue')
 
     fig2.tight_layout()
