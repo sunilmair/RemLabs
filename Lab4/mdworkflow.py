@@ -175,12 +175,14 @@ def md_analyze_melt_nvt(min_temp, max_temp, temp_step, size, timestep, nsteps):
     temperatures = np.arange(min_temp, max_temp, temp_step)
     means = []
     fig1, ax1 = plt.subplots(1, 2, figsize=(12, 6))
-    fig2, ax2 = plt.subplots(1, 1, figsize=(6, 6))
+    fig2, ax2 = plt.subplots(1, 2, figsize=(12, 6))
     for temperature in temperatures:
+        print(temperature)
         savepath = '/home/modeler/RemLabs/Lab4/Problem2A_size_' + str(size) + '/temp_' + str(temperature) + '/'
 
         output, rdfs = compute_dynamics(size, timestep, nsteps, temperature)
         output = output.astype(np.float)
+        print(type(rdfs))
 
         [simtime, pe, ke, energy, temp, pres, dens, msd] = output
         mean = []
@@ -190,6 +192,8 @@ def md_analyze_melt_nvt(min_temp, max_temp, temp_step, size, timestep, nsteps):
 
         ax1[0].plot(simtime*timestep, msd, label=str(temperature))
         ax1[1].plot(simtime*timestep, energy, label=str(temperature))
+
+        #ax2[1].plot(rdfs stuff)
 
     ax1[0].legend()
     ax1[0].set_title('MSD  vs Time')
@@ -203,13 +207,13 @@ def md_analyze_melt_nvt(min_temp, max_temp, temp_step, size, timestep, nsteps):
 
     fig1.savefig('/home/modeler/RemLabs/Lab4/Problem2A_size_' + str(size) + '/time.png')
 
-    ax2.plot(temperatures, [entry[7] for entry in means], color='tab:red')
-    ax2.set_title('MSD and Energy vs Temp')
-    ax2.set_xlabel('Temp (K)')
-    ax2.set_ylabel('MSD (units)', color='tab:red') # change  units
-    ax2.tick_params(axis='y', labelcolor='tab:red')
+    ax2[0].plot(temperatures, [entry[7] for entry in means], color='tab:red')
+    ax2[0].set_title('MSD and Energy vs Temp')
+    ax2[0].set_xlabel('Temp (K)')
+    ax2[0].set_ylabel('MSD (units)', color='tab:red') # change  units
+    ax2[0].tick_params(axis='y', labelcolor='tab:red')
 
-    ax3 = ax2.twinx()
+    ax3 = ax2[0].twinx()
     ax3.plot(temperatures, [entry[3] for entry in means], color='tab:blue')
     ax3.set_ylabel('Energy (units)', color='tab:blue') # change units
     ax3.tick_params(axis='y', labelcolor='tab:blue')
@@ -222,4 +226,4 @@ if __name__ == '__main__':
     # put here the function that you actually want to run
     #md_analyze_timestep(10, 0.001, 0.02, 8) # 1A and 1B
     #md_analyze_supercell_size([3, 4, 5]) # 1C
-    md_analyze_melt_nvt(200, 4000, 200, 7, 0.001, 10000)
+    md_analyze_melt_nvt(2000, 3100, 100, 5, 0.005, 100000)
