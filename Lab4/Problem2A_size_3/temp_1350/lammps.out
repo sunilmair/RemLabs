@@ -4,7 +4,7 @@ Reading data file ...
   1 by 1 by 1 MPI processor grid
   reading atoms ...
   108 atoms
-  read_data CPU = 0.000906784 secs
+  read_data CPU = 0.000887826 secs
 Reading potential file /usr/share/lammps-stable/potentials/Ag_u3.eam with DATE: 2007-06-11
 Neighbor list info ...
   update every 1 steps, delay 10 steps, check yes
@@ -130,20 +130,20 @@ Step PotEng KinEng TotEng Temp Press Density c_msdall[4]
     9800   -288.76978    18.172307   -270.59747     1313.898    75082.424    10.472245   0.09607437 
     9900    -289.0802    18.495354   -270.58485     1337.255    73554.858    10.472245   0.10049897 
    10000   -287.48146    17.183899   -270.29757    1242.4339    77756.479    10.472245   0.11431463 
-Loop time of 2.63633 on 1 procs for 10000 steps with 108 atoms
+Loop time of 2.62059 on 1 procs for 10000 steps with 108 atoms
 
-Performance: 327.728 ns/day, 0.073 hours/ns, 3793.149 timesteps/s
-99.7% CPU use with 1 MPI tasks x no OpenMP threads
+Performance: 329.697 ns/day, 0.073 hours/ns, 3815.938 timesteps/s
+100.0% CPU use with 1 MPI tasks x no OpenMP threads
 
 MPI task timing breakdown:
 Section |  min time  |  avg time  |  max time  |%varavg| %total
 ---------------------------------------------------------------
-Pair    | 1.6674     | 1.6674     | 1.6674     |   0.0 | 63.25
-Neigh   | 0.007445   | 0.007445   | 0.007445   |   0.0 |  0.28
-Comm    | 0.043948   | 0.043948   | 0.043948   |   0.0 |  1.67
-Output  | 0.0026027  | 0.0026027  | 0.0026027  |   0.0 |  0.10
-Modify  | 0.90435    | 0.90435    | 0.90435    |   0.0 | 34.30
-Other   |            | 0.01062    |            |       |  0.40
+Pair    | 1.6593     | 1.6593     | 1.6593     |   0.0 | 63.32
+Neigh   | 0.0073861  | 0.0073861  | 0.0073861  |   0.0 |  0.28
+Comm    | 0.042767   | 0.042767   | 0.042767   |   0.0 |  1.63
+Output  | 0.0019708  | 0.0019708  | 0.0019708  |   0.0 |  0.08
+Modify  | 0.89946    | 0.89946    | 0.89946    |   0.0 | 34.32
+Other   |            | 0.009716   |            |       |  0.37
 
 Nlocal:    108 ave 108 max 108 min
 Histogram: 1 0 0 0 0 0 0 0 0 0
