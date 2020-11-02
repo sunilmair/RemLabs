@@ -183,8 +183,8 @@ def md_analyze_melt_nvt(min_temp, max_temp, temp_step, size, timestep, nsteps):
         output, rdfs = compute_dynamics(size, timestep, nsteps, temperature)
         output = output.astype(np.float)
         rdfs = [rdf.astype(np.float) for rdf in rdfs]
-        print(rdfs)
-        print(rdfs[0])
+        #print(rdfs)
+        #print(rdfs[0])
 
         [simtime, pe, ke, energy, temp, pres, dens, msd] = output
         mean = []
