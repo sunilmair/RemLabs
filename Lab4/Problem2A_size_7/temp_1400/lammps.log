@@ -10,7 +10,7 @@ LAMMPS (3 Mar 2020)
   1 by 1 by 1 MPI processor grid
   reading atoms ...
   1372 atoms
-  read_data CPU = 0.00186315 secs
+  read_data CPU = 0.00177388 secs
 
     pair_style eam
     pair_coeff * * /usr/share/lammps-stable/potentials/Ag_u3.eam
@@ -154,20 +154,20 @@ Step PotEng KinEng TotEng Temp Press Density c_msdall[4]
     9800   -3671.3574    252.09221   -3419.2652    1422.5166    75784.938    10.472245   0.11583305 
     9900    -3660.114    236.63551   -3423.4785    1335.2969    77726.706    10.472245   0.12411554 
    10000   -3660.2431    249.40384   -3410.8393    1407.3465    78030.781    10.472245   0.12839089 
-Loop time of 37.9967 on 1 procs for 10000 steps with 1372 atoms
+Loop time of 37.8616 on 1 procs for 10000 steps with 1372 atoms
 
-Performance: 22.739 ns/day, 1.055 hours/ns, 263.181 timesteps/s
+Performance: 22.820 ns/day, 1.052 hours/ns, 264.120 timesteps/s
 100.0% CPU use with 1 MPI tasks x no OpenMP threads
 
 MPI task timing breakdown:
 Section |  min time  |  avg time  |  max time  |%varavg| %total
 ---------------------------------------------------------------
-Pair    | 23.82      | 23.82      | 23.82      |   0.0 | 62.69
-Neigh   | 0.34118    | 0.34118    | 0.34118    |   0.0 |  0.90
-Comm    | 0.18049    | 0.18049    | 0.18049    |   0.0 |  0.48
-Output  | 0.0050348  | 0.0050348  | 0.0050348  |   0.0 |  0.01
-Modify  | 13.574     | 13.574     | 13.574     |   0.0 | 35.72
-Other   |            | 0.07628    |            |       |  0.20
+Pair    | 23.715     | 23.715     | 23.715     |   0.0 | 62.64
+Neigh   | 0.34016    | 0.34016    | 0.34016    |   0.0 |  0.90
+Comm    | 0.18033    | 0.18033    | 0.18033    |   0.0 |  0.48
+Output  | 0.0050101  | 0.0050101  | 0.0050101  |   0.0 |  0.01
+Modify  | 13.545     | 13.545     | 13.545     |   0.0 | 35.78
+Other   |            | 0.07545    |            |       |  0.20
 
 Nlocal:    1372 ave 1372 max 1372 min
 Histogram: 1 0 0 0 0 0 0 0 0 0
@@ -181,4 +181,4 @@ Ave neighs/atom = 51.0714
 Neighbor list builds = 111
 Dangerous builds = 0
     
-Total wall time: 0:00:38
+Total wall time: 0:00:37
