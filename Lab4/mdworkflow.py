@@ -58,7 +58,7 @@ def compute_dynamics(size, timestep, nsteps, temperature):
     potential = ClassicalPotential(ptype='eam', element='Ag', name='Ag_u3.eam')
     #runpath = Dir(path=os.path.join(os.environ['WORKDIR'], "RemLabs/Lab4/Problem1A", "timestep_" + str(timestep)))
     #runpath = Dir(path=os.path.join(os.environ['WORKDIR'], "RemLabs/Lab4/Problem1C", "size_" + str(size)))
-    runpath = Dir(path=os.path.join(os.environ['WORKDIR'], "RemLabs/Lab4/Problem2A_size_" + str(size) , "temp_" + str(temperature)))
+    runpath = Dir(path=os.path.join(os.environ['WORKDIR'], "RemLabs/Lab4/Problem2A_v1_size_" + str(size) , "temp_" + str(temperature)))
     struc = make_struc(size=size)
     inparam = {
         'TEMPERATURE': temperature,
@@ -172,13 +172,14 @@ def md_analyze_supercell_size(sizes, timestep=0.001, nsteps=10000, temperature=3
 
 
 def md_analyze_melt_nvt(min_temp, max_temp, temp_step, size, timestep, nsteps):
+    savepath_root = '/home/modeler/RemLabs/Lab4/Problem2A_v1_size_' + str(size)
     temperatures = np.arange(min_temp, max_temp, temp_step)
     means = []
     fig1, ax1 = plt.subplots(1, 2, figsize=(12, 6))
     fig2, ax2 = plt.subplots(1, 2, figsize=(12, 6))
     for temperature in temperatures:
         print(temperature)
-        savepath = '/home/modeler/RemLabs/Lab4/Problem2A_size_' + str(size) + '/temp_' + str(temperature) + '/'
+        savepath = savepath_root + '/temp_' + str(temperature) + '/'
 
         output, rdfs = compute_dynamics(size, timestep, nsteps, temperature)
         output = output.astype(np.float)
@@ -207,7 +208,7 @@ def md_analyze_melt_nvt(min_temp, max_temp, temp_step, size, timestep, nsteps):
     ax1[1].set_xlabel('Time (ps)')
     ax1[1].set_ylabel('MSD (units)')  # change units
 
-    fig1.savefig('/home/modeler/RemLabs/Lab4/Problem2A_size_' + str(size) + '/time.png')
+    fig1.savefig(savepath_root + '/time.png')
 
     ax2[0].plot(temperatures, [entry[3] for entry in means], color='tab:red', marker='o')
     ax2[0].set_title('MSD and Energy vs Temp')
@@ -226,12 +227,13 @@ def md_analyze_melt_nvt(min_temp, max_temp, temp_step, size, timestep, nsteps):
     ax2[1].set_ylabel('RDF (units)') # change units
 
     fig2.tight_layout()
-    fig2.savefig('/home/modeler/RemLabs/Lab4/Problem2A_size_' + str(size) + '/temp.png')
+    fig2.savefig(savepath_root + '/temp.png')
 
 
 if __name__ == '__main__':
     # put here the function that you actually want to run
     #md_analyze_timestep(10, 0.001, 0.02, 8) # 1A and 1B
     #md_analyze_supercell_size([3, 4, 5]) # 1C
-    md_analyze_melt_nvt(1800, 3100, 100, 3, 0.005, 100000)
-    md_analyze_melt_nvt(1800, 3100, 100, 4, 0.005, 100000)
+    md_analyze_melt_nvt(2200, 2420, 20, 3, 0.005, 500000) #v0 was with gap of 200
+    md_analyze_melt_nvt(2200, 2420, 20, 4, 0.005, 500000)
+    md_analyze_melt_nvt(2200, 2420, 20, 5, 0.005, 500000)
