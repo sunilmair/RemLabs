@@ -209,15 +209,15 @@ def md_analyze_melt_nvt(min_temp, max_temp, temp_step, size, timestep, nsteps):
 
     fig1.savefig('/home/modeler/RemLabs/Lab4/Problem2A_size_' + str(size) + '/time.png')
 
-    ax2[0].plot(temperatures, [entry[3] for entry in means], color='tab:red')
+    ax2[0].plot(temperatures, [entry[3] for entry in means], color='tab:red', marker='o')
     ax2[0].set_title('MSD and Energy vs Temp')
     ax2[0].set_xlabel('Temp (K)')
-    ax2[0].set_ylabel('Energy (units)', color='tab:red') # change  units
+    ax2[0].set_ylabel('Mean Energy (units)', color='tab:red') # change  units
     ax2[0].tick_params(axis='y', labelcolor='tab:red')
 
     ax3 = ax2[0].twinx()
-    ax3.plot(temperatures, [entry[7] for entry in means], color='tab:blue')
-    ax3.set_ylabel('MSD (units)', color='tab:blue') # change units
+    ax3.plot(temperatures, [entry[7] for entry in means], color='tab:blue', marker='D')
+    ax3.set_ylabel('Mean MSD (units)', color='tab:blue') # change units
     ax3.tick_params(axis='y', labelcolor='tab:blue')
 
     ax2[1].legend()
@@ -233,4 +233,4 @@ if __name__ == '__main__':
     # put here the function that you actually want to run
     #md_analyze_timestep(10, 0.001, 0.02, 8) # 1A and 1B
     #md_analyze_supercell_size([3, 4, 5]) # 1C
-    md_analyze_melt_nvt(2000, 3100, 500, 5, 0.005, 10000)
+    md_analyze_melt_nvt(1800, 3100, 100, 5, 0.005, 100000)
