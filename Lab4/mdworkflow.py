@@ -44,7 +44,8 @@ def compute_dynamics(size, timestep, nsteps, temperature):
 
     # ---------- Specify ensemble  ---------------------
     #fix  1 all nve
-    fix  1 all nvt temp $TEMPERATURE $TEMPERATURE $TDAMP
+    #fix  1 all nvt temp $TEMPERATURE $TEMPERATURE $TDAMP
+    fix 1 all npt temp $TEMPERATURE $TEMPERATURE $TDAMP tchain 2 iso 1.0 1.0 1.0 pchain 2
 
     # --------- Compute RDF ---------------
     compute rdfall all rdf 100 1 1
@@ -58,7 +59,8 @@ def compute_dynamics(size, timestep, nsteps, temperature):
     potential = ClassicalPotential(ptype='eam', element='Ag', name='Ag_u3.eam')
     #runpath = Dir(path=os.path.join(os.environ['WORKDIR'], "RemLabs/Lab4/Problem1A", "timestep_" + str(timestep)))
     #runpath = Dir(path=os.path.join(os.environ['WORKDIR'], "RemLabs/Lab4/Problem1C", "size_" + str(size)))
-    runpath = Dir(path=os.path.join(os.environ['WORKDIR'], "RemLabs/Lab4/Problem2A_v1_size_" + str(size) , "temp_" + str(temperature)))
+    #runpath = Dir(path=os.path.join(os.environ['WORKDIR'], "RemLabs/Lab4/Problem2A_v2_size_" + str(size), "temp_" + str(temperature)))
+    runpath = Dir(path=os.path.join(os.environ['WORKDIR'], "RemLabs/Lab4/ProblemEC1_v1_size_" + str(size), "temp_" + str(temperature)))
     struc = make_struc(size=size)
     inparam = {
         'TEMPERATURE': temperature,
@@ -172,7 +174,8 @@ def md_analyze_supercell_size(sizes, timestep=0.001, nsteps=10000, temperature=3
 
 
 def md_analyze_melt_nvt(min_temp, max_temp, temp_step, size, timestep, nsteps):
-    savepath_root = '/home/modeler/RemLabs/Lab4/Problem2A_v1_size_' + str(size)
+    #savepath_root = '/home/modeler/RemLabs/Lab4/Problem2A_v2_size_' + str(size)
+    savepath_root = '/home/modeler/RemLabs/Lab4/ProblemEC1_v1_size_' + str(size)
     temperatures = np.arange(min_temp, max_temp, temp_step)
     means = []
     fig1, ax1 = plt.subplots(1, 2, figsize=(12, 6))
@@ -232,8 +235,17 @@ def md_analyze_melt_nvt(min_temp, max_temp, temp_step, size, timestep, nsteps):
 
 if __name__ == '__main__':
     # put here the function that you actually want to run
+
     #md_analyze_timestep(10, 0.001, 0.02, 8) # 1A and 1B
+
     #md_analyze_supercell_size([3, 4, 5]) # 1C
-    md_analyze_melt_nvt(2200, 2420, 20, 3, 0.005, 500000) #v0 was with gap of 200
-    md_analyze_melt_nvt(2200, 2420, 20, 4, 0.005, 500000)
-    md_analyze_melt_nvt(2200, 2420, 20, 5, 0.005, 500000)
+
+    #md_analyze_melt_nvt(2200, 2420, 20, 3, 0.005, 500000) # v0 was with T gap of 200
+    #md_analyze_melt_nvt(2200, 2420, 20, 4, 0.005, 500000)
+    #md_analyze_melt_nvt(2200, 2420, 20, 5, 0.005, 500000)
+
+    #md_analyze_melt_nvt(2320, 2364, 3, 0.005, 500000) # run these for 2c
+    #md_analyze_melt_nvt(2320, 2364, 4, 0.005, 500000)
+    #md_analyze_melt_nvt(2320, 2364, 5, 0.005, 500000)
+
+    md_analyze_melt_nvt(800, 2800, 200, 4, 0.005, 10000)
