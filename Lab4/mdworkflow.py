@@ -43,9 +43,9 @@ def compute_dynamics(size, timestep, nsteps, temperature):
     thermo $TOUTPUT
 
     # ---------- Specify ensemble  ---------------------
-    #fix  1 all nve
+    fix  1 all nve
     #fix  1 all nvt temp $TEMPERATURE $TEMPERATURE $TDAMP
-    fix 1 all npt temp $TEMPERATURE $TEMPERATURE $TDAMP tchain 2 iso 1.0 1.0 1.0 pchain 2
+    #fix 1 all npt temp $TEMPERATURE $TEMPERATURE $TDAMP tchain 2 iso 1.0 1.0 1.0 pchain 2
 
     # --------- Compute RDF ---------------
     compute rdfall all rdf 100 1 1
@@ -58,9 +58,9 @@ def compute_dynamics(size, timestep, nsteps, temperature):
 
     potential = ClassicalPotential(ptype='eam', element='Ag', name='Ag_u3.eam')
     #runpath = Dir(path=os.path.join(os.environ['WORKDIR'], "RemLabs/Lab4/Problem1A", "timestep_" + str(timestep)))
-    #runpath = Dir(path=os.path.join(os.environ['WORKDIR'], "RemLabs/Lab4/Problem1C", "size_" + str(size)))
+    runpath = Dir(path=os.path.join(os.environ['WORKDIR'], "RemLabs/Lab4/Problem1C_v1", "size_" + str(size)))
     #runpath = Dir(path=os.path.join(os.environ['WORKDIR'], "RemLabs/Lab4/Problem2A_v2_size_" + str(size), "temp_" + str(temperature)))
-    runpath = Dir(path=os.path.join(os.environ['WORKDIR'], "RemLabs/Lab4/ProblemEC1_v4_size_" + str(size), "temp_" + str(temperature)))
+    #runpath = Dir(path=os.path.join(os.environ['WORKDIR'], "RemLabs/Lab4/ProblemEC1_v4_size_" + str(size), "temp_" + str(temperature)))
     struc = make_struc(size=size)
     inparam = {
         'TEMPERATURE': temperature,
@@ -150,7 +150,8 @@ def md_analyze_supercell_size(sizes, timestep=0.001, nsteps=10000, temperature=3
     fig1, ax1 = plt.subplots(1, 2, figsize=(12, 6))
     temp_stds = []
     for size in sizes:
-        savepath = '/home/modeler/RemLabs/Lab4/Problem1C/size_' + str(size) + '/'
+        print(size)
+        savepath = '/home/modeler/RemLabs/Lab4/Problem1C_v1/size_' + str(size) + '/'
 
         output, rdfs = compute_dynamics(size, timestep, nsteps, temperature)
         output = output.astype(np.float)
@@ -158,19 +159,19 @@ def md_analyze_supercell_size(sizes, timestep=0.001, nsteps=10000, temperature=3
         [simtime, pe, ke, energy, temp, pres, dens, msd] = output
         temp_stds.append(np.std(temp[1:]))
 
-        ax1[0].plot(simtime*timestep, temp, label=str(size))
+        ax1[0].plot(simtime[1:]*timestep, temp[1:], label=str(size))
 
     ax1[0].legend()
     ax1[0].set_title('Temp vs Time')
     ax1[0].set_xlabel('Time (ps)')
     ax1[0].set_ylabel('Temp (K)')
 
-    ax1[1].plot(sizes, temp_stds, marker='o')
-    ax1[1].set_title('Temp Std Dev vs Supercell Size')
-    ax1[1].set_xlabel('Supercell Size')
+    ax1[1].plot([np.power(size, 3)*4 for size in sizes], temp_stds, marker='o')
+    ax1[1].set_title('Temp Std Dev vs Number Atoms')
+    ax1[1].set_xlabel('Number Atoms')
     ax1[1].set_ylabel('Temp Std Dev (K)')
 
-    fig1.savefig('/home/modeler/RemLabs/Lab4/Problem1C/temps_sizes.png')
+    fig1.savefig('/home/modeler/RemLabs/Lab4/Problem1C_v1/temps_sizes.png')
 
 
 def md_analyze_melt_nvt(min_temp, max_temp, temp_step, size, timestep, nsteps):
@@ -238,7 +239,7 @@ if __name__ == '__main__':
 
     #md_analyze_timestep(10, 0.001, 0.02, 8) # 1A and 1B
 
-    #md_analyze_supercell_size([3, 4, 5]) # 1C
+    md_analyze_supercell_size([1, 2, 3, 4, 5]) # 1C
 
     #md_analyze_melt_nvt(2200, 2420, 20, 3, 0.005, 500000) # v0 was with T gap of 200
     #md_analyze_melt_nvt(2200, 2420, 20, 4, 0.005, 500000)
@@ -253,6 +254,6 @@ if __name__ == '__main__':
     #md_analyze_melt_nvt(1000, 1330, 30, 4, 0.005, 500000)
     #md_analyze_melt_nvt(1200, 1255, 5, 4, 0.005, 500000)
 
-    md_analyze_melt_nvt(1230, 1241, 1, 2, 0.005, 500000)
-    md_analyze_melt_nvt(1230, 1241, 1, 3, 0.005, 500000)
-    md_analyze_melt_nvt(1230, 1241, 1, 4, 0.005, 500000)
+    #md_analyze_melt_nvt(1230, 1241, 1, 2, 0.005, 500000)
+    #md_analyze_melt_nvt(1230, 1241, 1, 3, 0.005, 500000)
+    #md_analyze_melt_nvt(1230, 1241, 1, 4, 0.005, 500000)
