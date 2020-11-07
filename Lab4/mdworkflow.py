@@ -60,7 +60,7 @@ def compute_dynamics(size, timestep, nsteps, temperature):
     #runpath = Dir(path=os.path.join(os.environ['WORKDIR'], "RemLabs/Lab4/Problem1A", "timestep_" + str(timestep)))
     #runpath = Dir(path=os.path.join(os.environ['WORKDIR'], "RemLabs/Lab4/Problem1C_v1", "size_" + str(size)))
     #runpath = Dir(path=os.path.join(os.environ['WORKDIR'], "RemLabs/Lab4/Problem2A_v2_size_" + str(size), "temp_" + str(temperature)))
-    runpath = Dir(path=os.path.join(os.environ['WORKDIR'], "RemLabs/Lab4/ProblemEC1_v5_size_" + str(size), "temp_" + str(temperature)))
+    runpath = Dir(path=os.path.join(os.environ['WORKDIR'], "RemLabs/Lab4/ProblemEC1_v6_size_" + str(size), "temp_" + str(temperature)))
     struc = make_struc(size=size)
     inparam = {
         'TEMPERATURE': temperature,
@@ -176,7 +176,7 @@ def md_analyze_supercell_size(sizes, timestep=0.001, nsteps=10000, temperature=3
 
 def md_analyze_melt_nvt(min_temp, max_temp, temp_step, size, timestep, nsteps):
     #savepath_root = '/home/modeler/RemLabs/Lab4/Problem2A_v2_size_' + str(size)
-    savepath_root = '/home/modeler/RemLabs/Lab4/ProblemEC1_v5_size_' + str(size)
+    savepath_root = '/home/modeler/RemLabs/Lab4/ProblemEC1_v6_size_' + str(size)
     temperatures = np.arange(min_temp, max_temp, temp_step)
     means = []
     fig1, ax1 = plt.subplots(1, 2, figsize=(12, 6))
@@ -258,4 +258,4 @@ if __name__ == '__main__':
     #md_analyze_melt_nvt(1230, 1241, 1, 3, 0.005, 500000)
     #md_analyze_melt_nvt(1230, 1241, 1, 4, 0.005, 500000)
 
-    md_analyze_melt_nvt(1230, 1252, 2, 4, 0.005, 500000)
+    md_analyze_melt_nvt(1200, 1310, 10, 3, 0.005, 500000)
