@@ -1,3 +1,4 @@
+from labutil.src.plugins.lammps import *
 from ase.spacegroup import crystal
 from ase import Atoms
 from ase.build import make_supercell
@@ -12,7 +13,7 @@ def make_Si_unitcell(write_file=False):
     """
     unitcell = crystal('Si', [(0, 0, 0)], spacegroup=227, cellpar=3 * [Si_alat] + 3 * [90])
     if write_file : write('unitcell_Si.cif', unitcell)
-    return unitcell
+    return Struc(ase2struc(unitcell))
 
 
 def make_Li_filled_unitcell(write_file=False):
@@ -28,7 +29,7 @@ def make_Li_filled_unitcell(write_file=False):
                           positions=[tuple([frac_coord*Si_alat for frac_coord in Li_frac_site])
                                      for Li_frac_site in Li_fractional_sites]))
     if write_file : write('Li_filled_unitcell.cif', unitcell)
-    return unitcell
+    return Struc(ase2struc(unitcell))
 
 
 def make_unitcell_central_Li(write_file=False):
@@ -38,7 +39,7 @@ def make_unitcell_central_Li(write_file=False):
     unitcell = crystal('Si', [(0, 0, 0)], spacegroup=227, cellpar=3 * [Si_alat] + 3 * [90])
     unitcell.extend(Atoms('Li', positions=[tuple(3 * [0.5 * Si_alat])]))
     if write_file : write('unitcell_central_Li.cif', unitcell)
-    return unitcell
+    return Struc(ase2struc(unitcell))
 
 
 def make_unitcell_neighbor_central_Li(write_file=False):
@@ -48,7 +49,7 @@ def make_unitcell_neighbor_central_Li(write_file=False):
     unitcell = crystal('Si', [(0, 0, 0)], spacegroup=227, cellpar=3 * [Si_alat] + 3 * [90])
     unitcell.extend(Atoms('Li', positions=[tuple(3 * [0.75 * Si_alat])]))
     if write_file : write('unitcell_neighbor_central_Li.cif', unitcell)
-    return unitcell
+    return Struc(ase2struc(unitcell))
 
 
 def make_2x2x2_supercell_1x1x1_central_Li(write_file=False):
@@ -59,7 +60,7 @@ def make_2x2x2_supercell_1x1x1_central_Li(write_file=False):
     supercell = make_supercell(unitcell, np.identity(3) * 2)
     supercell.extend(Atoms('Li', positions=[tuple(3 * [0.5 * Si_alat])]))
     if write_file : write('2x2x2_supercell_1x1x1_central_Li.cif', supercell)
-    return supercell
+    return Struc(ase2struc(supercell))
 
 
 def make_2x2x2_supercell_1x1x1_neighbor_central_Li(write_file=False):
@@ -70,7 +71,7 @@ def make_2x2x2_supercell_1x1x1_neighbor_central_Li(write_file=False):
     supercell = make_supercell(unitcell, np.identity(3) * 2)
     supercell.extend(Atoms('Li', positions=[tuple(3 * [0.75 * Si_alat])]))
     if write_file : write('2x2x2_supercell_1x1x1_neighbor_central_Li.cif', supercell)
-    return supercell
+    return Struc(ase2struc(supercell))
 
 
 def make_3x3x3_supercell_central_Li(write_file=False):
@@ -81,7 +82,7 @@ def make_3x3x3_supercell_central_Li(write_file=False):
     supercell = make_supercell(unitcell, np.identity(3)*3)
     supercell.extend(Atoms('Li', positions=[tuple(3*[1.5*Si_alat])]))
     if write_file : write('3x3x3_supercell_central_Li.cif', supercell)
-    return supercell
+    return Struc(ase2struc(supercell))
 
 
 def make_3x3x3_supercell_neighbor_central_Li(write_file=False):
@@ -92,7 +93,7 @@ def make_3x3x3_supercell_neighbor_central_Li(write_file=False):
     supercell = make_supercell(unitcell, np.identity(3) * 3)
     supercell.extend(Atoms('Li', positions=[tuple(3 * [1.75 * Si_alat])]))
     if write_file : write('3x3x3_supercell_neighbor_central_Li.cif', supercell)
-    return supercell
+    return Struc(ase2struc(supercell))
 
 
 if __name__ == "__main__":

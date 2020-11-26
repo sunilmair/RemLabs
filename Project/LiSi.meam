@@ -1,0 +1,17 @@
+# DATE: 2020-11-07 UNITS: metal CONTRIBUTOR: Unknown CITATION: Unknown
+
+lattce(1,2) = 'dia'
+Ec(1,2) = 2.45
+alpha(1,2) = 4.10
+re(1,2) = 2.75
+rho0(2) = 3.0
+rc = 4.0
+delr = 0.1
+Cmax(1,2,1) = 2.40
+Cmax(1,2,2) = 2.40
+Cmax(2,2,1) = 2.20
+Cmax(1,1,2) = 2.81
+Cmin(1,2,1) = 0.45
+Cmin(1,2,2) = 0.45
+Cmin(2,2,1) = 0.35
+Cmin(1,1,2) = 0.55
