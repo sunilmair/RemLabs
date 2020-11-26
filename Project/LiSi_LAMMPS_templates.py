@@ -12,7 +12,7 @@ pair_style meam/c
 pair_coeff * * library.meam Li Si LiSi.meam Li Si
 
 # ---------- 3. Optimization of Atomic Positions Allowing Unit Cell Changes ----------
-write_dump all atom initial_dump.atom
+write_dump all atom $OUTFILE/initial_dump.atom
 
 thermo_style custom step pe lx ly lz press pxx pyy pzz
 
