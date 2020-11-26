@@ -4,13 +4,17 @@ units metal
 atom_style atomic
 dimension 3
 boundary p p p
-read_data /home/modeler/RemLabs/Project/Si_lattice_constant/20201126-072752/lammps.data
+read_data /home/modeler/RemLabs/Project/Si_unitcell_central_Li_relaxation/20201126-075244/lammps.data
 
 # ---------- 2. Specify Interatomic Potential ----------
 pair_style meam/c
 pair_coeff * * library.meam Li Si LiSi.meam Li Si
 
 # ---------- 3. Optimization of Atomic Positions Allowing Unit Cell Changes ----------
+thermo_style custom step pe lx ly lz press pxx pyy pzz
+
+dump 1 all atom 1000 dump.atom
+
 fix 1 all box/relax iso 0.0 vmax 0.001
 
 min_style cg

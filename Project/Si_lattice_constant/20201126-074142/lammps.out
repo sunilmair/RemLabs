@@ -4,7 +4,7 @@ Reading data file ...
   1 by 1 by 1 MPI processor grid
   reading atoms ...
   8 atoms
-  read_data CPU = 0.00089603 secs
+  read_data CPU = 0.00122175 secs
 Reading potential file library.meam with DATE: 2012-06-29
 Reading potential file LiSi.meam with DATE: 2020-11-07
 WARNING: Using 'neigh_modify every 1 delay 0 check yes' setting during minimization (src/min.cpp:190)
@@ -30,12 +30,12 @@ Setting up cg style minimization ...
   Current step  : 0
 WARNING: Energy due to 1 extra global DOFs will be included in minimizer energies
 Per MPI rank memory allocation (min/avg/max) = 9.652 | 9.652 | 9.652 Mbytes
-Step Temp E_pair E_mol TotEng Press Volume 
-       0            0   -9.8116377            0   -9.8116377    46091.139    159.83779 
-     181            0   -10.899687            0   -10.899687 -4.3176599e-06    262.29188 
-Loop time of 0.00831449 on 1 procs for 181 steps with 8 atoms
+Step PotEng Lx Ly Lz Press Pxx Pyy Pzz 
+       0   -9.8116377        5.427        5.427        5.427    46091.139    46091.139    46091.139    46091.139 
+     181   -10.899687    6.4012033    6.4012033    6.4012033 -4.3176599e-06 -4.3176599e-06 -4.3176599e-06 -4.3176598e-06 
+Loop time of 0.0110528 on 1 procs for 181 steps with 8 atoms
 
-98.6% CPU use with 1 MPI tasks x no OpenMP threads
+100.0% CPU use with 1 MPI tasks x no OpenMP threads
 
 Minimization stats:
   Stopping criterion = energy tolerance
@@ -49,12 +49,12 @@ Minimization stats:
 MPI task timing breakdown:
 Section |  min time  |  avg time  |  max time  |%varavg| %total
 ---------------------------------------------------------------
-Pair    | 0.0074012  | 0.0074012  | 0.0074012  |   0.0 | 89.02
-Neigh   | 2.3327e-05 | 2.3327e-05 | 2.3327e-05 |   0.0 |  0.28
-Comm    | 0.00021849 | 0.00021849 | 0.00021849 |   0.0 |  2.63
+Pair    | 0.0097468  | 0.0097468  | 0.0097468  |   0.0 | 88.18
+Neigh   | 3.7147e-05 | 3.7147e-05 | 3.7147e-05 |   0.0 |  0.34
+Comm    | 0.0002879  | 0.0002879  | 0.0002879  |   0.0 |  2.60
 Output  | 0          | 0          | 0          |   0.0 |  0.00
 Modify  | 0          | 0          | 0          |   0.0 |  0.00
-Other   |            | 0.0006715  |            |       |  8.08
+Other   |            | 0.0009809  |            |       |  8.87
 
 Nlocal:    8 ave 8 max 8 min
 Histogram: 1 0 0 0 0 0 0 0 0 0

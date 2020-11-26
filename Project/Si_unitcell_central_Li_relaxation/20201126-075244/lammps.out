@@ -1,10 +1,10 @@
 LAMMPS (3 Mar 2020)
 Reading data file ...
-  orthogonal box = (0 0 0) to (5.427 5.427 5.427)
+  orthogonal box = (0 0 0) to (6.4012 6.4012 6.4012)
   1 by 1 by 1 MPI processor grid
   reading atoms ...
-  8 atoms
-  read_data CPU = 0.00115669 secs
+  9 atoms
+  read_data CPU = 0.00107417 secs
 Reading potential file library.meam with DATE: 2012-06-29
 Reading potential file LiSi.meam with DATE: 2020-11-07
 WARNING: Using 'neigh_modify every 1 delay 0 check yes' setting during minimization (src/min.cpp:190)
@@ -13,7 +13,7 @@ Neighbor list info ...
   max neighbors/atom: 2000, page size: 100000
   master list distance cutoff = 6
   ghost atom cutoff = 6
-  binsize = 3, bins = 2 2 2
+  binsize = 3, bins = 3 3 3
   2 neighbor lists, perpetual/occasional/extra = 2 0 0
   (1) pair meam/c, perpetual
       attributes: full, newton on
@@ -29,47 +29,47 @@ Setting up cg style minimization ...
   Unit style    : metal
   Current step  : 0
 WARNING: Energy due to 1 extra global DOFs will be included in minimizer energies
-Per MPI rank memory allocation (min/avg/max) = 9.652 | 9.652 | 9.652 Mbytes
-Step Temp E_pair E_mol TotEng Press Volume 
-       0            0   -9.8116377            0   -9.8116377    46091.139    159.83779 
-     181            0   -10.899687            0   -10.899687 -4.3176599e-06    262.29188 
-Loop time of 0.00819679 on 1 procs for 181 steps with 8 atoms
+Per MPI rank memory allocation (min/avg/max) = 10.74 | 10.74 | 10.74 Mbytes
+Step PotEng Lx Ly Lz Press Pxx Pyy Pzz 
+       0   -32.434347       6.4012       6.4012       6.4012    -101520.7    -101520.7    -101520.7    -101520.7 
+     107   -35.422284      5.82327      5.82327      5.82327  0.016098829  0.016098829  0.016098829  0.016098829 
+Loop time of 0.00573792 on 1 procs for 107 steps with 9 atoms
 
 100.0% CPU use with 1 MPI tasks x no OpenMP threads
 
 Minimization stats:
   Stopping criterion = energy tolerance
   Energy initial, next-to-last, final = 
-        -9.81163771679      -10.899686536      -10.899686536
-  Force two-norm initial, final = 13.7946 1.7978e-09
-  Force max component initial, final = 13.7946 1.7978e-09
-  Final line search alpha, max atom move = 1 1.7978e-09
-  Iterations, force evaluations = 181 183
+        -32.4343468504     -35.4222836958     -35.4222836961
+  Force two-norm initial, final = 49.8832 8.41302e-05
+  Force max component initial, final = 49.8597 2.42127e-05
+  Final line search alpha, max atom move = 1 2.42127e-05
+  Iterations, force evaluations = 107 112
 
 MPI task timing breakdown:
 Section |  min time  |  avg time  |  max time  |%varavg| %total
 ---------------------------------------------------------------
-Pair    | 0.0072932  | 0.0072932  | 0.0072932  |   0.0 | 88.98
-Neigh   | 2.5447e-05 | 2.5447e-05 | 2.5447e-05 |   0.0 |  0.31
-Comm    | 0.00021308 | 0.00021308 | 0.00021308 |   0.0 |  2.60
+Pair    | 0.0051241  | 0.0051241  | 0.0051241  |   0.0 | 89.30
+Neigh   | 3.413e-05  | 3.413e-05  | 3.413e-05  |   0.0 |  0.59
+Comm    | 0.00012042 | 0.00012042 | 0.00012042 |   0.0 |  2.10
 Output  | 0          | 0          | 0          |   0.0 |  0.00
 Modify  | 0          | 0          | 0          |   0.0 |  0.00
-Other   |            | 0.000665   |            |       |  8.11
+Other   |            | 0.0004593  |            |       |  8.00
 
-Nlocal:    8 ave 8 max 8 min
+Nlocal:    9 ave 9 max 9 min
 Histogram: 1 0 0 0 0 0 0 0 0 0
-Nghost:    162 ave 162 max 162 min
+Nghost:    298 ave 298 max 298 min
 Histogram: 1 0 0 0 0 0 0 0 0 0
-Neighs:    112 ave 112 max 112 min
+Neighs:    169 ave 169 max 169 min
 Histogram: 1 0 0 0 0 0 0 0 0 0
-FullNghs:  224 ave 224 max 224 min
+FullNghs:  338 ave 338 max 338 min
 Histogram: 1 0 0 0 0 0 0 0 0 0
 
-Total # of neighbors = 224
-Ave neighs/atom = 28
+Total # of neighbors = 338
+Ave neighs/atom = 37.5556
 Neighbor list builds = 1
 Dangerous builds = 0
-Total energy (eV) = -10.8996865360076
-Number of atoms = 8
-Lattice constant (Angstoms) = 6.40120326141373
+Total energy (eV) = -35.4222836960939
+Number of atoms = 9
+Lattice constant (Angstoms) = 5.82327000269615
 Total wall time: 0:00:00

@@ -24,5 +24,5 @@ def Si_unitcell_central_Li_relaxation():
     return energy, lattice
 
 if __name__ == "__main__":
-    Si_lattice_constant_calculation()
-    #Si_unitcell_central_Li_relaxation()
+    #Si_lattice_constant_calculation()
+    Si_unitcell_central_Li_relaxation()

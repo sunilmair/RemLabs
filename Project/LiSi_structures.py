@@ -5,7 +5,8 @@ from ase.build import make_supercell
 from ase.io import write
 import numpy as np
 
-Si_alat = 5.427
+# Si_alat = 5.427
+Si_alat = 6.4012
 structures_folder_path = 'cif_files/'
 
 def make_Si_unitcell(write_file=False):
