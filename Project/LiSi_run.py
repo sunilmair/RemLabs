@@ -1,12 +1,12 @@
-from LiS_structures import *
-from LiS_LAMMPS_templates import *
+from LiSi_structures import *
+from LiSi_LAMMPS_templates import *
 import time
 
 def Si_lattice_constant_calculation():
     """
     Runs a optimization calculation on an Si unitcell to find the equilibrium lattice parameter using the 2NN MEAM
     """
-    runpath = Dir(path=os.path.join('Si_lattice_constant', time.strftime('%Y%m%d-%H%M%S')))
+    runpath = Dir(path=os.path.join('/home/modeler/RemLabs/Project/Si_lattice_constant', time.strftime('%Y%m%d-%H%M%S')))
     struc = make_Si_unitcell()
     output_file = lammps_run(struc=struc, runpath=runpath, potential=False, intemplate=Si_lattice_constant_template, inparam={})
     energy, lattice = get_lammps_energy(outfile=output_file)
