@@ -15,7 +15,7 @@ def make_Si_unitcell(write_file=False):
     unitcell = crystal('Si', [(0, 0, 0)], spacegroup=227, cellpar=3 * [Si_alat] + 3 * [90])
     if write_file : write(structures_folder_path + 'unitcell_Si.cif', unitcell)
     structure = Struc(ase2struc(unitcell))
-    structure.content['species']['Li'] = {'id' : 2, 'mass' : 6.939, 'atomic_number' : 3}
+    structure.content['species']['Li'] = {'mass' : 6.939, 'kind' : 2}
     return structure
 
 
