@@ -5,12 +5,12 @@ units metal
 atom_style atomic
 dimension 3
 boundary p p p
-read_data /home/modeler/RemLabs/Project/Si_unitcell_central_Li_relaxation/20201126-074452/lammps.data
+read_data /home/modeler/RemLabs/Project/Si_lattice_constant/20201126-081754/lammps.data
   orthogonal box = (0 0 0) to (6.4012 6.4012 6.4012)
   1 by 1 by 1 MPI processor grid
   reading atoms ...
-  9 atoms
-  read_data CPU = 0.000881372 secs
+  8 atoms
+  read_data CPU = 0.000848778 secs
 
 # ---------- 2. Specify Interatomic Potential ----------
 pair_style meam/c
@@ -19,7 +19,11 @@ Reading potential file library.meam with DATE: 2012-06-29
 Reading potential file LiSi.meam with DATE: 2020-11-07
 
 # ---------- 3. Optimization of Atomic Positions Allowing Unit Cell Changes ----------
+write_dump all atom /home/modeler/RemLabs/Project/Si_lattice_constant/20201126-081754/initial_dump.atom
+WARNING: Calling write_dump before a full system init. (src/write_dump.cpp:80)
+
 thermo_style custom step pe lx ly lz press pxx pyy pzz
+
 fix 1 all box/relax iso 0.0 vmax 0.001
 
 min_style cg
@@ -42,46 +46,48 @@ Neighbor list info ...
       pair build: halffull/newton
       stencil: none
       bin: none
-Per MPI rank memory allocation (min/avg/max) = 9.74 | 9.74 | 9.74 Mbytes
+Per MPI rank memory allocation (min/avg/max) = 9.731 | 9.731 | 9.731 Mbytes
 Step PotEng Lx Ly Lz Press Pxx Pyy Pzz 
-       0   -32.434347       6.4012       6.4012       6.4012    -101520.7    -101520.7    -101520.7    -101520.7 
-     107   -35.422284      5.82327      5.82327      5.82327  0.016098829  0.016098829  0.016098829  0.016098829 
-Loop time of 0.00577196 on 1 procs for 107 steps with 9 atoms
+       0   -10.899687       6.4012       6.4012       6.4012  0.074311852  0.074311852  0.074311852  0.074311852 
+       1   -10.899687    6.4012033    6.4012033    6.4012033 -7.0411597e-06 -7.0411597e-06 -7.0411597e-06 -7.0411597e-06 
+Loop time of 0.000114315 on 1 procs for 1 steps with 8 atoms
 
-96.3% CPU use with 1 MPI tasks x no OpenMP threads
+71.7% CPU use with 1 MPI tasks x no OpenMP threads
 
 Minimization stats:
   Stopping criterion = energy tolerance
   Energy initial, next-to-last, final = 
-        -32.4343468504     -35.4222836958     -35.4222836961
-  Force two-norm initial, final = 49.8832 8.41302e-05
-  Force max component initial, final = 49.8597 2.42127e-05
-  Final line search alpha, max atom move = 1 2.42127e-05
-  Iterations, force evaluations = 107 112
+         -10.899686536      -10.899686536      -10.899686536
+  Force two-norm initial, final = 3.64967e-05 3.45812e-09
+  Force max component initial, final = 3.64967e-05 3.45812e-09
+  Final line search alpha, max atom move = 1 3.45812e-09
+  Iterations, force evaluations = 1 2
 
 MPI task timing breakdown:
 Section |  min time  |  avg time  |  max time  |%varavg| %total
 ---------------------------------------------------------------
-Pair    | 0.0051766  | 0.0051766  | 0.0051766  |   0.0 | 89.69
-Neigh   | 3.5006e-05 | 3.5006e-05 | 3.5006e-05 |   0.0 |  0.61
-Comm    | 0.0001234  | 0.0001234  | 0.0001234  |   0.0 |  2.14
+Pair    | 9.248e-05  | 9.248e-05  | 9.248e-05  |   0.0 | 80.90
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 3.514e-06  | 3.514e-06  | 3.514e-06  |   0.0 |  3.07
 Output  | 0          | 0          | 0          |   0.0 |  0.00
 Modify  | 0          | 0          | 0          |   0.0 |  0.00
-Other   |            | 0.000437   |            |       |  7.57
+Other   |            | 1.832e-05  |            |       | 16.03
 
-Nlocal:    9 ave 9 max 9 min
+Nlocal:    8 ave 8 max 8 min
 Histogram: 1 0 0 0 0 0 0 0 0 0
-Nghost:    298 ave 298 max 298 min
+Nghost:    162 ave 162 max 162 min
 Histogram: 1 0 0 0 0 0 0 0 0 0
-Neighs:    169 ave 169 max 169 min
+Neighs:    112 ave 112 max 112 min
 Histogram: 1 0 0 0 0 0 0 0 0 0
-FullNghs:  338 ave 338 max 338 min
+FullNghs:  224 ave 224 max 224 min
 Histogram: 1 0 0 0 0 0 0 0 0 0
 
-Total # of neighbors = 338
-Ave neighs/atom = 37.5556
-Neighbor list builds = 1
+Total # of neighbors = 224
+Ave neighs/atom = 28
+Neighbor list builds = 0
 Dangerous builds = 0
+
+write_dump all atom /home/modeler/RemLabs/Project/Si_lattice_constant/20201126-081754/final_dump.atom
 
 # ---------- 4. Output Variables ----------
 variable natoms equal "count(all)"
@@ -89,9 +95,9 @@ variable totenergy equal "pe"
 variable length equal "lx"
 
 print "Total energy (eV) = ${totenergy}"
-Total energy (eV) = -35.4222836960939
+Total energy (eV) = -10.8996865360076
 print "Number of atoms = ${natoms}"
-Number of atoms = 9
+Number of atoms = 8
 print "Lattice constant (Angstoms) = ${length}"
-Lattice constant (Angstoms) = 5.82327000269615
+Lattice constant (Angstoms) = 6.40120326153326
 Total wall time: 0:00:00

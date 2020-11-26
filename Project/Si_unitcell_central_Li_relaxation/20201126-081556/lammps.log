@@ -1,12 +1,33 @@
 LAMMPS (3 Mar 2020)
-Reading data file ...
+
+# ---------- 1. Initialize Simulation ----------
+units metal
+atom_style atomic
+dimension 3
+boundary p p p
+read_data /home/modeler/RemLabs/Project/Si_unitcell_central_Li_relaxation/20201126-081556/lammps.data
   orthogonal box = (0 0 0) to (6.4012 6.4012 6.4012)
   1 by 1 by 1 MPI processor grid
   reading atoms ...
   9 atoms
-  read_data CPU = 0.000881372 secs
+  read_data CPU = 0.00104445 secs
+
+# ---------- 2. Specify Interatomic Potential ----------
+pair_style meam/c
+pair_coeff * * library.meam Li Si LiSi.meam Li Si
 Reading potential file library.meam with DATE: 2012-06-29
 Reading potential file LiSi.meam with DATE: 2020-11-07
+
+# ---------- 3. Optimization of Atomic Positions Allowing Unit Cell Changes ----------
+write_dump all atom /home/modeler/RemLabs/Project/Si_unitcell_central_Li_relaxation/20201126-081556/initial_dump.atom
+WARNING: Calling write_dump before a full system init. (src/write_dump.cpp:80)
+
+thermo_style custom step pe lx ly lz press pxx pyy pzz
+
+fix 1 all box/relax iso 0.0 vmax 0.001
+
+min_style cg
+minimize 1e-10 1e-10 1000 10000
 WARNING: Using 'neigh_modify every 1 delay 0 check yes' setting during minimization (src/min.cpp:190)
 Neighbor list info ...
   update every 1 steps, delay 0 steps, check yes
@@ -25,17 +46,13 @@ Neighbor list info ...
       pair build: halffull/newton
       stencil: none
       bin: none
-Setting up cg style minimization ...
-  Unit style    : metal
-  Current step  : 0
-WARNING: Energy due to 1 extra global DOFs will be included in minimizer energies
 Per MPI rank memory allocation (min/avg/max) = 9.74 | 9.74 | 9.74 Mbytes
 Step PotEng Lx Ly Lz Press Pxx Pyy Pzz 
        0   -32.434347       6.4012       6.4012       6.4012    -101520.7    -101520.7    -101520.7    -101520.7 
      107   -35.422284      5.82327      5.82327      5.82327  0.016098829  0.016098829  0.016098829  0.016098829 
-Loop time of 0.00577196 on 1 procs for 107 steps with 9 atoms
+Loop time of 0.00587366 on 1 procs for 107 steps with 9 atoms
 
-96.3% CPU use with 1 MPI tasks x no OpenMP threads
+94.0% CPU use with 1 MPI tasks x no OpenMP threads
 
 Minimization stats:
   Stopping criterion = energy tolerance
@@ -49,12 +66,12 @@ Minimization stats:
 MPI task timing breakdown:
 Section |  min time  |  avg time  |  max time  |%varavg| %total
 ---------------------------------------------------------------
-Pair    | 0.0051766  | 0.0051766  | 0.0051766  |   0.0 | 89.69
-Neigh   | 3.5006e-05 | 3.5006e-05 | 3.5006e-05 |   0.0 |  0.61
-Comm    | 0.0001234  | 0.0001234  | 0.0001234  |   0.0 |  2.14
+Pair    | 0.0052767  | 0.0052767  | 0.0052767  |   0.0 | 89.84
+Neigh   | 3.2127e-05 | 3.2127e-05 | 3.2127e-05 |   0.0 |  0.55
+Comm    | 0.00013282 | 0.00013282 | 0.00013282 |   0.0 |  2.26
 Output  | 0          | 0          | 0          |   0.0 |  0.00
 Modify  | 0          | 0          | 0          |   0.0 |  0.00
-Other   |            | 0.000437   |            |       |  7.57
+Other   |            | 0.000432   |            |       |  7.36
 
 Nlocal:    9 ave 9 max 9 min
 Histogram: 1 0 0 0 0 0 0 0 0 0
@@ -69,7 +86,18 @@ Total # of neighbors = 338
 Ave neighs/atom = 37.5556
 Neighbor list builds = 1
 Dangerous builds = 0
+
+write_dump all atom /home/modeler/RemLabs/Project/Si_unitcell_central_Li_relaxation/20201126-081556/final_dump.atom
+
+# ---------- 4. Output Variables ----------
+variable natoms equal "count(all)"
+variable totenergy equal "pe"
+variable length equal "lx"
+
+print "Total energy (eV) = ${totenergy}"
 Total energy (eV) = -35.4222836960939
+print "Number of atoms = ${natoms}"
 Number of atoms = 9
+print "Lattice constant (Angstoms) = ${length}"
 Lattice constant (Angstoms) = 5.82327000269615
 Total wall time: 0:00:00

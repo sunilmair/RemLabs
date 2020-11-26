@@ -21,7 +21,7 @@ fix 1 all box/relax iso 0.0 vmax 0.001
 min_style cg
 minimize 1e-10 1e-10 1000 10000
 
-write_dump all atom final_dump.atom
+write_dump all atom $OUTFILE/final_dump.atom
 
 # ---------- 4. Output Variables ----------
 variable natoms equal "count(all)"
