@@ -6,13 +6,16 @@ from ase.io import write
 import numpy as np
 
 Si_alat = 5.427
+structures_folder_path = 'cif_files/'
 
 def make_Si_unitcell(write_file=False):
     """
     creates an Si unit cell with no Li
     """
     unitcell = crystal('Si', [(0, 0, 0)], spacegroup=227, cellpar=3 * [Si_alat] + 3 * [90])
-    if write_file : write('unitcell_Si.cif', unitcell)
+    if write_file : write(structures_folder_path + 'unitcell_Si.cif', unitcell)
+    structure = Struc(ase2struc(unitcell))
+    structure.content['species']['Li'] = {'id' : 2, 'mass' : 6.939, 'atomic_number' : 3}
     return Struc(ase2struc(unitcell))
 
 
@@ -98,10 +101,10 @@ def make_3x3x3_supercell_neighbor_central_Li(write_file=False):
 
 if __name__ == "__main__":
     make_Si_unitcell(True)
-    make_Li_filled_unitcell(True)
-    make_unitcell_central_Li(True)
-    make_unitcell_neighbor_central_Li(True)
-    make_2x2x2_supercell_1x1x1_central_Li(True)
-    make_2x2x2_supercell_1x1x1_neighbor_central_Li(True)
-    make_3x3x3_supercell_central_Li(True)
-    make_3x3x3_supercell_neighbor_central_Li(True)
+    #make_Li_filled_unitcell(True)
+    #make_unitcell_central_Li(True)
+    #make_unitcell_neighbor_central_Li(True)
+    #make_2x2x2_supercell_1x1x1_central_Li(True)
+    #make_2x2x2_supercell_1x1x1_neighbor_central_Li(True)
+    #make_3x3x3_supercell_central_Li(True)
+    #make_3x3x3_supercell_neighbor_central_Li(True)
