@@ -16,7 +16,7 @@ def make_Si_unitcell(write_file=False):
     if write_file : write(structures_folder_path + 'unitcell_Si.cif', unitcell)
     structure = Struc(ase2struc(unitcell))
     structure.content['species']['Li'] = {'id' : 2, 'mass' : 6.939, 'atomic_number' : 3}
-    return Struc(ase2struc(unitcell))
+    return structure
 
 
 def make_Li_filled_unitcell(write_file=False):
