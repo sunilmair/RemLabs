@@ -1,5 +1,5 @@
 
-Si_lattice_constant_template = """
+relaxation_calculation_template = """
 # ---------- 1. Initialize Simulation ----------
 units metal
 atom_style atomic
@@ -12,6 +12,7 @@ pair_style meam/c
 pair_coeff * * library.meam Li Si LiSi.meam Li Si
 
 # ---------- 3. Optimization of Atomic Positions Allowing Unit Cell Changes ----------
+thermo_style custom step pe lx ly lz press pxx pyy pzz
 fix 1 all box/relax iso 0.0 vmax 0.001
 
 min_style cg
