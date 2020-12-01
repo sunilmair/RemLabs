@@ -32,3 +32,30 @@ print "Total energy (eV) = ${totenergy}"
 print "Number of atoms = ${natoms}"
 print "Lattice constant (Angstoms) = ${length}"
 """
+
+MD_npt_track_MSD = """
+# ---------- 1. Initialize simulation ----------
+units metal
+atom_style atomic
+dimension 3
+boundary p p p
+read_data $DATAINPUT
+
+pair_style meam/c
+pair_coeff * * library.meam Li Si LiSi.meam Li Si
+
+velocity all create $TEMPERATURE 3320 dist gaussian
+
+# ---------- 2. Describe computed properties----------
+compute msdall all msd
+thermo_style custom step pe ke etotal temp press density c_msdall[4]
+thermo $TOUTPUT
+
+# ---------- 3. Specify ensemble  ----------
+#fix  1 all nvt temp $TEMPERATURE $TEMPERATURE $TDAMP
+fix 1 all npt temp $TEMPERATURE $TEMPERATURE $TDAMP tchain 2 iso 1.0 1.0 1.0 pchain 2
+
+# ---------- 4. Run -------------
+timestep $TIMESTEP
+run $NSTEPS
+"""
