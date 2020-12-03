@@ -26,11 +26,11 @@ def Li_diffusion_constant(temperature, timestep, nsteps):
                              inparam=inparam)
     output = parse_lammps_thermo(outfile=output_file)
 
-    [simtime, pe, ke, energy, temp, press, dens, msd] = output
+    # [simtime, pe, ke, energy, temp, press, dens, msd] = output
 
     return output
 
 
 
 if __name__ == "__main__":
-    Li_diffusion_constant(600, 0.005, 1000)
+    Li_diffusion_constant(600, 0.005, 10000)
