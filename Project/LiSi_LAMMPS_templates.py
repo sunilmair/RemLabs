@@ -44,15 +44,17 @@ read_data $DATAINPUT
 pair_style meam/c
 pair_coeff * * library.meam Li Si LiSi.meam Li Si
 
+group Li type 1
+
 velocity all create $TEMPERATURE 3320 dist gaussian
 
 # ---------- 2. Describe computed properties----------
-compute msdall all msd
-thermo_style custom step pe ke etotal temp press density c_msdall[4]
+compute msdli Li msd
+thermo_style custom step pe ke etotal temp press density c_msdli[4]
 thermo $TOUTPUT
 
 # ---------- 3. Specify ensemble  ----------
-#fix  1 all nvt temp $TEMPERATURE $TEMPERATURE $TDAMP
+#fix 1 all nvt temp $TEMPERATURE $TEMPERATURE $TDAMP
 fix 1 all npt temp $TEMPERATURE $TEMPERATURE $TDAMP tchain 2 iso 1.0 1.0 1.0 pchain 2
 
 # ---------- 4. Run -------------
