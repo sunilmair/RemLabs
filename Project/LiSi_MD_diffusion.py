@@ -43,7 +43,7 @@ def evaluate_timestep():
     total_time = 5
     equilibration_time = 1
     n = 3
-    T = 1800
+    T = 1300
 
     fig, (ax_left, ax_right) = plt.subplots(1, 2, figsize=(18, 6))
     mean_energy_list = []

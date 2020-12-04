@@ -1,0 +1,28 @@
+
+# ---------- 1. Initialize simulation ----------
+units metal
+atom_style atomic
+dimension 3
+boundary p p p
+read_data /home/modeler/RemLabs/Project/eval_timestep/n3_T1300_timestep2.236068e-03_steps2237/20201204-073538/lammps.data
+
+pair_style meam/c
+pair_coeff * * library.meam Li Si LiSi.meam Li Si
+
+group Li type 1
+
+velocity all create 1300 3320 dist gaussian
+
+# ---------- 2. Describe computed properties----------
+compute msdli Li msd
+thermo_style custom step pe ke etotal temp press density c_msdli[4]
+thermo 100
+
+# ---------- 3. Specify ensemble  ----------
+#fix 1 all nve
+fix 1 all nvt temp 1300 1300 0.11180339887498947
+#fix 1 all npt temp 1300 1300 0.11180339887498947 tchain 2 iso 1.0 1.0 1.0 pchain 2
+
+# ---------- 4. Run -------------
+timestep 0.0022360679774997894
+run 2237
