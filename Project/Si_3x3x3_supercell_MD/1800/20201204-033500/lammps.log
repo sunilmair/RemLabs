@@ -5,12 +5,12 @@ units metal
 atom_style atomic
 dimension 3
 boundary p p p
-read_data /home/modeler/RemLabs/Project/Si_3x3x3_supercell_MD/600.0/20201204-012132/lammps.data
+read_data /home/modeler/RemLabs/Project/Si_3x3x3_supercell_MD/1800/20201204-033500/lammps.data
   orthogonal box = (0 0 0) to (17.469 17.469 17.469)
   1 by 1 by 1 MPI processor grid
   reading atoms ...
   217 atoms
-  read_data CPU = 0.000966042 secs
+  read_data CPU = 0.000979174 secs
 
 pair_style meam/c
 pair_coeff * * library.meam Li Si LiSi.meam Li Si
@@ -20,7 +20,7 @@ Reading potential file LiSi.meam with DATE: 2020-11-07
 group Li type 1
 1 atoms in group Li
 
-velocity all create 600.0 3320 dist gaussian
+velocity all create 1800 3320 dist gaussian
 
 # ---------- 2. Describe computed properties----------
 compute msdli Li msd
@@ -29,12 +29,12 @@ thermo 100
 
 # ---------- 3. Specify ensemble  ----------
 #fix 1 all nve
-fix 1 all nvt temp 600.0 600.0 0.25
-#fix 1 all npt temp 600.0 600.0 0.25 tchain 2 iso 1.0 1.0 1.0 pchain 2
+fix 1 all nvt temp 1800 1800 25.0
+#fix 1 all npt temp 1800 1800 25.0 tchain 2 iso 1.0 1.0 1.0 pchain 2
 
 # ---------- 4. Run -------------
-timestep 0.005
-run 1000
+timestep 0.5
+run 2
 Neighbor list info ...
   update every 1 steps, delay 10 steps, check yes
   max neighbors/atom: 2000, page size: 100000
@@ -54,31 +54,22 @@ Neighbor list info ...
       bin: none
 Per MPI rank memory allocation (min/avg/max) = 9.266 | 9.266 | 9.266 Mbytes
 Step PotEng KinEng TotEng Temp Press Density c_msdli[4] 
-       0   -951.06911    16.752115   -934.31699          600   -120895.27    1.8918427            0 
-     100   -940.72759    12.375521   -928.35207    443.24629   -108766.09    1.8918427  0.024887422 
-     200   -935.81754    15.658678   -920.15887    560.83705   -103766.19    1.8918427  0.033491566 
-     300   -934.51054    18.465957   -916.04458    661.38361   -101180.81    1.8918427  0.053946362 
-     400   -936.58996    16.810823   -919.77914    602.10271    -103918.7    1.8918427  0.067927744 
-     500   -935.89573    16.208844   -919.68689    580.54202   -104819.16    1.8918427   0.11864267 
-     600     -934.712    17.717267   -916.99473    634.56824   -103728.37    1.8918427  0.045348602 
-     700    -936.2569    16.892166   -919.36473    605.01612   -104263.25    1.8918427  0.036570557 
-     800   -935.86486    16.401743   -919.46312    587.45094    -104207.6    1.8918427   0.12642497 
-     900   -934.58182    17.617059   -916.96476    630.97917   -102190.18    1.8918427   0.04037655 
-    1000   -934.25041    15.598075   -918.65234    558.66648   -102676.05    1.8918427  0.086560316 
-Loop time of 0.518591 on 1 procs for 1000 steps with 217 atoms
+       0   -951.06911    50.256344   -900.81276         1800    -114182.3    1.8918427            0 
+       2            0            0            0            0            0    1.8918427    193.51313 
+Loop time of 0.000526534 on 1 procs for 2 steps with 217 atoms
 
-Performance: 833.026 ns/day, 0.029 hours/ns, 1928.300 timesteps/s
-100.0% CPU use with 1 MPI tasks x no OpenMP threads
+Performance: 164091.967 ns/day, 0.000 hours/ns, 3798.425 timesteps/s
+74.1% CPU use with 1 MPI tasks x no OpenMP threads
 
 MPI task timing breakdown:
 Section |  min time  |  avg time  |  max time  |%varavg| %total
 ---------------------------------------------------------------
-Pair    | 0.50869    | 0.50869    | 0.50869    |   0.0 | 98.09
+Pair    | 0.00049415 | 0.00049415 | 0.00049415 |   0.0 | 93.85
 Neigh   | 0          | 0          | 0          |   0.0 |  0.00
-Comm    | 0.0041715  | 0.0041715  | 0.0041715  |   0.0 |  0.80
-Output  | 0.00026656 | 0.00026656 | 0.00026656 |   0.0 |  0.05
-Modify  | 0.0041613  | 0.0041613  | 0.0041613  |   0.0 |  0.80
-Other   |            | 0.001298   |            |       |  0.25
+Comm    | 8.785e-06  | 8.785e-06  | 8.785e-06  |   0.0 |  1.67
+Output  | 8.293e-06  | 8.293e-06  | 8.293e-06  |   0.0 |  1.58
+Modify  | 1.1335e-05 | 1.1335e-05 | 1.1335e-05 |   0.0 |  2.15
+Other   |            | 3.974e-06  |            |       |  0.75
 
 Nlocal:    217 ave 217 max 217 min
 Histogram: 1 0 0 0 0 0 0 0 0 0

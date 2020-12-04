@@ -4,7 +4,7 @@ Reading data file ...
   1 by 1 by 1 MPI processor grid
   reading atoms ...
   217 atoms
-  read_data CPU = 0.000996472 secs
+  read_data CPU = 0.000979174 secs
 Reading potential file library.meam with DATE: 2012-06-29
 Reading potential file LiSi.meam with DATE: 2020-11-07
 1 atoms in group Li
@@ -28,34 +28,25 @@ Neighbor list info ...
 Setting up Verlet run ...
   Unit style    : metal
   Current step  : 0
-  Time step     : 0.005
+  Time step     : 0.5
 Per MPI rank memory allocation (min/avg/max) = 9.266 | 9.266 | 9.266 Mbytes
 Step PotEng KinEng TotEng Temp Press Density c_msdli[4] 
-       0   -951.06911     33.50423   -917.56488         1200   -117538.78    1.8918427            0 
-     100   -928.41886    22.798453   -905.62041    816.55791   -93703.891    1.8918427  0.030397353 
-     200   -920.67039    31.704004   -888.96638    1135.5224   -85753.071    1.8918427  0.074916122 
-     300   -919.60872    39.865507   -879.74321    1427.8379   -82722.685    1.8918427    0.1015662 
-     400   -917.48047    30.292329   -887.18814    1084.9614   -85007.477    1.8918427  0.020488259 
-     500   -918.55673    31.100224    -887.4565    1113.8972   -82736.516    1.8918427  0.004642916 
-     600   -918.20594    36.602903   -881.60303    1310.9832   -82627.556    1.8918427  0.040838581 
-     700   -918.44717    32.287563   -886.15961    1156.4234   -83333.667    1.8918427  0.094858414 
-     800   -919.24919    32.037942   -887.21125    1147.4829   -83898.578    1.8918427  0.065063281 
-     900   -915.62379    33.869242   -881.75455    1213.0734   -81068.358    1.8918427   0.15421963 
-    1000   -918.48664    33.658278   -884.82837    1205.5175   -84055.336    1.8918427   0.13768018 
-Loop time of 0.537284 on 1 procs for 1000 steps with 217 atoms
+       0   -951.06911    50.256344   -900.81276         1800    -114182.3    1.8918427            0 
+       2            0            0            0            0            0    1.8918427    193.51313 
+Loop time of 0.000526534 on 1 procs for 2 steps with 217 atoms
 
-Performance: 804.044 ns/day, 0.030 hours/ns, 1861.212 timesteps/s
-99.7% CPU use with 1 MPI tasks x no OpenMP threads
+Performance: 164091.967 ns/day, 0.000 hours/ns, 3798.425 timesteps/s
+74.1% CPU use with 1 MPI tasks x no OpenMP threads
 
 MPI task timing breakdown:
 Section |  min time  |  avg time  |  max time  |%varavg| %total
 ---------------------------------------------------------------
-Pair    | 0.52694    | 0.52694    | 0.52694    |   0.0 | 98.08
+Pair    | 0.00049415 | 0.00049415 | 0.00049415 |   0.0 | 93.85
 Neigh   | 0          | 0          | 0          |   0.0 |  0.00
-Comm    | 0.0042743  | 0.0042743  | 0.0042743  |   0.0 |  0.80
-Output  | 0.0002828  | 0.0002828  | 0.0002828  |   0.0 |  0.05
-Modify  | 0.0042992  | 0.0042992  | 0.0042992  |   0.0 |  0.80
-Other   |            | 0.001483   |            |       |  0.28
+Comm    | 8.785e-06  | 8.785e-06  | 8.785e-06  |   0.0 |  1.67
+Output  | 8.293e-06  | 8.293e-06  | 8.293e-06  |   0.0 |  1.58
+Modify  | 1.1335e-05 | 1.1335e-05 | 1.1335e-05 |   0.0 |  2.15
+Other   |            | 3.974e-06  |            |       |  0.75
 
 Nlocal:    217 ave 217 max 217 min
 Histogram: 1 0 0 0 0 0 0 0 0 0
