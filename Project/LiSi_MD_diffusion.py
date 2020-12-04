@@ -62,7 +62,7 @@ def evaluate_timestep():
     ax_left.set_xlabel('Time (ps)')
     ax_left.set_ylabel('Total Energy') # units?
     ax_left.set_title('Total Energy vs Time')
-    ax_left.legend()
+    ax_left.legend(loc='center right')
 
     ax_right.set_xlabel('Timestep (ps)')
     ax_right.set_ylabel('Mean Energy') # units?
