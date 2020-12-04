@@ -38,7 +38,7 @@ def evaluate_timestep():
     """
     Use mean energy (after equilibration) as a convergence metric for timestep size
     """
-    filepath = 'eval_timestep'
+    filepath = 'eval_timestep_recheckdelete'
     timestep_list = np.logspace(np.log10(0.005), np.log10(0.05), 20)
     total_time = 15
     equilibration_time = 2
@@ -50,9 +50,10 @@ def evaluate_timestep():
 
     for timestep in timestep_list:
         output = Si_n3_supercell_run_MD(n, T, timestep, int(np.ceil(total_time/timestep)), filepath)
-        ax_left.plot([timestep*simtime for simtime in output[0]], output[3], label='{:.3}'.format(timestep))
+        [simtime, pe, ke, energy, temp, press, dens, msd] = output
+        ax_left.plot([timestep*simtimestep for simtimestep in simtime], energy, label='{:.3}'.format(timestep))
         mean_energy_list.append(np.mean(
-            [output[3][i] for i in range(len(output[0])) if output[0][i] > equilibration_time]))
+            [energy[i] for i in range(len(simtime)) if simtime[i] > equilibration_time]))
 
     ax_right.plot(timestep_list, mean_energy_list, marker='o')
     ax_right_min, ax_right_max = ax_right.get_ylim()
@@ -72,5 +73,46 @@ def evaluate_timestep():
     fig.savefig(filepath+'/timestep_convergence-' + time.strftime('%Y%m%d-%H%M%S'))
 
 
+def Si_n3_supercell_run_equil_MD(n, T, timestep, equilnsteps, nsteps, filepath):
+    """
+    Runs an npt ensemble to track the MSD of a Li in a 3x3x3 Si supercell to calculate the diffusion coefficient
+    """
+    timestamp = time.strftime('%Y%m%d-%H%M%S')
+    path = os.path.join(project_full_path, filepath,
+                        'n'+str(n)+'_T'+str(T)+'_timestep'+'{:2e}'.format(timestep)+'_steps'+str(nsteps), timestamp)
+
+    runpath = Dir(path=path)
+    struc = make_n3_supercell_1x1x1_central_Li(n)
+    inparam = {
+        'OUTFILE': path,
+        'TEMPERATURE': T,
+        'EQUILNSTEPS': equilnsteps
+        'NSTEPS': nsteps,
+        'TIMESTEP': timestep,
+        'TOUTPUT': 100,  # how often to write thermo output
+        'TDAMP': 50 * timestep,  # thermostat damping time scale
+    }
+
+    output_file = lammps_run(struc=struc, runpath=runpath, potential=False, intemplate=MD_npt,
+                             inparam=inparam)
+    output = parse_lammps_thermo(outfile=output_file)
+    output = output.astype(np.float)
+
+    [simtime, pe, ke, energy, temp, press, dens, msd] = output
+
+    return output
+
+
+def test_equil_run(n, T, timestep, equilnsteps, nsteps, filepath):
+    fig, (ax_left, ax_right) = plt.subplots(1, 2, figsize=(18, 6))
+    output = Si_n3_supercell_run_equil_MD(n, T, timestep, equilnsteps, nsteps, filepath)
+    output = output.astype(np.float)
+    [simtime, pe, ke, energy, temp, press, dens, msd] = output
+    ax_left.plot([timestep*simtimestep for simtimestep in simtime], energy)
+    ax_right.plot([timestep*simtimestep for simtimestep in simtime], msd)
+    fig.savefig(filepath+'/test-'+ time.strftime('%Y%m%d-%H%M%S'))
+
+
 if __name__ == "__main__":
-    evaluate_timestep()
+    #evaluate_timestep()
+    test_equil_run(3, 1800, 0.003, 3200, 5000, 'test_equil')

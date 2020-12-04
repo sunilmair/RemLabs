@@ -61,7 +61,7 @@ timestep $TIMESTEP
 run $NSTEPS
 """
 
-MD_equilibrate_1000_npt_track_MSD = """
+MD_equilibrate_npt_track_MSD = """
 # ---------- 1. Initialize simulation ----------
 units metal
 atom_style atomic
@@ -76,14 +76,19 @@ group Li type 1
 
 velocity all create $TEMPERATURE 3320 dist gaussian
 
-# ---------- 2. Describe computed properties----------
+# ---------- 2. Specify equilibration ensemble  ----------
+fix 1 all npt temp $TEMPERATURE $TEMPERATURE $TDAMP tchain 2 iso 1.0 1.0 1.0 pchain 2
+
+# ---------- 3. Run equilibration -------------
+timestep $TIMESTEP
+run $EQUILNSTEPS
+
+# ---------- 4. Describe computed properties----------
+compute msdli Li msd
 thermo_style custom step pe ke etotal temp press density
 thermo $TOUTPUT
 
-# ---------- 3. Specify ensemble  ----------
-fix 1 all npt temp $TEMPERATURE $TEMPERATURE $TDAMP tchain 2 iso 1.0 1.0 1.0 pchain 2
-
-# ---------- 4. Run -------------
+# ---------- 3. Run production -------------
 timestep $TIMESTEP
 run $NSTEPS
 """
