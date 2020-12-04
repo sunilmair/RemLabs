@@ -1,6 +1,7 @@
 from LiSi_structures import *
 from LiSi_LAMMPS_templates import *
 import time
+import matplotlib.pyplot as plt
 
 project_full_path = '/home/modeler/RemLabs/Project'
 
@@ -9,7 +10,7 @@ def Si_3x3x3_supercell_run_MD(temperature, timestep, nsteps):
     Runs an npt ensemble to track the MSD of a Li in a 3x3x3 Si supercell to calculate the diffusion coefficient
     """
     timestamp = time.strftime('%Y%m%d-%H%M%S')
-    path = os.path.join(project_full_path, 'Li_diffusion_constant_T=' + str(temperature), timestamp)
+    path = os.path.join(project_full_path, 'Si_3x3x3_supercell_MD', str(temperature), timestamp)
 
     runpath = Dir(path=path)
     struc = make_3x3x3_supercell_central_Li()
@@ -39,7 +40,7 @@ def Si_3x3x3_supercell_Li_MSD_vs_time(Tstart, Tstop, numT):
         ax_right.plot(output[0], output[-1], label=str(T))
     ax_left.set_ylabel('Temperature')
     ax_right.set_ylabel('Li MSD')
-    fig.savefig('3x3x3_Temp_and_MSD-' + time.strftime('%Y%m%d-%H%M%S'))
+    fig.savefig('Si_3x3x3_supercell_MD/Temp_and_MSD-' + time.strftime('%Y%m%d-%H%M%S'))
 
 
 if __name__ == "__main__":
