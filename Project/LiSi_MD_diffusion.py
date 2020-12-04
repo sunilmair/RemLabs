@@ -36,7 +36,7 @@ def Si_3x3x3_supercell_run_MD(temperature, timestep, nsteps):
 def Si_3x3x3_supercell_Li_MSD_vs_time(Tstart, Tstop, numT):
     fig, (ax_left, ax_right) = plt.subplots(1, 2, figsize=(18, 6))
     for T in np.linspace(Tstart, Tstop, numT):
-        output = Si_3x3x3_supercell_run_MD(T, 0.005, 1000)
+        output = Si_3x3x3_supercell_run_MD(T, 0.005, 5000)
         ax_left.plot(output[0], output[4])
         ax_right.plot(output[0], output[-1], label=str(T))
     ax_left.set_ylabel('Temperature')
