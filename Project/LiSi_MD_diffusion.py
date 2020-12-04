@@ -4,7 +4,7 @@ import time
 
 project_full_path = '/home/modeler/RemLabs/Project'
 
-def Li_diffusion_constant(temperature, timestep, nsteps):
+def Si_3x3x3_supercell_run_MD(temperature, timestep, nsteps):
     """
     Runs an npt ensemble to track the MSD of a Li in a 3x3x3 Si supercell to calculate the diffusion coefficient
     """
@@ -26,14 +26,21 @@ def Li_diffusion_constant(temperature, timestep, nsteps):
                              inparam=inparam)
     output = parse_lammps_thermo(outfile=output_file)
 
-    # [simtime, pe, ke, energy, temp, press, dens, msd] = output
+    [simtime, pe, ke, energy, temp, press, dens, msd] = output
 
     return output
 
 
+def Si_3x3x3_supercell_Li_MSD_vs_time(Tstart, Tstop, numT):
+    fig, (ax_left, ax_right) = plt.subplots(1, 2)
+    for T in np.linspace(Tstart, Tstop, numT):
+        output = Si_3x3x3_supercell_run_MD(T, 0.005, 5000)
+        ax_left.plot(output[0], output[4])
+        ax_right.plot(output[0], output[-1], label=str(T))
+    ax_left.set_ylabel('Temperature')
+    ax_right.set_ylabel('Li MSD')
+    fig.savefig('3x3x3_Temp_and_MSD-' + time.strftime('%Y%m%d-%H%M%S'))
+
 
 if __name__ == "__main__":
-    Li_diffusion_constant(600, 0.005, 5000)
-    Li_diffusion_constant(700, 0.005, 5000)
-    Li_diffusion_constant(800, 0.005, 5000)
-    Li_diffusion_constant(900, 0.005, 5000)
+    Si_3x3x3_supercell_Li_MSD_vs_time(600, 1800, 7)
