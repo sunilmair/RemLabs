@@ -85,7 +85,7 @@ run $EQUILNSTEPS
 
 # ---------- 4. Describe computed properties----------
 compute msdli Li msd
-thermo_style custom step pe ke etotal temp press density
+thermo_style custom step pe ke etotal temp press density c_msdli[4]
 thermo $TOUTPUT
 
 # ---------- 3. Run production -------------

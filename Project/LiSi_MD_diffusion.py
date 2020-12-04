@@ -28,7 +28,9 @@ def Si_n3_supercell_run_MD(n, T, timestep, nsteps, filepath):
                              inparam=inparam)
     output = parse_lammps_thermo(outfile=output_file)
     output = output.astype(np.float)
-
+    print(type(output))
+    print(type(output[0]))
+    print(output.shape)
     [simtime, pe, ke, energy, temp, press, dens, msd] = output
 
     return output
@@ -84,7 +86,7 @@ def Si_n3_supercell_run_equil_MD(n, T, timestep, equilnsteps, production_time, f
 
     runpath = Dir(path=path)
     struc = make_n3_supercell_1x1x1_central_Li(n)
-    nsteps = np.ceil(production_time/timestep)
+    nsteps = int(np.ceil(production_time/timestep))
     inparam = {
         'OUTFILE': path,
         'TEMPERATURE': T,
@@ -98,17 +100,23 @@ def Si_n3_supercell_run_equil_MD(n, T, timestep, equilnsteps, production_time, f
     output_file = lammps_run(struc=struc, runpath=runpath, potential=False, intemplate=MD_equilibrate_npt_track_MSD,
                              inparam=inparam)
     output = parse_lammps_thermo(outfile=output_file)
+    output = output[2:]
+    output = [element for element in output]
+    output = np.array(output)
     output = output.astype(np.float)
+    print(output.shape)
+    outrows = np.transpose(np.array(output))
+    print(outrows.shape)
 
-    [simtime, pe, ke, energy, temp, press, dens, msd] = output
+    [simtime, pe, ke, energy, temp, press, dens, msd] = outrows
 
-    return output
+    return outrows
 
 
 def test_equil_run(n, T, timestep, equilnsteps, production_time, filepath):
     fig, (ax_left, ax_right) = plt.subplots(1, 2, figsize=(18, 6))
     output = Si_n3_supercell_run_equil_MD(n, T, timestep, equilnsteps, production_time, filepath)
-    output = output.astype(np.float)
+    #output = Si_n3_supercell_run_MD(n, T, timestep, 3200, filepath)
     [simtime, pe, ke, energy, temp, press, dens, msd] = output
     ax_left.plot([timestep*simtimestep for simtimestep in simtime], energy)
     ax_right.plot([timestep*simtimestep for simtimestep in simtime], msd)
