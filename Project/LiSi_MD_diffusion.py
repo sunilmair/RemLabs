@@ -122,4 +122,4 @@ def test_equil_run(n, T, timestep, equilnsteps, production_time, filepath):
 
 if __name__ == "__main__":
     #evaluate_timestep()
-    test_equil_run(3, 1600, 0.003, 3200, 600, 'test_equil')
+    test_equil_run(3, 1600, 0.003, 3200, 600, 'test_equil_nvt')

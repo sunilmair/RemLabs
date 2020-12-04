@@ -78,7 +78,8 @@ group Si type 2
 velocity all create $TEMPERATURE 3320 dist gaussian
 
 # ---------- 2. Specify equilibration ensemble  ----------
-fix 1 all npt temp $TEMPERATURE $TEMPERATURE $TDAMP tchain 2 iso 1.0 1.0 1.0 pchain 2
+# fix 1 all npt temp $TEMPERATURE $TEMPERATURE $TDAMP tchain 2 iso 1.0 1.0 1.0 pchain 2
+fix 1 all nvt temp $TEMPERATURE $TEMPERATURE $TDAMP
 
 # ---------- 3. Run equilibration -------------
 timestep $TIMESTEP
