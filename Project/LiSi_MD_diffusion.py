@@ -28,7 +28,9 @@ def Si_3x3x3_supercell_run_MD(temperature, timestep, nsteps):
     output = parse_lammps_thermo(outfile=output_file)
 
     [simtime, pe, ke, energy, temp, press, dens, msd] = output
+    print(output[0])
     print(output[-1])
+    print(output[4])
 
     return output
 
@@ -46,4 +48,4 @@ def Si_3x3x3_supercell_Li_MSD_vs_time(Tstart, Tstop, numT):
 
 
 if __name__ == "__main__":
-    Si_3x3x3_supercell_Li_MSD_vs_time(600, 8, 3)
+    Si_3x3x3_supercell_Li_MSD_vs_time(1400, 1800, 3)
