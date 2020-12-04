@@ -11,7 +11,7 @@ def Si_n3_supercell_run_MD(n, temperature, timestep, nsteps, filepath):
     """
     timestamp = time.strftime('%Y%m%d-%H%M%S')
     path = os.path.join(project_full_path, filepath,
-                        'n'+str(n)+'_T'+str(T)+'_timestep'+{:2e}.format(timestep)+'_steps'+str(nsteps), timestamp)
+                        'n'+str(n)+'_T'+str(T)+'_timestep'+'{:2e}'.format(timestep)+'_steps'+str(nsteps), timestamp)
 
     runpath = Dir(path=path)
     struc = make_n3_supercell_1x1x1_central_Li(n)
@@ -39,16 +39,17 @@ def evaluate_timestep():
     Use mean energy (after equilibration) as a convergence metric for timestep size
     """
     filepath = 'eval_timestep'
-    timestep_list = np.logspace(np.log10(0.0005), np.log10(0.005), 5)
+    timestep_list = np.logspace(np.log10(0.001), np.log10(0.005), 5)
     total_time = 5
     equilibration_time = 1
+    n = 3
     T = 1800
 
     fig, (ax_left, ax_right) = plt.subplots(1, 2, figsize=(18, 6))
     mean_energy_list = []
 
     for timestep in timestep_list:
-        output = Si_n3_supercell_run_MD(3, T, timestep, int(np.ceil(total_time/timestep)), filepath)
+        output = Si_n3_supercell_run_MD(n, T, timestep, int(np.ceil(total_time/timestep)), filepath)
         ax_left.plot([timestep*simtime for simtime in output[0]], output[3], label='{:.3}'.format(timestep))
         mean_energy_list.append(np.mean(
             [output[3][i] for i in range(len(output[0])) if output[0][i] > equilibration_time]))
