@@ -1,0 +1,76 @@
+LAMMPS (3 Mar 2020)
+Reading data file ...
+  orthogonal box = (0 0 0) to (17.469 17.469 17.469)
+  1 by 1 by 1 MPI processor grid
+  reading atoms ...
+  217 atoms
+  read_data CPU = 0.00101031 secs
+Reading potential file library.meam with DATE: 2012-06-29
+Reading potential file LiSi.meam with DATE: 2020-11-07
+1 atoms in group Li
+Neighbor list info ...
+  update every 1 steps, delay 10 steps, check yes
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 6
+  ghost atom cutoff = 6
+  binsize = 3, bins = 6 6 6
+  2 neighbor lists, perpetual/occasional/extra = 2 0 0
+  (1) pair meam/c, perpetual
+      attributes: full, newton on
+      pair build: full/bin/atomonly
+      stencil: full/bin/3d
+      bin: standard
+  (2) pair meam/c, perpetual, half/full from (1)
+      attributes: half, newton on
+      pair build: halffull/newton
+      stencil: none
+      bin: none
+Setting up Verlet run ...
+  Unit style    : metal
+  Current step  : 0
+  Time step     : 0.00387132
+Per MPI rank memory allocation (min/avg/max) = 9.266 | 9.266 | 9.266 Mbytes
+Step PotEng KinEng TotEng Temp Press Density c_msdli[4] 
+       0   -951.06911    50.256344   -900.81276         1800    -114182.3    1.8918427            0 
+     100   -919.09549    35.578382    -883.5171    1274.2886   -82841.784    1.8918427   0.25401379 
+     200   -907.66754    49.237109   -858.43043    1763.4947   -70102.182    1.8918427   0.25282627 
+     300   -900.16324    55.715829   -844.44741    1995.5389   -59420.692    1.8918427  0.092848103 
+     400   -908.64406    53.185221   -855.45883    1904.9017   -65929.694    1.8918427   0.25386413 
+     500   -904.17799     48.02197   -856.15602    1719.9728   -66913.833    1.8918427   0.12028516 
+     600   -903.41749    56.244913   -847.17258    2014.4888   -63879.712    1.8918427   0.21257498 
+     700   -902.78397    49.191569   -853.59241    1761.8636   -63978.951    1.8918427  0.025071228 
+     800   -904.59471    49.920061   -854.67465    1787.9555   -69247.964    1.8918427    1.1738659 
+     900   -899.21823    52.313862   -846.90437    1873.6928    -65111.83    1.8918427    13.018044 
+    1000   -901.51684    49.500656   -852.01618     1772.934   -65139.862    1.8918427    12.591878 
+    1100   -900.60442    48.114131   -852.49029    1723.2737   -69153.784    1.8918427     13.88661 
+    1200   -899.33462    51.042518   -848.29211    1828.1579   -62694.066    1.8918427    19.270167 
+    1292   -899.51637    50.613152   -848.90321    1812.7796    -62994.73    1.8918427    30.468198 
+Loop time of 0.733092 on 1 procs for 1292 steps with 217 atoms
+
+Performance: 589.490 ns/day, 0.041 hours/ns, 1762.398 timesteps/s
+100.0% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.68252    | 0.68252    | 0.68252    |   0.0 | 93.10
+Neigh   | 0.036925   | 0.036925   | 0.036925   |   0.0 |  5.04
+Comm    | 0.00635    | 0.00635    | 0.00635    |   0.0 |  0.87
+Output  | 0.00036446 | 0.00036446 | 0.00036446 |   0.0 |  0.05
+Modify  | 0.0054545  | 0.0054545  | 0.0054545  |   0.0 |  0.74
+Other   |            | 0.00148    |            |       |  0.20
+
+Nlocal:    217 ave 217 max 217 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    871 ave 871 max 871 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    3625 ave 3625 max 3625 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+FullNghs:  7250 ave 7250 max 7250 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 7250
+Ave neighs/atom = 33.4101
+Neighbor list builds = 68
+Dangerous builds = 8
+Total wall time: 0:00:00
