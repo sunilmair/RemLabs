@@ -101,6 +101,28 @@ def make_3x3x3_supercell_neighbor_central_Li(write_file=False):
     return Struc(ase2struc(supercell))
 
 
+def make_n3_supercell_1x1x1_central_Li(n, write_file=False):
+    """
+    creates a nxnxn Si supercell with the 1, 1, 1 cell's central tetrahedral site occupied by Li
+    """
+    unitcell = crystal('Si', [(0, 0, 0)], spacegroup=227, cellpar=3 * [Si_alat] + 3 * [90])
+    supercell = make_supercell(unitcell, np.identity(3) * n)
+    supercell.extend(Atoms('Li', positions=[tuple(3 * [0.5 * Si_alat])]))
+    if write_file : write(structures_folder_path + str(n) + '_supercell_1x1x1_central_Li.cif', supercell)
+    return Struc(ase2struc(supercell))
+
+
+def make_n3_supercell_1x1x1_neighbor_central_Li(n, write_file=False):
+        """
+        creates a nxnxn Si supercell with the 1, 1, 1 cell's neighbor to the central tetrahedral site occupied by Li
+        """
+        unitcell = crystal('Si', [(0, 0, 0)], spacegroup=227, cellpar=3 * [Si_alat] + 3 * [90])
+        supercell = make_supercell(unitcell, np.identity(3) * n)
+        supercell.extend(Atoms('Li', positions=[tuple(3 * [0.75 * Si_alat])]))
+        if write_file: write(structures_folder_path + str(n) + '_supercell_1x1x1_neighbor_central_Li.cif', supercell)
+        return Struc(ase2struc(supercell))
+
+
 if __name__ == "__main__":
     make_Si_unitcell(True)
     make_Li_filled_unitcell(True)
@@ -110,3 +132,7 @@ if __name__ == "__main__":
     make_2x2x2_supercell_1x1x1_neighbor_central_Li(True)
     make_3x3x3_supercell_central_Li(True)
     make_3x3x3_supercell_neighbor_central_Li(True)
+
+    make_n3_supercell_1x1x1_central_Li(4, True)
+    make_n3_supercell_1x1x1_neighbor_central_Li(4, True)
+

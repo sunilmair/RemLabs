@@ -5,15 +5,16 @@ import matplotlib.pyplot as plt
 
 project_full_path = '/home/modeler/RemLabs/Project'
 
-def Si_3x3x3_supercell_run_MD(temperature, timestep, nsteps):
+def Si_n3_supercell_run_MD(n, temperature, timestep, nsteps, filepath):
     """
     Runs an npt ensemble to track the MSD of a Li in a 3x3x3 Si supercell to calculate the diffusion coefficient
     """
     timestamp = time.strftime('%Y%m%d-%H%M%S')
-    path = os.path.join(project_full_path, 'Si_3x3x3_supercell_MD', str(temperature), timestamp)
+    path = os.path.join(project_full_path, filepath,
+                        'n'+str(n)+'_T'+str(T)+'_timestep'+{:2e}.format(timestep)+'_steps'+str(nsteps), timestamp)
 
     runpath = Dir(path=path)
-    struc = make_3x3x3_supercell_central_Li()
+    struc = make_n3_supercell_1x1x1_central_Li(n)
     inparam = {
         'OUTFILE': path,
         'TEMPERATURE': temperature,
@@ -33,31 +34,21 @@ def Si_3x3x3_supercell_run_MD(temperature, timestep, nsteps):
     return output
 
 
-def Si_3x3x3_supercell_Li_MSD_vs_time(Tstart, Tstop, numT):
-    fig, (ax_left, ax_right) = plt.subplots(1, 2, figsize=(18, 6))
-    for T in np.linspace(Tstart, Tstop, numT):
-        output = Si_3x3x3_supercell_run_MD(T, 0.005, 5000)
-        ax_left.plot(output[0], output[4])
-        ax_right.plot(output[0], output[-1], label=str(T))
-    ax_left.set_ylabel('Temperature')
-    ax_right.set_ylabel('Li MSD')
-    plt.legend()
-    fig.savefig('Si_3x3x3_supercell_MD/Temp_and_MSD-' + time.strftime('%Y%m%d-%H%M%S'))
-
 def evaluate_timestep():
     """
     Use mean energy (after equilibration) as a convergence metric for timestep size
     """
-    timestep_list = np.logspace(np.log10(0.0005), np.log10(0.005), 10)
+    filepath = 'eval_timestep'
+    timestep_list = np.logspace(np.log10(0.0005), np.log10(0.005), 5)
     total_time = 5
-    equilibration_time = 0.1
+    equilibration_time = 1
     T = 1800
 
     fig, (ax_left, ax_right) = plt.subplots(1, 2, figsize=(18, 6))
     mean_energy_list = []
 
     for timestep in timestep_list:
-        output = Si_3x3x3_supercell_run_MD(T, timestep, int(np.ceil(total_time/timestep)))
+        output = Si_n3_supercell_run_MD(3, T, timestep, int(np.ceil(total_time/timestep)), filepath)
         ax_left.plot([timestep*simtime for simtime in output[0]], output[3], label='{:.3}'.format(timestep))
         mean_energy_list.append(np.mean(
             [output[3][i] for i in range(len(output[0])) if output[0][i] > equilibration_time]))
@@ -77,7 +68,22 @@ def evaluate_timestep():
     ax_right_twin.set_ylabel('Energy Convergence')
     ax_right.set_title('Mean Energy vs Timestep')
 
-    fig.savefig('Si_3x3x3_supercell_MD/timestep_convergence' + time.strftime('%Y%m%d-%H%M%S'))
+    fig.savefig(filepath+'/timestep_convergence-' + time.strftime('%Y%m%d-%H%M%S'))
+
+
+def Si_3x3x3_supercell_Li_MSD_vs_time(Tstart, Tstop, numT):
+    timestep = 0.001
+    total_time = 10
+    equilibration_time =
+    fig, (ax_left, ax_right) = plt.subplots(1, 2, figsize=(18, 6))
+    for T in np.linspace(Tstart, Tstop, numT):
+        output = Si_3x3x3_supercell_run_MD(T, 0.005, 5000)
+        ax_left.plot(output[0], output[4])
+        ax_right.plot(output[0], output[-1], label=str(T))
+    ax_left.set_ylabel('Temperature')
+    ax_right.set_ylabel('Li MSD')
+    plt.legend()
+    fig.savefig('Si_3x3x3_supercell_MD/Temp_and_MSD-' + time.strftime('%Y%m%d-%H%M%S'))
 
 
 if __name__ == "__main__":

@@ -1,7 +1,7 @@
 data_image0
-_cell_length_a       6.4012
-_cell_length_b       6.4012
-_cell_length_c       6.4012
+_cell_length_a       5.823
+_cell_length_b       5.823
+_cell_length_c       5.823
 _cell_angle_alpha    90
 _cell_angle_beta     90
 _cell_angle_gamma    90
