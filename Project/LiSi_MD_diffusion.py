@@ -44,6 +44,41 @@ def Si_3x3x3_supercell_Li_MSD_vs_time(Tstart, Tstop, numT):
     plt.legend()
     fig.savefig('Si_3x3x3_supercell_MD/Temp_and_MSD-' + time.strftime('%Y%m%d-%H%M%S'))
 
+def evaluate_timestep():
+    """
+    Use mean energy (after equilibration) as a convergence metric for timestep size
+    """
+    timestep_list = np.linspace(0.001, 0.1, 3)
+    total_time = 1
+    equilibration_time = 0.5
+    T = 1800
+
+    fig, (ax_left, ax_right) = plt.subplots(1, 2, figsize=(18, 6))
+    mean_energy_list = []
+
+    for timestep in timestep_list:
+        output = Si_3x3x3_supercell_run_MD(T, timestep, np.ceil(total_time/timestep))
+        ax_left.plot([timestep*simtime for simtime in output[0]], output[3])
+        mean_energy_list.append(np.mean(
+            [output[3][i] if output[0][i] > equilibration_time for i in range(len(output[0]))]))
+
+    ax_right.plot(timestep_list, mean_energy_list, marker='o')
+    ax_right_min, ax_right_max = ax_right.get_ylim()
+    ax_right_twin = ax_right.twinx()
+    ax_right_twin.set_ylim(ax_right_min - mean_energy_list[0], ax_right_max - mean_energy_list[0])
+
+    ax_left.set_xlabel('Time (ps)')
+    ax_left.set_ylabel('Total Energy') # units?
+    ax_left.set_title('Total Energ vs Time')
+
+    ax_right.set_xlabel('Timestep (ps)')
+    ax_right.set_ylabel('Mean Energy') # units?
+    ax_right_twin.set_ylabel('Energy Convergence')
+    ax_right.set_title('Mean Energy vs Timestep')
+
+    fig.savefig('Si_3x3x3_supercell_MD/timestep_convergence' + time.strftime('%Y%m%d-%H%M%S'))
+
 
 if __name__ == "__main__":
-    Si_3x3x3_supercell_Li_MSD_vs_time(600, 1800, 7)
+    #Si_3x3x3_supercell_Li_MSD_vs_time(600, 1800, 7)
+    evaluate_timestep()
