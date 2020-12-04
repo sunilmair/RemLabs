@@ -102,9 +102,7 @@ def Si_n3_supercell_run_equil_MD(n, T, timestep, equilnsteps, production_time, f
     output = [element for element in output]
     output = np.array(output)
     output = output.astype(np.float)
-    print(output.shape)
     outrows = np.transpose(np.array(output))
-    print(outrows.shape)
 
     [simtime, pe, ke, energy, temp, press, dens, msdli, msdsi] = outrows
 
@@ -124,4 +122,4 @@ def test_equil_run(n, T, timestep, equilnsteps, production_time, filepath):
 
 if __name__ == "__main__":
     #evaluate_timestep()
-    test_equil_run(3, 1800, 0.003, 3200, 30, 'test_equil')
+    test_equil_run(3, 1800, 0.003, 3200, 60, 'test_equil')
