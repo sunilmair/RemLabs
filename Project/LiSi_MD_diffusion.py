@@ -24,7 +24,7 @@ def Si_n3_supercell_run_MD(n, T, timestep, nsteps, filepath):
         'TDAMP': 50 * timestep,  # thermostat damping time scale
     }
 
-    output_file = lammps_run(struc=struc, runpath=runpath, potential=False, intemplate=MD_npt_track_MSD,
+    output_file = lammps_run(struc=struc, runpath=runpath, potential=False, intemplate=MD_npt,
                              inparam=inparam)
     output = parse_lammps_thermo(outfile=output_file)
     output = output.astype(np.float)
