@@ -48,7 +48,7 @@ def evaluate_timestep():
     """
     Use mean energy (after equilibration) as a convergence metric for timestep size
     """
-    timestep_list = np.linspace(0.001, 0.5, 3)
+    timestep_list = np.linspace(0.0005, 0.001, 5)
     total_time = 1
     equilibration_time = 0.5
     T = 1800
@@ -58,7 +58,7 @@ def evaluate_timestep():
 
     for timestep in timestep_list:
         output = Si_3x3x3_supercell_run_MD(T, timestep, int(np.ceil(total_time/timestep)))
-        ax_left.plot([timestep*simtime for simtime in output[0]], output[3])
+        ax_left.plot([timestep*simtime for simtime in output[0]], output[3], label=str(timestep))
         mean_energy_list.append(np.mean(
             [output[3][i] for i in range(len(output[0])) if output[0][i] > equilibration_time]))
 
@@ -69,7 +69,8 @@ def evaluate_timestep():
 
     ax_left.set_xlabel('Time (ps)')
     ax_left.set_ylabel('Total Energy') # units?
-    ax_left.set_title('Total Energ vs Time')
+    ax_left.set_title('Total Energy vs Time')
+    ax_left.legend()
 
     ax_right.set_xlabel('Timestep (ps)')
     ax_right.set_ylabel('Mean Energy') # units?
