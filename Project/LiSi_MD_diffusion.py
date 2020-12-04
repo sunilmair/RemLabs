@@ -33,4 +33,7 @@ def Li_diffusion_constant(temperature, timestep, nsteps):
 
 
 if __name__ == "__main__":
-    Li_diffusion_constant(600, 0.005, 10000)
+    Li_diffusion_constant(600, 0.005, 5000)
+    Li_diffusion_constant(700, 0.005, 5000)
+    Li_diffusion_constant(800, 0.005, 5000)
+    Li_diffusion_constant(900, 0.005, 5000)
