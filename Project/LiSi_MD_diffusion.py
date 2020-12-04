@@ -86,7 +86,7 @@ def Si_n3_supercell_run_equil_MD(n, T, timestep, equilnsteps, nsteps, filepath):
     inparam = {
         'OUTFILE': path,
         'TEMPERATURE': T,
-        'EQUILNSTEPS': equilnsteps
+        'EQUILNSTEPS': equilnsteps,
         'NSTEPS': nsteps,
         'TIMESTEP': timestep,
         'TOUTPUT': 100,  # how often to write thermo output
@@ -114,5 +114,5 @@ def test_equil_run(n, T, timestep, equilnsteps, nsteps, filepath):
 
 
 if __name__ == "__main__":
-    #evaluate_timestep()
-    test_equil_run(3, 1800, 0.003, 3200, 5000, 'test_equil')
+    evaluate_timestep()
+    #test_equil_run(3, 1800, 0.003, 3200, 5000, 'test_equil')
