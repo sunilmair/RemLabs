@@ -48,9 +48,9 @@ def evaluate_timestep():
     """
     Use mean energy (after equilibration) as a convergence metric for timestep size
     """
-    timestep_list = np.linspace(0.0005, 0.001, 5)
-    total_time = 1
-    equilibration_time = 0.5
+    timestep_list = np.linspace(0.0005, 0.003, 10)
+    total_time = 5
+    equilibration_time = 0.1
     T = 1800
 
     fig, (ax_left, ax_right) = plt.subplots(1, 2, figsize=(18, 6))

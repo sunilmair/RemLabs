@@ -1,0 +1,80 @@
+LAMMPS (3 Mar 2020)
+Reading data file ...
+  orthogonal box = (0 0 0) to (17.469 17.469 17.469)
+  1 by 1 by 1 MPI processor grid
+  reading atoms ...
+  217 atoms
+  read_data CPU = 0.00101897 secs
+Reading potential file library.meam with DATE: 2012-06-29
+Reading potential file LiSi.meam with DATE: 2020-11-07
+1 atoms in group Li
+Neighbor list info ...
+  update every 1 steps, delay 10 steps, check yes
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 6
+  ghost atom cutoff = 6
+  binsize = 3, bins = 6 6 6
+  2 neighbor lists, perpetual/occasional/extra = 2 0 0
+  (1) pair meam/c, perpetual
+      attributes: full, newton on
+      pair build: full/bin/atomonly
+      stencil: full/bin/3d
+      bin: standard
+  (2) pair meam/c, perpetual, half/full from (1)
+      attributes: half, newton on
+      pair build: halffull/newton
+      stencil: none
+      bin: none
+Setting up Verlet run ...
+  Unit style    : metal
+  Current step  : 0
+  Time step     : 0.003
+Per MPI rank memory allocation (min/avg/max) = 9.266 | 9.266 | 9.266 Mbytes
+Step PotEng KinEng TotEng Temp Press Density c_msdli[4] 
+       0   -951.06911    50.256344   -900.81276         1800    -114182.3    1.8918427            0 
+     100   -919.44727    35.767525   -883.67974     1281.063   -82288.104    1.8918427  0.047008652 
+     200   -904.83791    46.017161   -858.82075    1648.1678    -65594.27    1.8918427   0.22906055 
+     300   -893.65836    48.458347   -845.20001    1735.6023   -55682.277    1.8918427   0.15151337 
+     400   -904.64805    48.411528   -856.23653    1733.9254   -65453.701    1.8918427   0.22987991 
+     500   -902.04256    45.133749   -856.90882    1616.5272   -67519.503    1.8918427   0.05299341 
+     600   -896.21459     48.84582   -847.36877    1749.4801   -61639.508    1.8918427  0.082248818 
+     700   -904.59728    50.827584   -853.76969    1820.4597   -68471.366    1.8918427   0.12108812 
+     800   -902.69672     46.48688   -856.20984    1664.9915   -64960.621    1.8918427    1.2849219 
+     900   -900.24154     52.40183   -847.83971    1876.8435   -64597.035    1.8918427    0.3839345 
+    1000   -904.05462    49.117443   -854.93718    1759.2087   -67690.343    1.8918427    2.8386948 
+    1100   -904.99436    44.465752   -860.52861     1592.602    -68347.61    1.8918427     4.997116 
+    1200   -900.31102    49.516897   -850.79412    1773.5157   -65167.489    1.8918427    5.6626098 
+    1300   -899.40085     50.62794   -848.77291    1813.3092   -62890.244    1.8918427    2.0989898 
+    1400   -903.75996    46.195157   -857.56481     1654.543   -69830.471    1.8918427    7.0203556 
+    1500   -904.64675    52.796682   -851.85007    1890.9857   -69293.235    1.8918427    7.0859677 
+    1600   -899.83917    51.253782   -848.58539    1835.7246   -68234.777    1.8918427    4.2497154 
+    1667   -901.54352    54.894293   -846.64922    1966.1145   -67467.191    1.8918427     7.406586 
+Loop time of 0.936525 on 1 procs for 1667 steps with 217 atoms
+
+Performance: 461.372 ns/day, 0.052 hours/ns, 1779.985 timesteps/s
+99.9% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.88247    | 0.88247    | 0.88247    |   0.0 | 94.23
+Neigh   | 0.03647    | 0.03647    | 0.03647    |   0.0 |  3.89
+Comm    | 0.0080766  | 0.0080766  | 0.0080766  |   0.0 |  0.86
+Output  | 0.00047018 | 0.00047018 | 0.00047018 |   0.0 |  0.05
+Modify  | 0.0070529  | 0.0070529  | 0.0070529  |   0.0 |  0.75
+Other   |            | 0.001989   |            |       |  0.21
+
+Nlocal:    217 ave 217 max 217 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    900 ave 900 max 900 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    3648 ave 3648 max 3648 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+FullNghs:  7296 ave 7296 max 7296 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 7296
+Ave neighs/atom = 33.6221
+Neighbor list builds = 67
+Dangerous builds = 3
+Total wall time: 0:00:00

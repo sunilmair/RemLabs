@@ -4,7 +4,7 @@ units metal
 atom_style atomic
 dimension 3
 boundary p p p
-read_data /home/modeler/RemLabs/Project/Si_3x3x3_supercell_MD/1800/20201204-034103/lammps.data
+read_data /home/modeler/RemLabs/Project/Si_3x3x3_supercell_MD/1800/20201204-034453/lammps.data
 
 pair_style meam/c
 pair_coeff * * library.meam Li Si LiSi.meam Li Si
@@ -20,9 +20,9 @@ thermo 100
 
 # ---------- 3. Specify ensemble  ----------
 #fix 1 all nve
-fix 1 all nvt temp 1800 1800 0.03125
-#fix 1 all npt temp 1800 1800 0.03125 tchain 2 iso 1.0 1.0 1.0 pchain 2
+fix 1 all nvt temp 1800 1800 0.052777777777777785
+#fix 1 all npt temp 1800 1800 0.052777777777777785 tchain 2 iso 1.0 1.0 1.0 pchain 2
 
 # ---------- 4. Run -------------
-timestep 0.000625
-run 1600
+timestep 0.0010555555555555557
+run 4737
