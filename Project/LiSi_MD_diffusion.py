@@ -28,9 +28,7 @@ def Si_n3_supercell_run_MD(n, T, timestep, nsteps, filepath):
                              inparam=inparam)
     output = parse_lammps_thermo(outfile=output_file)
     output = output.astype(np.float)
-    print(type(output))
-    print(type(output[0]))
-    print(output.shape)
+
     [simtime, pe, ke, energy, temp, press, dens, msd] = output
 
     return output
@@ -108,7 +106,7 @@ def Si_n3_supercell_run_equil_MD(n, T, timestep, equilnsteps, production_time, f
     outrows = np.transpose(np.array(output))
     print(outrows.shape)
 
-    [simtime, pe, ke, energy, temp, press, dens, msd] = outrows
+    [simtime, pe, ke, energy, temp, press, dens, msdli, msdsi] = outrows
 
     return outrows
 
@@ -116,10 +114,11 @@ def Si_n3_supercell_run_equil_MD(n, T, timestep, equilnsteps, production_time, f
 def test_equil_run(n, T, timestep, equilnsteps, production_time, filepath):
     fig, (ax_left, ax_right) = plt.subplots(1, 2, figsize=(18, 6))
     output = Si_n3_supercell_run_equil_MD(n, T, timestep, equilnsteps, production_time, filepath)
-    #output = Si_n3_supercell_run_MD(n, T, timestep, 3200, filepath)
-    [simtime, pe, ke, energy, temp, press, dens, msd] = output
+    [simtime, pe, ke, energy, temp, press, dens, msdli, msdsi] = output
     ax_left.plot([timestep*simtimestep for simtimestep in simtime], energy)
-    ax_right.plot([timestep*simtimestep for simtimestep in simtime], msd)
+    ax_right.plot([timestep*simtimestep for simtimestep in simtime], msdli, label='Li')
+    ax_right.plot([timestep*simtimestep for simtimestep in simtime], msdsi, label='Si')
+    ax_right.legend()
     fig.savefig(filepath+'/test-'+ time.strftime('%Y%m%d-%H%M%S'))
 
 

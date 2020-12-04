@@ -73,6 +73,7 @@ pair_style meam/c
 pair_coeff * * library.meam Li Si LiSi.meam Li Si
 
 group Li type 1
+group Si type 2
 
 velocity all create $TEMPERATURE 3320 dist gaussian
 
@@ -85,7 +86,8 @@ run $EQUILNSTEPS
 
 # ---------- 4. Describe computed properties----------
 compute msdli Li msd
-thermo_style custom step pe ke etotal temp press density c_msdli[4]
+compute msdsi Si msd
+thermo_style custom step pe ke etotal temp press density c_msdli[4] c_msdsi[4]
 thermo $TOUTPUT
 
 # ---------- 3. Run production -------------
