@@ -165,7 +165,6 @@ def Si_n3_supercell_run_equil_MD_rseed(n, T, timestep, equilnsteps, production_t
 
 
 def get_MSD(n, T, production_time, num_runs, filepath):
-    T_len = len(T)
     timestep = 0.003
     equilnsteps = 3200
 
@@ -174,8 +173,7 @@ def get_MSD(n, T, production_time, num_runs, filepath):
     for i in range(num_runs):
         print(i)
 
-        output = Si_n3_supercell_run_equil_MD_rseed(n, T, equilnsteps, production_time, filepath,
-                                                    MD_equilibrate_npt_track_MSD, i)
+        output = Si_n3_supercell_run_equil_MD_rseed(n, T, timestep, equilnsteps, production_time, filepath, MD_equilibrate_npt_track_MSD, i)
         [simtime, pe, ke, energy, temp, press, dens, msdli, msdsi] = output
         msdli_list.append(msdli)
 
@@ -194,18 +192,18 @@ def calc(n, Tstart, Tstop, numT, production_time, num_runs, filepath):
         msdli_list_list.append(msdli_list)
         simtime_list.append(simtime)
 
-    fig, axs = plt.subplots(T_len, 2, figsize=(18, 12))
-    for i in range(T_len):
+    fig, axs = plt.subplots(numT, 2, figsize=(18, 12))
+    for i in range(numT):
 
         for j in range(len(msdli_list_list[i])):
-            axs[i, 0].plot(simtime_list[i]), msdli_list_list[i][j])
+            axs[i, 0].plot(simtime_list[i], msdli_list_list[i][j])
 
         avg_msdli = []
         for j in range(len(simtime_list[i])):
-            avg_msdli[j] = np.mean(list[j] for list in msd_list_list[i])
+            avg_msdli.append(np.mean([list[j] for list in msdli_list_list[i]]))
         axs[i, 0].plot(simtime_list[i], avg_msdli, linewidth=2)
         #get D, abandon histogram idea
-
+    fig.savefig(filepath+'/ohboy')
 
 
 
@@ -217,4 +215,4 @@ if __name__ == "__main__":
     #test_equil_run(3, 1600, 0.003, 3200, 600, 'test_equil_npt_nn_day2', MD_equilibrate_npt_track_MSD)
     #test_equil_run(3, 1600, 0.003, 3200, 600, 'test_equil_npt_then_nvt_nn_day2', MD_equilibrate_npt_track_MSD_nvt)
 
-    calc(3, 1600, 1800, 3, 60, 3, 'hallowedbe')
+    calc(3, 1600, 1800, 2, 15, 2, 'hallowedbe')
