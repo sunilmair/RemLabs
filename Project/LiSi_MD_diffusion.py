@@ -228,6 +228,11 @@ def calc(n, Tstart, Tstop, numT, timestep, production_time, num_runs, filepath):
 
         axs[i].plot(simtime_list[i], [slope*simtime_element for simtime_element in simtime_list[i]], linewidth=2)
 
+    y_min = min([ax.get_ylim()[0] for ax in axs])
+    y_max = max([ax.get_ylim()[1] for ax in axs])
+    for i in range(numT):
+        axs[i].set_ylim(y_min, y_max)
+
     D_list = [D*1E-8 for D in D_list]
     thou_over_T = [1000/T for T in T_list]
     ln_D_list = [np.log(D) for D in D_list]
@@ -239,14 +244,16 @@ def calc(n, Tstart, Tstop, numT, timestep, production_time, num_runs, filepath):
     fit_x = np.linspace(1000/Tstop, 1000/Tstart, num_fit_points)
     fit_y = [np.exp(p[0]*x + p[1]) for x in fit_x]
 
-    arr_fig, arr_ax = plt.subplots(1, 1, figsize=(12, 12))
-    arr_ax.plot(thou_over_T, D_list, linestyle='None', marker='o')
+    arr_fig, arr_ax = plt.subplots(1, 1, figsize=(6, 6))
+    arr_ax.plot(thou_over_T, D_list, linestyle='None', marker='D')
     arr_ax.plot(fit_x, fit_y)
 
     arr_ax.set_yscale('log')
     arr_ax.set_xlabel('1000/T(K)')
     arr_ax.set_ylabel('D (m2/s)')
     arr_ax.set_title('ln D vs 1000/T')
+
+    plt.subplots.adjust(hspace=0.5)
 
     fig.savefig(filepath+'/T_series')
     si_fig.savefig(filepath+'/Si_MSD')
@@ -265,4 +272,5 @@ if __name__ == "__main__":
     #test_equil_run(3, 1600, 0.003, 3200, 600, 'test_equil_npt_then_nvt_nn_day2', MD_equilibrate_npt_track_MSD_nvt)
 
     #calc(3, 1600, 1800, 2, 0.003, 15, 2, 'arrhenius')
-    calc(3, 1600, 1800, 5, 0.003, 300, 5, 'arrhenius_2')
+    #calc(3, 1600, 1800, 5, 0.003, 300, 5, 'arrhenius_2')
+    calc(3, 1300, 1800, 5, 0.003, 30, 10, 'arrhenius_3_test')
