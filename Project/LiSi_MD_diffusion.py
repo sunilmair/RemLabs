@@ -264,4 +264,5 @@ if __name__ == "__main__":
     #test_equil_run(3, 1600, 0.003, 3200, 600, 'test_equil_npt_nn_day2', MD_equilibrate_npt_track_MSD)
     #test_equil_run(3, 1600, 0.003, 3200, 600, 'test_equil_npt_then_nvt_nn_day2', MD_equilibrate_npt_track_MSD_nvt)
 
-    calc(3, 1600, 1800, 2, 0.003, 15, 2, 'arrhenius')
+    #calc(3, 1600, 1800, 2, 0.003, 15, 2, 'arrhenius')
+    calc(3, 1600, 1800, 5, 0.003, 300, 5, 'arrhenius_2')
