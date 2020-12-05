@@ -229,14 +229,20 @@ def calc(n, Tstart, Tstop, numT, production_time, num_runs, filepath):
 
         axs[i].plot(simtime_list[i], [slope*simtime_element for simtime_element in simtime_list[i]], linewidth=2)
 
-    D_list = [D*np.power(10.0, -8) for D in D_list]
+    D_list = [D*1E-8 for D in D_list]
     thou_over_T = [1000/T for T in T_list]
     ln_D_list = [np.log(D) for D in D_list]
 
     p = np.polyfit(thou_over_T, ln_D_list, 1)
+    Ea = -p[1]*1000*8.61733E-5
+
+    num_fit_points = 100
+    fit_x = np.linspace(Tstart, Tstop, num_fit_points)
+    fit_y = [np.exp(p[0])*np.exp(p[1]*1000/x) for x in fit_x]
 
     arr_fig, arr_ax = plt.subplots(1, 1, figsize=(12, 12))
-    arr_ax.plot(thou_over_T, D_list)
+    arr_ax.plot(thou_over_T, D_list, linestyle='None', marker='o')
+    arr_ax.plot(fit_x, fit_y)
 
     arr_ax.set_yscale('log')
     arr_ax.set_xlabel('100/T(K)')
@@ -246,6 +252,8 @@ def calc(n, Tstart, Tstop, numT, production_time, num_runs, filepath):
     fig.savefig(filepath+'/T_series')
     si_fig.savefig(filepath+'/Si_MSD')
     arr_fig.savefig(filepath+'/Arrhenius')
+
+    print(Ea)
 
 
 
