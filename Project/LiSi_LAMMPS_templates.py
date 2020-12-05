@@ -55,13 +55,14 @@ thermo $TOUTPUT
 
 # ---------- 3. Specify ensemble  ----------
 fix 1 all npt temp $TEMPERATURE $TEMPERATURE $TDAMP tchain 2 iso 1.0 1.0 1.0 pchain 2
+# fix 1 all nvt temp $TEMPERATURE $TEMPERATURE $TDAMP
 
 # ---------- 4. Run -------------
 timestep $TIMESTEP
 run $NSTEPS
 """
 
-MD_equilibrate_npt_track_MSD = """
+MD_equilibrate_npt_track_MSD_nvt = """
 # ---------- 1. Initialize simulation ----------
 units metal
 atom_style atomic
@@ -78,12 +79,16 @@ group Si type 2
 velocity all create $TEMPERATURE 3320 dist gaussian
 
 # ---------- 2. Specify equilibration ensemble  ----------
-# fix 1 all npt temp $TEMPERATURE $TEMPERATURE $TDAMP tchain 2 iso 1.0 1.0 1.0 pchain 2
-fix 1 all nvt temp $TEMPERATURE $TEMPERATURE $TDAMP
+fix 1 all npt temp $TEMPERATURE $TEMPERATURE $TDAMP tchain 2 iso 1.0 1.0 1.0 pchain 2
+# fix 1 all nvt temp $TEMPERATURE $TEMPERATURE $TDAMP
 
 # ---------- 3. Run equilibration -------------
 timestep $TIMESTEP
 run $EQUILNSTEPS
+
+# ---------- 4. Specify production ensemble ----------
+unfix 1
+fix 2 all nvt temp $TEMPERATURE $TEMPERATURE $TDAMP
 
 # ---------- 4. Describe computed properties----------
 compute msdli Li msd

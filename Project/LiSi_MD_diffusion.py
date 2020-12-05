@@ -95,7 +95,7 @@ def Si_n3_supercell_run_equil_MD(n, T, timestep, equilnsteps, production_time, f
         'TDAMP': 50 * timestep,  # thermostat damping time scale
     }
 
-    output_file = lammps_run(struc=struc, runpath=runpath, potential=False, intemplate=MD_equilibrate_npt_track_MSD,
+    output_file = lammps_run(struc=struc, runpath=runpath, potential=False, intemplate=MD_equilibrate_npt_track_MSD_nvt,
                              inparam=inparam)
     output = parse_lammps_thermo(outfile=output_file)
     output = output[2:]
@@ -122,4 +122,4 @@ def test_equil_run(n, T, timestep, equilnsteps, production_time, filepath):
 
 if __name__ == "__main__":
     #evaluate_timestep()
-    test_equil_run(3, 1600, 0.003, 3200, 600, 'test_equil_nvt')
+    test_equil_run(3, 1600, 0.003, 3200, 600, 'test_equil_npt_then_nvt')
