@@ -132,6 +132,6 @@ def test_equil_run(n, T, timestep, equilnsteps, production_time, filepath, intem
 if __name__ == "__main__":
     #evaluate_timestep()
 
-    test_equil_run(3, 1600, 0.003, 3200, 600, 'test_equil_nvt_day2', MD_equilibrate_nvt_track_MSD)
-    test_equil_run(3, 1600, 0.003, 3200, 600, 'test_equil_npt_day2', MD_equilibrate_npt_track_MSD)
-    test_equil_run(3, 1600, 0.003, 3200, 600, 'test_equil_npt_then_nvt_day2', MD_equilibrate_npt_track_MSD_nvt)
+    test_equil_run(3, 1600, 0.003, 3200, 600, 'test_equil_nvt_nn_day2', MD_equilibrate_nvt_track_MSD)
+    test_equil_run(3, 1600, 0.003, 3200, 600, 'test_equil_npt_nn_day2', MD_equilibrate_npt_track_MSD)
+    test_equil_run(3, 1600, 0.003, 3200, 600, 'test_equil_npt_then_nvt_nn_day2', MD_equilibrate_npt_track_MSD_nvt)
