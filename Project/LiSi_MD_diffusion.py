@@ -237,15 +237,15 @@ def calc(n, Tstart, Tstop, numT, production_time, num_runs, filepath):
     Ea = -p[1]*1000*8.61733E-5
 
     num_fit_points = 100
-    fit_x = np.linspace(Tstart, Tstop, num_fit_points)
-    fit_y = [np.exp(p[0])*np.exp(p[1]*1000/x) for x in fit_x]
+    fit_x = np.linspace(1/Tstop, 1/Tstart, num_fit_points)
+    fit_y = [np.exp(p[0])*np.exp(p[1]*x) for x in fit_x]
 
     arr_fig, arr_ax = plt.subplots(1, 1, figsize=(12, 12))
     arr_ax.plot(thou_over_T, D_list, linestyle='None', marker='o')
     arr_ax.plot(fit_x, fit_y)
 
     arr_ax.set_yscale('log')
-    arr_ax.set_xlabel('100/T(K)')
+    arr_ax.set_xlabel('1000/T(K)')
     arr_ax.set_ylabel('D (m2/s)')
     arr_ax.set_title('ln D vs 1000/T')
 
