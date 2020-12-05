@@ -164,8 +164,7 @@ def Si_n3_supercell_run_equil_MD_rseed(n, T, timestep, equilnsteps, production_t
     return outrows
 
 
-def get_MSD(n, T, production_time, num_runs, filepath):
-    timestep = 0.003
+def get_MSD(n, T, timestep,  production_time, num_runs, filepath):
     equilnsteps = 3200
 
     msdli_list = []
@@ -181,7 +180,7 @@ def get_MSD(n, T, production_time, num_runs, filepath):
 
     return simtime, msdli_list, msdsi_list
 
-def calc(n, Tstart, Tstop, numT, production_time, num_runs, filepath):
+def calc(n, Tstart, Tstop, numT, timestep, production_time, num_runs, filepath):
     T_list = np.linspace(Tstart, Tstop, numT)
     msdli_list_list = []
     msdsi_list_list = []
@@ -191,13 +190,13 @@ def calc(n, Tstart, Tstop, numT, production_time, num_runs, filepath):
     for T in T_list:
         print(T)
 
-        simtime, msdli_list, msdsi_list = get_MSD(n, T, production_time, num_runs, filepath+'/T'+str(T))
+        simtime, msdli_list, msdsi_list = get_MSD(n, T, timestep, production_time, num_runs, filepath+'/T'+str(T))
         msdli_list_list.append(msdli_list)
         msdsi_list_list.append(msdsi_list)
         simtime_list.append(simtime)
 
     for i in range(len(simtime_list)):
-        simtime_list[i] = [element - simtime_list[i][0] for element in simtime_list[i]]
+        simtime_list[i] = [timestep*(element - simtime_list[i][0]) for element in simtime_list[i]]
 
     fig, axs = plt.subplots(numT, 1, figsize=(6, 18))
     si_fig, si_ax = plt.subplots(1, 1, figsize=(6, 6))
@@ -251,7 +250,7 @@ def calc(n, Tstart, Tstop, numT, production_time, num_runs, filepath):
 
     fig.savefig(filepath+'/T_series')
     si_fig.savefig(filepath+'/Si_MSD')
-    arr_fig.savefig(filepath+'/Arrhenius')
+    arr_fig.savefig(filepath+'/Ea_'+str(Ea).replace('.', '_')+'_eV')
 
     print(Ea)
 
@@ -265,4 +264,4 @@ if __name__ == "__main__":
     #test_equil_run(3, 1600, 0.003, 3200, 600, 'test_equil_npt_nn_day2', MD_equilibrate_npt_track_MSD)
     #test_equil_run(3, 1600, 0.003, 3200, 600, 'test_equil_npt_then_nvt_nn_day2', MD_equilibrate_npt_track_MSD_nvt)
 
-    calc(3, 1600, 1800, 2, 15, 2, 'arrhenius')
+    calc(3, 1600, 1800, 2, 0.003, 15, 2, 'arrhenius')
