@@ -181,6 +181,7 @@ def get_MSD(n, T, timestep,  production_time, num_runs, filepath):
     return simtime, msdli_list, msdsi_list
 
 def calc(n, Tstart, Tstop, numT, timestep, production_time, num_runs, filepath):
+    plt.subplots_adjust(hspace=0.5)
     T_list = np.linspace(Tstart, Tstop, numT)
     msdli_list_list = []
     msdsi_list_list = []
@@ -228,11 +229,6 @@ def calc(n, Tstart, Tstop, numT, timestep, production_time, num_runs, filepath):
 
         axs[i].plot(simtime_list[i], [slope*simtime_element for simtime_element in simtime_list[i]], linewidth=2)
 
-    y_min = min([ax.get_ylim()[0] for ax in axs])
-    y_max = max([ax.get_ylim()[1] for ax in axs])
-    for i in range(numT):
-        axs[i].set_ylim(y_min, y_max)
-
     D_list = [D*1E-8 for D in D_list]
     thou_over_T = [1000/T for T in T_list]
     ln_D_list = [np.log(D) for D in D_list]
@@ -253,8 +249,6 @@ def calc(n, Tstart, Tstop, numT, timestep, production_time, num_runs, filepath):
     arr_ax.set_ylabel('D (m2/s)')
     arr_ax.set_title('ln D vs 1000/T')
 
-    plt.subplots_adjust(hspace=0.5)
-
     fig.savefig(filepath+'/T_series')
     si_fig.savefig(filepath+'/Si_MSD')
     arr_fig.savefig(filepath+'/Ea_'+str(Ea).replace('.', '_')+'_eV')
@@ -273,4 +267,5 @@ if __name__ == "__main__":
 
     #calc(3, 1600, 1800, 2, 0.003, 15, 2, 'arrhenius')
     #calc(3, 1600, 1800, 5, 0.003, 300, 5, 'arrhenius_2')
-    calc(3, 1300, 1800, 5, 0.003, 600, 10, 'arrhenius_3')
+    #calc(3, 1300, 1800, 5, 0.003, 600, 10, 'arrhenius_3')
+    calc(3, 1300, 1800, 2, 0.003, 30, 2, 'arrhenius_4')
