@@ -253,7 +253,7 @@ def calc(n, Tstart, Tstop, numT, timestep, production_time, num_runs, filepath):
     arr_ax.set_ylabel('D (m2/s)')
     arr_ax.set_title('ln D vs 1000/T')
 
-    plt.subplots.adjust(hspace=0.5)
+    plt.subplots_adjust(hspace=0.5)
 
     fig.savefig(filepath+'/T_series')
     si_fig.savefig(filepath+'/Si_MSD')
@@ -273,4 +273,4 @@ if __name__ == "__main__":
 
     #calc(3, 1600, 1800, 2, 0.003, 15, 2, 'arrhenius')
     #calc(3, 1600, 1800, 5, 0.003, 300, 5, 'arrhenius_2')
-    calc(3, 1300, 1800, 5, 0.003, 30, 10, 'arrhenius_3_test')
+    calc(3, 1300, 1800, 3, 0.003, 30, 2, 'arrhenius_3_test')
