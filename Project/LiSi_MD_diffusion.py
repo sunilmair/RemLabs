@@ -205,7 +205,9 @@ def calc(n, Tstart, Tstop, numT, production_time, num_runs, filepath):
 
         np_simtime = np.asarray(simtime_list[i])
         np_avg_msdli = np.asarray(avg_msdli)
-        slope = np.linalg.lstsq(np_avg_msdli, np_simtime)
+        num = np.sum([np_simtime[i]*np_avg_msdli[i] for i in range(len(simtime[i]))])
+        den = np.sum([element**2 for element in np_simtime])
+        slope = num/den
 
         axs[i].plot(simtime_list[i], [slope*simtime_element for simtime_element in simtime_list[i]], linewidth=2)
         #get D, abandon histogram idea
