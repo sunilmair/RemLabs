@@ -73,7 +73,7 @@ def evaluate_timestep():
     fig.savefig(filepath+'/timestep_convergence-' + time.strftime('%Y%m%d-%H%M%S'))
 
 
-def Si_n3_supercell_run_equil_MD(n, T, timestep, equilnsteps, production_time, filepath):
+def Si_n3_supercell_run_equil_MD(n, T, timestep, equilnsteps, production_time, filepath, intemplate):
     """
     Runs an npt ensemble to track the MSD of a Li in a 3x3x3 Si supercell to calculate the diffusion coefficient
     """
@@ -95,7 +95,7 @@ def Si_n3_supercell_run_equil_MD(n, T, timestep, equilnsteps, production_time, f
         'TDAMP': 50 * timestep,  # thermostat damping time scale
     }
 
-    output_file = lammps_run(struc=struc, runpath=runpath, potential=False, intemplate=MD_equilibrate_npt_track_MSD_nvt,
+    output_file = lammps_run(struc=struc, runpath=runpath, potential=False, intemplate=intemplate,
                              inparam=inparam)
     output = parse_lammps_thermo(outfile=output_file)
     output = output[2:]
@@ -109,17 +109,29 @@ def Si_n3_supercell_run_equil_MD(n, T, timestep, equilnsteps, production_time, f
     return outrows
 
 
-def test_equil_run(n, T, timestep, equilnsteps, production_time, filepath):
+def test_equil_run(n, T, timestep, equilnsteps, production_time, filepath, intemplate):
     fig, (ax_left, ax_right) = plt.subplots(1, 2, figsize=(18, 6))
-    output = Si_n3_supercell_run_equil_MD(n, T, timestep, equilnsteps, production_time, filepath)
+    output = Si_n3_supercell_run_equil_MD(n, T, timestep, equilnsteps, production_time, filepath, intemplate)
     [simtime, pe, ke, energy, temp, press, dens, msdli, msdsi] = output
     ax_left.plot([timestep*simtimestep for simtimestep in simtime], energy)
     ax_right.plot([timestep*simtimestep for simtimestep in simtime], msdli, label='Li')
     ax_right.plot([timestep*simtimestep for simtimestep in simtime], msdsi, label='Si')
     ax_right.legend()
+
+    ax_left.set_xlabel('Time(ps)')
+    ax_left.set_ylabel('Energy')
+    ax_left.set_title('Energy vs Time')
+
+    ax_right.set_xlabel('Time(ps)')
+    ax_right.set_ylabel('MSD')
+    ax_right.set_title('MSD vs Time')
+
     fig.savefig(filepath+'/test-'+ time.strftime('%Y%m%d-%H%M%S'))
 
 
 if __name__ == "__main__":
     #evaluate_timestep()
-    test_equil_run(3, 1600, 0.003, 3200, 600, 'test_equil_npt_then_nvt')
+
+    test_equil_run(3, 1600, 0.003, 3200, 60, 'test_equil_nvt_day2', MD_equilibrate_nvt_track_MSD)
+    test_equil_run(3, 1600, 0.003, 3200, 60, 'test_equil_npt_day2', MD_equilibrate_npt_track_MSD)
+    test_equil_run(3, 1600, 0.003, 3200, 60, 'test_equil_npt_then_nvt_day2', MD_equilibrate_npt_track_MSD_nvt)
