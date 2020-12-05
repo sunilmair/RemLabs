@@ -173,7 +173,7 @@ def get_MSD(n, T, production_time, num_runs, filepath):
     for i in range(num_runs):
         print(i)
 
-        output = Si_n3_supercell_run_equil_MD_rseed(n, T, timestep, equilnsteps, production_time, filepath, MD_equilibrate_npt_track_MSD_rseed, i)
+        output = Si_n3_supercell_run_equil_MD_rseed(n, T, timestep, equilnsteps, production_time, filepath, MD_equilibrate_npt_track_MSD_rseed, int(3320 + i))
         [simtime, pe, ke, energy, temp, press, dens, msdli, msdsi] = output
         msdli_list.append(msdli)
 
