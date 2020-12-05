@@ -169,6 +169,7 @@ def get_MSD(n, T, production_time, num_runs, filepath):
     equilnsteps = 3200
 
     msdli_list = []
+    msdsi_list = []
 
     for i in range(num_runs):
         print(i)
@@ -176,29 +177,43 @@ def get_MSD(n, T, production_time, num_runs, filepath):
         output = Si_n3_supercell_run_equil_MD_rseed(n, T, timestep, equilnsteps, production_time, filepath, MD_equilibrate_npt_track_MSD_rseed, int(3320 + i))
         [simtime, pe, ke, energy, temp, press, dens, msdli, msdsi] = output
         msdli_list.append(msdli)
+        msdsi_list.append(msdsi)
 
-    return simtime, msdli_list
+    return simtime, msdli_list, msdsi_list
 
 def calc(n, Tstart, Tstop, numT, production_time, num_runs, filepath):
     T_list = np.linspace(Tstart, Tstop, numT)
     msdli_list_list = []
+    msdsi_list_list = []
     D_list = []
     simtime_list = []
 
     for T in T_list:
         print(T)
 
-        simtime, msdli_list = get_MSD(n, T, production_time, num_runs, filepath+'/T'+str(T))
+        simtime, msdli_list, msdsi_list = get_MSD(n, T, production_time, num_runs, filepath+'/T'+str(T))
         msdli_list_list.append(msdli_list)
+        msdsi_list_list.append(msdsi_list)
         simtime_list.append(simtime)
 
     for i in range(len(simtime_list)):
         simtime_list[i] = [element - simtime_list[i][0] for element in simtime_list[i]]
-    fig, axs = plt.subplots(numT, 1, figsize=(18, 6))
+
+    fig, axs = plt.subplots(numT, 1, figsize=(6, 18))
+    si_fig, si_ax = plt.subplots(1, 1, figsize=(6, 6))
+    si_ax.set_xlabel('Time (ps)')
+    si_ax.set_ylabel('MSD (A2)')
+    si_ax.set_title('Si MSD')
+
     for i in range(numT):
 
+        axs[i].set_xlabel('Time (ps)')
+        axs[i].set_ylabel('MSD (A2)')
+        axs[i].set_title('T = '+str(T_list[i]))
+
         for j in range(len(msdli_list_list[i])):
-            axs[i].plot(simtime_list[i], msdli_list_list[i][j], linewidth=0.75, alpha=0.5)
+            axs[i].plot(simtime_list[i], msdli_list_list[i][j], alpha=0.5)
+            si_ax.plot(simtime_list[i], msdsi_lis_list[i][j], alpha=0.75)
 
         avg_msdli = []
         for j in range(len(simtime_list[i])):
@@ -210,10 +225,27 @@ def calc(n, Tstart, Tstop, numT, production_time, num_runs, filepath):
         num = np.sum([np_simtime[i]*np_avg_msdli[i] for i in range(simtime.size)])
         den = np.sum([element**2 for element in np_simtime])
         slope = num/den
+        D.append(slope/6)
 
         axs[i].plot(simtime_list[i], [slope*simtime_element for simtime_element in simtime_list[i]], linewidth=2)
-        #get D, abandon histogram idea
+
+    D = [D_element*np.power(10, -8) for D_element in D]
+    thou_over_T = [1000/T for T in T_list]
+    ln_D = [np.log(D_element) for D_element in D]
+
+    p = np.polyfit(thou_over_T, ln_D, 1)
+
+    arr_fig, arr_ax = plt.subplots(1, 1, figsize=(12, 12))
+    arr_ax.plot(thou_over_T, D)
+
+    arr_ax.set_yscale('log')
+    arr_ax.set_xlabel('100/T(K)')
+    arr_ax.set_ylabel('D (m2/s)')
+    arr_ax.set_title('ln D vs 1000/T')
+
     fig.savefig(filepath+'/T_series')
+    si_fig.savefig(filepath+'/Si_MSD')
+    arr_fig.savefig(filepath+'/Arrhenius')
 
 
 
