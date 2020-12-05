@@ -238,11 +238,7 @@ def calc(n, Tstart, Tstop, numT, production_time, num_runs, filepath):
 
     num_fit_points = 10
     fit_x = np.linspace(1000/Tstop, 1000/Tstart, num_fit_points)
-    fit_y = [p[0]*x + p[1]  for x in fit_x]
-    print(thou_over_T)
-    print(ln_D_list)
-    print(fit_x)
-    print(fit_y)
+    fit_y = [np.exp(p[0]*x + p[1]) for x in fit_x]
 
     arr_fig, arr_ax = plt.subplots(1, 1, figsize=(12, 12))
     arr_ax.plot(thou_over_T, D_list, linestyle='None', marker='o')

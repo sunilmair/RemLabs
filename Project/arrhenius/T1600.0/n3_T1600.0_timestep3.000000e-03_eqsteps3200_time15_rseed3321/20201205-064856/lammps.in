@@ -4,7 +4,7 @@ units metal
 atom_style atomic
 dimension 3
 boundary p p p
-read_data /home/modeler/RemLabs/Project/arrhenius/T1800.0/n3_T1800.0_timestep3.000000e-03_eqsteps3200_time15_rseed3320/20201205-063819/lammps.data
+read_data /home/modeler/RemLabs/Project/arrhenius/T1600.0/n3_T1600.0_timestep3.000000e-03_eqsteps3200_time15_rseed3321/20201205-064856/lammps.data
 
 pair_style meam/c
 pair_coeff * * library.meam Li Si LiSi.meam Li Si
@@ -12,11 +12,11 @@ pair_coeff * * library.meam Li Si LiSi.meam Li Si
 group Li type 1
 group Si type 2
 
-velocity all create 1800.0 3320 dist gaussian
+velocity all create 1600.0 3321 dist gaussian
 
 # ---------- 2. Specify equilibration ensemble  ----------
-fix 1 all npt temp 1800.0 1800.0 0.15 tchain 2 iso 1.0 1.0 1.0 pchain 2
-# fix 1 all nvt temp 1800.0 1800.0 0.15
+fix 1 all npt temp 1600.0 1600.0 0.15 tchain 2 iso 1.0 1.0 1.0 pchain 2
+# fix 1 all nvt temp 1600.0 1600.0 0.15
 
 # ---------- 3. Run equilibration -------------
 timestep 0.003
