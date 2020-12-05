@@ -196,18 +196,18 @@ def calc(n, Tstart, Tstop, numT, production_time, num_runs, filepath):
     for i in range(numT):
 
         for j in range(len(msdli_list_list[i])):
-            axs[i, 0].plot(simtime_list[i], msdli_list_list[i][j], linewidth=0.75, alpha=0.5)
+            axs[i].plot(simtime_list[i], msdli_list_list[i][j], linewidth=0.75, alpha=0.5)
 
         avg_msdli = []
         for j in range(len(simtime_list[i])):
             avg_msdli.append(np.mean([list[j] for list in msdli_list_list[i]]))
-        axs[i, 0].plot(simtime_list[i], avg_msdli, linewidth=2)
+        axs[i].plot(simtime_list[i], avg_msdli, linewidth=2)
 
         np_simtime = np.asarray(simtime_list[i])
         np_avg_msdli = np.asarray(avg_msdli)
         slope = np.linalg.lstsq(np_avg_msdli, np_simtime)
 
-        axs[i, 0].plot(simtime_list[i], [slope*simtime_element for simtime_element in simtime_list[i]], linewidth=2)
+        axs[i].plot(simtime_list[i], [slope*simtime_element for simtime_element in simtime_list[i]], linewidth=2)
         #get D, abandon histogram idea
     fig.savefig(filepath+'/T_series')
 
