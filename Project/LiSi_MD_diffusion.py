@@ -234,11 +234,15 @@ def calc(n, Tstart, Tstop, numT, production_time, num_runs, filepath):
     ln_D_list = [np.log(D) for D in D_list]
 
     p = np.polyfit(thou_over_T, ln_D_list, 1)
-    Ea = -p[1]*1000*8.61733E-5
+    Ea = -p[0]*1000*8.61733E-5
 
-    num_fit_points = 100
+    num_fit_points = 10
     fit_x = np.linspace(1000/Tstop, 1000/Tstart, num_fit_points)
-    fit_y = [np.exp(p[0])*np.exp(p[1]*x) for x in fit_x]
+    fit_y = [p[0]*x + p[1]  for x in fit_x]
+    print(thou_over_T)
+    print(ln_D_list)
+    print(fit_x)
+    print(fit_y)
 
     arr_fig, arr_ax = plt.subplots(1, 1, figsize=(12, 12))
     arr_ax.plot(thou_over_T, D_list, linestyle='None', marker='o')
