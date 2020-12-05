@@ -205,7 +205,7 @@ def calc(n, Tstart, Tstop, numT, production_time, num_runs, filepath):
 
         np_simtime = np.asarray(simtime_list[i])
         np_avg_msdli = np.asarray(avg_msdli)
-        num = np.sum([np_simtime[i]*np_avg_msdli[i] for i in range(len(simtime[i]))])
+        num = np.sum([np_simtime[i]*np_avg_msdli[i] for i in range(simtime.size)])
         den = np.sum([element**2 for element in np_simtime])
         slope = num/den
 
