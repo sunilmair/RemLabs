@@ -1,14 +1,36 @@
 LAMMPS (3 Mar 2020)
-Reading data file ...
+
+# ---------- 1. Initialize simulation ----------
+units metal
+atom_style atomic
+dimension 3
+boundary p p p
+read_data /home/modeler/RemLabs/Project/arrhenius/T1800.0/n3_T1800.0_timestep3.000000e-03_eqsteps3200_time15_rseed3320/20201205-050955/lammps.data
   orthogonal box = (0 0 0) to (17.469 17.469 17.469)
   1 by 1 by 1 MPI processor grid
   reading atoms ...
   217 atoms
-  read_data CPU = 0.00100022 secs
+  read_data CPU = 0.00105676 secs
+
+pair_style meam/c
+pair_coeff * * library.meam Li Si LiSi.meam Li Si
 Reading potential file library.meam with DATE: 2012-06-29
 Reading potential file LiSi.meam with DATE: 2020-11-07
+
+group Li type 1
 1 atoms in group Li
+group Si type 2
 216 atoms in group Si
+
+velocity all create 1800.0 3320 dist gaussian
+
+# ---------- 2. Specify equilibration ensemble  ----------
+fix 1 all npt temp 1800.0 1800.0 0.15 tchain 2 iso 1.0 1.0 1.0 pchain 2
+# fix 1 all nvt temp 1800.0 1800.0 0.15
+
+# ---------- 3. Run equilibration -------------
+timestep 0.003
+run 3200
 Neighbor list info ...
   update every 1 steps, delay 10 steps, check yes
   max neighbors/atom: 2000, page size: 100000
@@ -26,28 +48,24 @@ Neighbor list info ...
       pair build: halffull/newton
       stencil: none
       bin: none
-Setting up Verlet run ...
-  Unit style    : metal
-  Current step  : 0
-  Time step     : 0.003
 Per MPI rank memory allocation (min/avg/max) = 8.895 | 8.895 | 8.895 Mbytes
 Step Temp E_pair E_mol TotEng Press Volume 
        0         1800   -951.04357            0   -900.78722   -114161.75    5330.9442 
     3200    1748.1151    -938.8863            0   -890.07859   -11397.809     4735.421 
-Loop time of 2.24744 on 1 procs for 3200 steps with 217 atoms
+Loop time of 2.24339 on 1 procs for 3200 steps with 217 atoms
 
-Performance: 369.061 ns/day, 0.065 hours/ns, 1423.845 timesteps/s
-100.1% CPU use with 1 MPI tasks x no OpenMP threads
+Performance: 369.726 ns/day, 0.065 hours/ns, 1426.413 timesteps/s
+99.9% CPU use with 1 MPI tasks x no OpenMP threads
 
 MPI task timing breakdown:
 Section |  min time  |  avg time  |  max time  |%varavg| %total
 ---------------------------------------------------------------
-Pair    | 2.1577     | 2.1577     | 2.1577     |   0.0 | 96.01
-Neigh   | 0.041769   | 0.041769   | 0.041769   |   0.0 |  1.86
-Comm    | 0.014415   | 0.014415   | 0.014415   |   0.0 |  0.64
-Output  | 2.7305e-05 | 2.7305e-05 | 2.7305e-05 |   0.0 |  0.00
-Modify  | 0.028711   | 0.028711   | 0.028711   |   0.0 |  1.28
-Other   |            | 0.004837   |            |       |  0.22
+Pair    | 2.1536     | 2.1536     | 2.1536     |   0.0 | 96.00
+Neigh   | 0.041765   | 0.041765   | 0.041765   |   0.0 |  1.86
+Comm    | 0.01445    | 0.01445    | 0.01445    |   0.0 |  0.64
+Output  | 2.5572e-05 | 2.5572e-05 | 2.5572e-05 |   0.0 |  0.00
+Modify  | 0.028806   | 0.028806   | 0.028806   |   0.0 |  1.28
+Other   |            | 0.004721   |            |       |  0.21
 
 Nlocal:    217 ave 217 max 217 min
 Histogram: 1 0 0 0 0 0 0 0 0 0
@@ -62,10 +80,16 @@ Total # of neighbors = 8388
 Ave neighs/atom = 38.6544
 Neighbor list builds = 71
 Dangerous builds = 0
-Setting up Verlet run ...
-  Unit style    : metal
-  Current step  : 3200
-  Time step     : 0.003
+
+# ---------- 4. Describe computed properties----------
+compute msdli Li msd
+compute msdsi Si msd
+thermo_style custom step pe ke etotal temp press density c_msdli[4] c_msdsi[4]
+thermo 100
+
+# ---------- 3. Run production -------------
+timestep 0.003
+run 5000
 Per MPI rank memory allocation (min/avg/max) = 9.664 | 9.664 | 9.664 Mbytes
 Step PotEng KinEng TotEng Temp Press Density c_msdli[4] c_msdsi[4] 
     3200    -938.8863    48.807709   -890.07859    1748.1151   -11397.809    2.1297595            0 5.4350456e-32 
@@ -119,20 +143,20 @@ Step PotEng KinEng TotEng Temp Press Density c_msdli[4] c_msdsi[4]
     8000   -938.96783    47.661903   -891.30592    1707.0765   -4856.1548      2.14836   0.17699963   0.12628433 
     8100   -938.78615    52.062196   -886.72395    1864.6791    22324.686    2.2124131   0.10088829   0.13301821 
     8200   -941.16991    48.547671   -892.62224    1738.8015   -12204.819    2.1307705   0.31188398   0.14271779 
-Loop time of 3.50454 on 1 procs for 5000 steps with 217 atoms
+Loop time of 3.50344 on 1 procs for 5000 steps with 217 atoms
 
-Performance: 369.806 ns/day, 0.065 hours/ns, 1426.721 timesteps/s
+Performance: 369.922 ns/day, 0.065 hours/ns, 1427.167 timesteps/s
 100.0% CPU use with 1 MPI tasks x no OpenMP threads
 
 MPI task timing breakdown:
 Section |  min time  |  avg time  |  max time  |%varavg| %total
 ---------------------------------------------------------------
-Pair    | 3.3536     | 3.3536     | 3.3536     |   0.0 | 95.69
-Neigh   | 0.073367   | 0.073367   | 0.073367   |   0.0 |  2.09
-Comm    | 0.023018   | 0.023018   | 0.023018   |   0.0 |  0.66
-Output  | 0.0017447  | 0.0017447  | 0.0017447  |   0.0 |  0.05
-Modify  | 0.045151   | 0.045151   | 0.045151   |   0.0 |  1.29
-Other   |            | 0.007653   |            |       |  0.22
+Pair    | 3.3524     | 3.3524     | 3.3524     |   0.0 | 95.69
+Neigh   | 0.073719   | 0.073719   | 0.073719   |   0.0 |  2.10
+Comm    | 0.022929   | 0.022929   | 0.022929   |   0.0 |  0.65
+Output  | 0.0016618  | 0.0016618  | 0.0016618  |   0.0 |  0.05
+Modify  | 0.045213   | 0.045213   | 0.045213   |   0.0 |  1.29
+Other   |            | 0.007554   |            |       |  0.22
 
 Nlocal:    217 ave 217 max 217 min
 Histogram: 1 0 0 0 0 0 0 0 0 0

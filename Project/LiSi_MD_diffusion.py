@@ -192,6 +192,8 @@ def calc(n, Tstart, Tstop, numT, production_time, num_runs, filepath):
         msdli_list_list.append(msdli_list)
         simtime_list.append(simtime)
 
+    for i in range(len(simtime_list)):
+        simtime_list[i] = [element - simtime_list[i][0] for element in simtime_list[i]]
     fig, axs = plt.subplots(numT, 1, figsize=(18, 6))
     for i in range(numT):
 
