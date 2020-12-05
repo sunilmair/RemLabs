@@ -38,7 +38,7 @@ def evaluate_timestep():
     """
     Use mean energy (after equilibration) as a convergence metric for timestep size
     """
-    filepath = 'eval_timestep'
+    filepath = 'eval_timestep_npt'
     timestep_list = np.logspace(np.log10(0.0005), np.log10(0.005), 20)
     total_time = 15
     equilibration_time = 2
@@ -119,11 +119,11 @@ def test_equil_run(n, T, timestep, equilnsteps, production_time, filepath, intem
     ax_right.legend()
 
     ax_left.set_xlabel('Time(ps)')
-    ax_left.set_ylabel('Energy')
+    ax_left.set_ylabel('Energy (eV)')
     ax_left.set_title('Energy vs Time')
 
     ax_right.set_xlabel('Time(ps)')
-    ax_right.set_ylabel('MSD (A)')
+    ax_right.set_ylabel('MSD (A2)')
     ax_right.set_title('MSD vs Time')
 
     fig.savefig(filepath+'/test-'+ time.strftime('%Y%m%d-%H%M%S'))
@@ -268,4 +268,6 @@ if __name__ == "__main__":
     #calc(3, 1600, 1800, 2, 0.003, 15, 2, 'arrhenius')
     #calc(3, 1600, 1800, 5, 0.003, 300, 5, 'arrhenius_2')
     #calc(3, 1300, 1800, 5, 0.003, 600, 10, 'arrhenius_3')
-    calc(3, 1400, 1800, 5, 0.003, 600, 25, 'arrhenius_4')
+    #calc(3, 1400, 1800, 5, 0.003, 600, 25, 'arrhenius_4')
+
+    evaluate_timestep()
