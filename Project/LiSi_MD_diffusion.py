@@ -129,9 +129,92 @@ def test_equil_run(n, T, timestep, equilnsteps, production_time, filepath, intem
     fig.savefig(filepath+'/test-'+ time.strftime('%Y%m%d-%H%M%S'))
 
 
+def Si_n3_supercell_run_equil_MD_rseed(n, T, timestep, equilnsteps, production_time, filepath, intemplate, rseed):
+    """
+    Runs an npt ensemble to track the MSD of a Li in a 3x3x3 Si supercell to calculate the diffusion coefficient
+    """
+    timestamp = time.strftime('%Y%m%d-%H%M%S')
+    path = os.path.join(project_full_path, filepath,
+                        'n'+str(n)+'_T'+str(T)+'_timestep'+'{:2e}'.format(timestep)+
+                        '_eqsteps'+str(equilnsteps)+'_time'+str(production_time)+'_rseed'+str(rseed), timestamp)
+
+    runpath = Dir(path=path)
+    struc = make_n3_supercell_1x1x1_central_Li(n)
+    nsteps = int(np.ceil(production_time/timestep))
+    inparam = {
+        'OUTFILE': path,
+        'TEMPERATURE': T,
+        'EQUILNSTEPS': equilnsteps,
+        'NSTEPS': nsteps,
+        'TIMESTEP': timestep,
+        'TOUTPUT': 100,  # how often to write thermo output
+        'TDAMP': 50 * timestep,  # thermostat damping time scale
+        'RSEED': rseed,
+    }
+
+    output_file = lammps_run(struc=struc, runpath=runpath, potential=False, intemplate=intemplate,
+                             inparam=inparam)
+    output = parse_lammps_thermo(outfile=output_file)
+    output = output[2:]
+    output = [element for element in output]
+    output = np.array(output)
+    output = output.astype(np.float)
+    outrows = np.transpose(np.array(output))
+
+    return outrows
+
+
+def get_MSD(n, T, production_time, num_runs, filepath):
+    T_len = len(T)
+    timestep = 0.003
+    equilnsteps = 3200
+
+    msdli_list = []
+
+    for i in range(num_runs):
+        print(i)
+
+        output = Si_n3_supercell_run_equil_MD_rseed(n, T, equilnsteps, production_time, filepath,
+                                                    MD_equilibrate_npt_track_MSD, i)
+        [simtime, pe, ke, energy, temp, press, dens, msdli, msdsi] = output
+        msdli_list.append(msdli)
+
+    return simtime, msdli_list
+
+def calc(n, Tstart, Tstop, numT, production_time, num_runs, filepath):
+    T_list = np.linspace(Tstart, Tstop, numT)
+    msdli_list_list = []
+    D_list = []
+    simtime_list = []
+
+    for T in T_list:
+        print(T)
+
+        simtime, msdli_list = get_MSD(n, T, production_time, num_runs, filepath+'/T'+str(T))
+        msdli_list_list.append(msdli_list)
+        simtime_list.append(simtime)
+
+    fig, axs = plt.subplots(T_len, 2, figsize=(18, 12))
+    for i in range(T_len):
+
+        for j in range(len(msdli_list_list[i])):
+            axs[i, 0].plot(simtime_list[i]), msdli_list_list[i][j])
+
+        avg_msdli = []
+        for j in range(len(simtime_list[i])):
+            avg_msdli[j] = np.mean(list[j] for list in msd_list_list[i])
+        axs[i, 0].plot(simtime_list[i], avg_msdli, linewidth=2)
+        #get D, abandon histogram idea
+
+
+
+
+
 if __name__ == "__main__":
     #evaluate_timestep()
 
-    test_equil_run(3, 1600, 0.003, 3200, 600, 'test_equil_nvt_nn_day2', MD_equilibrate_nvt_track_MSD)
-    test_equil_run(3, 1600, 0.003, 3200, 600, 'test_equil_npt_nn_day2', MD_equilibrate_npt_track_MSD)
-    test_equil_run(3, 1600, 0.003, 3200, 600, 'test_equil_npt_then_nvt_nn_day2', MD_equilibrate_npt_track_MSD_nvt)
+    #test_equil_run(3, 1600, 0.003, 3200, 600, 'test_equil_nvt_nn_day2', MD_equilibrate_nvt_track_MSD)
+    #test_equil_run(3, 1600, 0.003, 3200, 600, 'test_equil_npt_nn_day2', MD_equilibrate_npt_track_MSD)
+    #test_equil_run(3, 1600, 0.003, 3200, 600, 'test_equil_npt_then_nvt_nn_day2', MD_equilibrate_npt_track_MSD_nvt)
+
+    calc(3, 1600, 1800, 3, 60, 3, 'hallowedbe')
