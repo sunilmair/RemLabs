@@ -211,7 +211,7 @@ def calc(n, Tstart, Tstop, numT, timestep, production_time, num_runs, filepath):
         axs[i].set_title('T = '+str(T_list[i]))
 
         for j in range(len(msdli_list_list[i])):
-            axs[i].plot(simtime_list[i], msdli_list_list[i][j], alpha=0.5)
+            axs[i].plot(simtime_list[i], msdli_list_list[i][j], linewidth=0.5,  alpha=0.5)
             si_ax.plot(simtime_list[i], msdsi_list_list[i][j], alpha=0.75)
 
         avg_msdli = []

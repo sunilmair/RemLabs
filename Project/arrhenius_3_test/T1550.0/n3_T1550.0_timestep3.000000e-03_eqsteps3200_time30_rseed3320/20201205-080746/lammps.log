@@ -5,12 +5,12 @@ units metal
 atom_style atomic
 dimension 3
 boundary p p p
-read_data /home/modeler/RemLabs/Project/arrhenius_3_test/T1550.0/n3_T1550.0_timestep3.000000e-03_eqsteps3200_time30_rseed3320/20201205-075914/lammps.data
+read_data /home/modeler/RemLabs/Project/arrhenius_3_test/T1550.0/n3_T1550.0_timestep3.000000e-03_eqsteps3200_time30_rseed3320/20201205-080746/lammps.data
   orthogonal box = (0 0 0) to (17.469 17.469 17.469)
   1 by 1 by 1 MPI processor grid
   reading atoms ...
   217 atoms
-  read_data CPU = 0.00101216 secs
+  read_data CPU = 0.000994765 secs
 
 pair_style meam/c
 pair_coeff * * library.meam Li Si LiSi.meam Li Si
@@ -52,20 +52,20 @@ Per MPI rank memory allocation (min/avg/max) = 8.895 | 8.895 | 8.895 Mbytes
 Step Temp E_pair E_mol TotEng Press Volume 
        0         1550   -951.04357            0   -907.76727   -115560.29    5330.9442 
     3200    1382.9587   -947.06416            0   -908.45169   -7560.3322    4679.0556 
-Loop time of 2.29875 on 1 procs for 3200 steps with 217 atoms
+Loop time of 2.28228 on 1 procs for 3200 steps with 217 atoms
 
-Performance: 360.823 ns/day, 0.067 hours/ns, 1392.063 timesteps/s
-100.0% CPU use with 1 MPI tasks x no OpenMP threads
+Performance: 363.426 ns/day, 0.066 hours/ns, 1402.106 timesteps/s
+99.9% CPU use with 1 MPI tasks x no OpenMP threads
 
 MPI task timing breakdown:
 Section |  min time  |  avg time  |  max time  |%varavg| %total
 ---------------------------------------------------------------
-Pair    | 2.2374     | 2.2374     | 2.2374     |   0.0 | 97.33
-Neigh   | 0.013094   | 0.013094   | 0.013094   |   0.0 |  0.57
-Comm    | 0.013867   | 0.013867   | 0.013867   |   0.0 |  0.60
-Output  | 2.4609e-05 | 2.4609e-05 | 2.4609e-05 |   0.0 |  0.00
-Modify  | 0.02945    | 0.02945    | 0.02945    |   0.0 |  1.28
-Other   |            | 0.004868   |            |       |  0.21
+Pair    | 2.221      | 2.221      | 2.221      |   0.0 | 97.32
+Neigh   | 0.013043   | 0.013043   | 0.013043   |   0.0 |  0.57
+Comm    | 0.01375    | 0.01375    | 0.01375    |   0.0 |  0.60
+Output  | 2.6025e-05 | 2.6025e-05 | 2.6025e-05 |   0.0 |  0.00
+Modify  | 0.029567   | 0.029567   | 0.029567   |   0.0 |  1.30
+Other   |            | 0.004852   |            |       |  0.21
 
 Nlocal:    217 ave 217 max 217 min
 Histogram: 1 0 0 0 0 0 0 0 0 0
@@ -193,20 +193,20 @@ Step PotEng KinEng TotEng Temp Press Density c_msdli[4] c_msdsi[4]
    13000   -952.94141    44.290649   -908.65076    1586.3304   -5376.5833    2.1773921 0.0074080784   0.10316804 
    13100   -950.68558    45.028719   -905.65686    1612.7654     1073.207    2.1868558  0.084557789   0.10563056 
    13200   -947.22614    47.154337    -900.0718    1688.8973    1446.7118    2.1782386   0.27233384   0.10296431 
-Loop time of 7.17205 on 1 procs for 10000 steps with 217 atoms
+Loop time of 7.07431 on 1 procs for 10000 steps with 217 atoms
 
-Performance: 361.403 ns/day, 0.066 hours/ns, 1394.301 timesteps/s
-100.0% CPU use with 1 MPI tasks x no OpenMP threads
+Performance: 366.396 ns/day, 0.066 hours/ns, 1413.566 timesteps/s
+99.9% CPU use with 1 MPI tasks x no OpenMP threads
 
 MPI task timing breakdown:
 Section |  min time  |  avg time  |  max time  |%varavg| %total
 ---------------------------------------------------------------
-Pair    | 6.9834     | 6.9834     | 6.9834     |   0.0 | 97.37
-Neigh   | 0.031111   | 0.031111   | 0.031111   |   0.0 |  0.43
-Comm    | 0.043694   | 0.043694   | 0.043694   |   0.0 |  0.61
-Output  | 0.0034283  | 0.0034283  | 0.0034283  |   0.0 |  0.05
-Modify  | 0.094641   | 0.094641   | 0.094641   |   0.0 |  1.32
-Other   |            | 0.01576    |            |       |  0.22
+Pair    | 6.8872     | 6.8872     | 6.8872     |   0.0 | 97.36
+Neigh   | 0.030916   | 0.030916   | 0.030916   |   0.0 |  0.44
+Comm    | 0.043258   | 0.043258   | 0.043258   |   0.0 |  0.61
+Output  | 0.0035721  | 0.0035721  | 0.0035721  |   0.0 |  0.05
+Modify  | 0.094206   | 0.094206   | 0.094206   |   0.0 |  1.33
+Other   |            | 0.01515    |            |       |  0.21
 
 Nlocal:    217 ave 217 max 217 min
 Histogram: 1 0 0 0 0 0 0 0 0 0
