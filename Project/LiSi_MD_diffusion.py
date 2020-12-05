@@ -213,7 +213,7 @@ def calc(n, Tstart, Tstop, numT, production_time, num_runs, filepath):
 
         for j in range(len(msdli_list_list[i])):
             axs[i].plot(simtime_list[i], msdli_list_list[i][j], alpha=0.5)
-            si_ax.plot(simtime_list[i], msdsi_lis_list[i][j], alpha=0.75)
+            si_ax.plot(simtime_list[i], msdsi_list_list[i][j], alpha=0.75)
 
         avg_msdli = []
         for j in range(len(simtime_list[i])):
@@ -225,18 +225,18 @@ def calc(n, Tstart, Tstop, numT, production_time, num_runs, filepath):
         num = np.sum([np_simtime[i]*np_avg_msdli[i] for i in range(simtime.size)])
         den = np.sum([element**2 for element in np_simtime])
         slope = num/den
-        D.append(slope/6)
+        D_list.append(slope/6)
 
         axs[i].plot(simtime_list[i], [slope*simtime_element for simtime_element in simtime_list[i]], linewidth=2)
 
-    D = [D_element*np.power(10, -8) for D_element in D]
+    D_list = [D*np.power(10.0, -8) for D in D_list]
     thou_over_T = [1000/T for T in T_list]
-    ln_D = [np.log(D_element) for D_element in D]
+    ln_D_list = [np.log(D) for D in D_list]
 
-    p = np.polyfit(thou_over_T, ln_D, 1)
+    p = np.polyfit(thou_over_T, ln_D_list, 1)
 
     arr_fig, arr_ax = plt.subplots(1, 1, figsize=(12, 12))
-    arr_ax.plot(thou_over_T, D)
+    arr_ax.plot(thou_over_T, D_list)
 
     arr_ax.set_yscale('log')
     arr_ax.set_xlabel('100/T(K)')
