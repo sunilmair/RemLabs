@@ -237,7 +237,7 @@ def calc(n, Tstart, Tstop, numT, production_time, num_runs, filepath):
     Ea = -p[1]*1000*8.61733E-5
 
     num_fit_points = 100
-    fit_x = np.linspace(1/Tstop, 1/Tstart, num_fit_points)
+    fit_x = np.linspace(1000/Tstop, 1000/Tstart, num_fit_points)
     fit_y = [np.exp(p[0])*np.exp(p[1]*x) for x in fit_x]
 
     arr_fig, arr_ax = plt.subplots(1, 1, figsize=(12, 12))
