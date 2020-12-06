@@ -97,7 +97,7 @@ compute msdsi Si msd
 thermo_style custom step pe ke etotal temp press density c_msdli[4] c_msdsi[4]
 thermo $TOUTPUT
 
-# ---------- 3. Run production -------------
+# ---------- 5. Run production -------------
 timestep $TIMESTEP
 run $NSTEPS
 """
