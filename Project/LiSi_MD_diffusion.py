@@ -38,7 +38,7 @@ def evaluate_timestep():
     """
     Use mean energy (after equilibration) as a convergence metric for timestep size
     """
-    filepath = 'eval_timestep_npt_fluc'
+    filepath = 'eval_timestep_nve_fluc'
     timestep_list = np.logspace(np.log10(0.0005), np.log10(0.005), 20)
     total_time = 20
     equilibration_time = 5
@@ -62,7 +62,7 @@ def evaluate_timestep():
     ax_right_min, ax_right_max = ax_right.get_ylim()
     ax_right_twin = ax_right.twinx()
     #ax_right_twin.set_ylim(ax_right_min - mean_energy_list[0], ax_right_max - mean_energy_list[0])
-    ax_right.plot(timestep_list, std_energy_list, marker = 'D')
+    ax_right_twin.plot(timestep_list, std_energy_list, marker = 'D')
 
     ax_left.set_xlabel('Time (ps)')
     ax_left.set_ylabel('Total Energy') # units?
