@@ -38,15 +38,16 @@ def evaluate_timestep():
     """
     Use mean energy (after equilibration) as a convergence metric for timestep size
     """
-    filepath = 'eval_timestep_npt'
+    filepath = 'eval_timestep_npt_fluc'
     timestep_list = np.logspace(np.log10(0.0005), np.log10(0.005), 20)
-    total_time = 15
-    equilibration_time = 2
+    total_time = 20
+    equilibration_time = 5
     n = 3
     T = 1800
 
     fig, (ax_left, ax_right) = plt.subplots(1, 2, figsize=(18, 6))
     mean_energy_list = []
+    std_energy_list = []
 
     for timestep in timestep_list:
         output = Si_n3_supercell_run_MD(n, T, timestep, int(np.ceil(total_time/timestep)), filepath)
@@ -54,11 +55,14 @@ def evaluate_timestep():
         ax_left.plot([timestep*simtimestep for simtimestep in simtime], energy, label='{:.3}'.format(timestep))
         mean_energy_list.append(np.mean(
             [energy[i] for i in range(len(simtime)) if simtime[i] > equilibration_time]))
+        std_energy_list.append(np.std(
+            [energy[i] for i in range(len(simtime)) if simtime[i] > equilibration_time]))
 
     ax_right.plot(timestep_list, mean_energy_list, marker='o')
     ax_right_min, ax_right_max = ax_right.get_ylim()
     ax_right_twin = ax_right.twinx()
-    ax_right_twin.set_ylim(ax_right_min - mean_energy_list[0], ax_right_max - mean_energy_list[0])
+    #ax_right_twin.set_ylim(ax_right_min - mean_energy_list[0], ax_right_max - mean_energy_list[0])
+    ax_right.plot(timestep_list, std_energy_list, marker = 'D')
 
     ax_left.set_xlabel('Time (ps)')
     ax_left.set_ylabel('Total Energy') # units?
@@ -66,8 +70,9 @@ def evaluate_timestep():
     ax_left.legend(loc='center right')
 
     ax_right.set_xlabel('Timestep (ps)')
-    ax_right.set_ylabel('Mean Energy') # units?
-    ax_right_twin.set_ylabel('Energy Convergence')
+    ax_right.set_ylabel('Mean Energy (eV)') # units?
+    #ax_right_twin.set_ylabel('Energy Convergence')
+    ax_right_twin.set_ylabel('Energy Fluctuation (std dev) (eV)')
     ax_right.set_title('Mean Energy vs Timestep')
 
     fig.savefig(filepath+'/timestep_convergence-' + time.strftime('%Y%m%d-%H%M%S'))
