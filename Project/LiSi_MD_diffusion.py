@@ -62,7 +62,7 @@ def evaluate_timestep():
     ax_right_min, ax_right_max = ax_right.get_ylim()
     ax_right_twin = ax_right.twinx()
     #ax_right_twin.set_ylim(ax_right_min - mean_energy_list[0], ax_right_max - mean_energy_list[0])
-    ax_right_twin.plot(timestep_list, std_energy_list, marker = 'D')
+    ax_right_twin.plot(timestep_list, std_energy_list, marker = 'D', color = 'tab:red')
 
     ax_left.set_xlabel('Time (ps)')
     ax_left.set_ylabel('Total Energy') # units?
@@ -73,6 +73,7 @@ def evaluate_timestep():
     ax_right.set_ylabel('Mean Energy (eV)') # units?
     #ax_right_twin.set_ylabel('Energy Convergence')
     ax_right_twin.set_ylabel('Energy Fluctuation (std dev) (eV)')
+    ax_right_twin.tick_params(axis='y', labelcolor='tab:red')
     ax_right.set_title('Mean Energy vs Timestep')
 
     fig.savefig(filepath+'/timestep_convergence-' + time.strftime('%Y%m%d-%H%M%S'))
