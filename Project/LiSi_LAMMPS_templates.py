@@ -54,9 +54,9 @@ thermo_style custom step pe ke etotal temp press density c_msdli[4]
 thermo $TOUTPUT
 
 # ---------- 3. Specify ensemble  ----------
-#fix 1 all npt temp $TEMPERATURE $TEMPERATURE $TDAMP tchain 2 iso 1.0 1.0 1.0 pchain 2
+fix 1 all npt temp $TEMPERATURE $TEMPERATURE $TDAMP tchain 2 iso 1.0 1.0 1.0 pchain 2
 # fix 1 all nvt temp $TEMPERATURE $TEMPERATURE $TDAMP
-fix 1 all nve
+# fix 1 all nve
 
 # ---------- 4. Run -------------
 timestep $TIMESTEP
