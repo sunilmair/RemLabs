@@ -36,7 +36,7 @@ def Si_n3_supercell_run_MD(n, T, timestep, nsteps, filepath):
 
 def evaluate_timestep():
     """
-    Use mean energy (after equilibration) as a convergence metric for timestep size
+    Use mean energy (after equilibration) and fluctuation as a convergence metric for timestep size
     """
     filepath = 'eval_timestep_nvt_fluc'
     timestep_list = np.logspace(np.log10(0.0005), np.log10(0.005), 20)
@@ -81,7 +81,8 @@ def evaluate_timestep():
 
 def Si_n3_supercell_run_equil_MD(n, T, timestep, equilnsteps, production_time, filepath, intemplate):
     """
-    Runs an npt ensemble to track the MSD of a Li in a 3x3x3 Si supercell to calculate the diffusion coefficient
+    Runs an npt ensemble with separate equilibration to track the MSD of a Li in a 3x3x3 Si supercell
+    to calculate the diffusion coefficient
     """
     timestamp = time.strftime('%Y%m%d-%H%M%S')
     path = os.path.join(project_full_path, filepath,
@@ -137,7 +138,8 @@ def test_equil_run(n, T, timestep, equilnsteps, production_time, filepath, intem
 
 def Si_n3_supercell_run_equil_MD_rseed(n, T, timestep, equilnsteps, production_time, filepath, intemplate, rseed):
     """
-    Runs an npt ensemble to track the MSD of a Li in a 3x3x3 Si supercell to calculate the diffusion coefficient
+    Runs an npt ensemble with separate equilibration to track the MSD of a Li in a 3x3x3 Si supercell
+    to calculate the diffusion coefficient, has random seed as an input
     """
     timestamp = time.strftime('%Y%m%d-%H%M%S')
     path = os.path.join(project_full_path, filepath,
@@ -161,6 +163,7 @@ def Si_n3_supercell_run_equil_MD_rseed(n, T, timestep, equilnsteps, production_t
     output_file = lammps_run(struc=struc, runpath=runpath, potential=False, intemplate=intemplate,
                              inparam=inparam)
     output = parse_lammps_thermo(outfile=output_file)
+    #some strange numpy ndarray vs python list format stuff here
     output = output[2:]
     output = [element for element in output]
     output = np.array(output)
@@ -171,6 +174,9 @@ def Si_n3_supercell_run_equil_MD_rseed(n, T, timestep, equilnsteps, production_t
 
 
 def get_MSD(n, T, timestep,  production_time, num_runs, filepath):
+    """
+    Runs MD simulation and returns simulation timestep, Li msd, and Si msd
+    """
     equilnsteps = 3200
 
     msdli_list = []
@@ -187,6 +193,11 @@ def get_MSD(n, T, timestep,  production_time, num_runs, filepath):
     return simtime, msdli_list, msdsi_list
 
 def calc(n, Tstart, Tstop, numT, timestep, production_time, num_runs, filepath):
+    """
+    Runs an MSD simulation num_runs times to get MSD and D
+    Repeats procedure for range of temperature
+    Fits arrhenius relation to get activation energy
+    """
     plt.subplots_adjust(hspace=0.5)
     T_list = np.linspace(Tstart, Tstop, numT)
     msdli_list_list = []
@@ -235,7 +246,7 @@ def calc(n, Tstart, Tstop, numT, timestep, production_time, num_runs, filepath):
 
         axs[i].plot(simtime_list[i], [slope*simtime_element for simtime_element in simtime_list[i]], linewidth=2)
 
-    D_list = [D*1E-8 for D in D_list]
+    D_list = [D*1E-8 for D in D_list] #A2/ps to m2/s
     thou_over_T = [1000/T for T in T_list]
     ln_D_list = [np.log(D) for D in D_list]
 
@@ -260,6 +271,7 @@ def calc(n, Tstart, Tstop, numT, timestep, production_time, num_runs, filepath):
     arr_fig.savefig(filepath+'/Ea_'+str(Ea).replace('.', '_')+'_eV')
 
     print(Ea)
+    return Ea
 
 
 
