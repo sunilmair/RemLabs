@@ -2,6 +2,7 @@ from ase import Atoms
 from ase.build import make_supercell
 from ase.io import write
 import numpy as np
+from labutil.src.objects import *
 
 nnb_lattice_parameter = 4.7
 

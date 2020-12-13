@@ -1,17 +1,17 @@
 from nnb_structures import *
 from labutil.src.plugins.pwscf import *
 
-def relax_calculation(struc, nk, ecut, force_conv_thr, press_conv_thr, dirname):
+def relax_calculation(struc, nk, ecut, forc_conv_thr, press_conv_thr, dirname):
     pseudopots = {'Na' : PseudoPotential(element='Na', name='na_pbe_v1.5.uspp.F.UPF'),
-                  'N' : PseuodoPotential(element='N', name='N.pbe-n-radius_5.UPF'),
-                  'H' : PseuodoPotential(element='H', name='H.pbe-rrkjus_psl.1.0.0.UPF'),
-                  'B' : PseodoPotential(element='B', name='b_pbe_v1.4.uspp.F.UPF')}
+                  'N' : PseudoPotential(element='N', name='N.pbe-n-radius_5.UPF'),
+                  'H' : PseudoPotential(element='H', name='H.pbe-rrkjus_psl.1.0.0.UPF'),
+                  'B' : PseudoPotential(element='B', name='b_pbe_v1.4.uspp.F.UPF')}
 
     kpts = Kpoints(gridsize=[nk, nk, nk], option='automatic', offset=False)
     runpath = Dir(path=os.path.join(os.environ['WORKDIR'], dirname))
     input_params = PWscf_inparam({
         'CONTROL': {
-            'calculation': 'vc-relax',
+            'calculation': 'scf',
             'forc_conv_thr': forc_conv_thr,
             'pseudo_dir': os.environ['ESPRESSO_PSEUDO'],
             'outdir': runpath.path,
