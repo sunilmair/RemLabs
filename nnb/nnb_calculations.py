@@ -87,14 +87,14 @@ def test_scf_calculation():
 
 
 def test_relax_calculation():
-    struc = make_initial_state()
+    struc = make_initial_unitcell_state()
     nk = 2
     ecut = 10
     forc_conv_thr = 0.001
     press_conv_thr = 0.1
-    dirname = 'test_relax'
+    dirname = 'test_relax_unitcell'
     relax_calculation(struc, nk, ecut, forc_conv_thr, press_conv_thr, dirname)
 
 
 if __name__ == '__main__':
-    test_scf_calculation()
+    test_relax_calculation()
