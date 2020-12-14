@@ -9,7 +9,9 @@ pseudopots = {'Na': PseudoPotential(element='Na', name='na_pbe_v1.5.uspp.F.UPF')
 
 def scf_calculation(struc, nk, ecut, dirname):
     kpts = Kpoints(gridsize=[nk, nk, nk], option='automatic', offset=False)
-    runpath = Dir(path=os.path.join(os.environ['WORKDIR'], 'RemLabs', 'nnb', dirname))
+    runpath = Dir(path=os.path.join(os.environ['WORKDIR'], 'RemLabs', 'nnb',
+                                    dirname, 'nk{}_ecut{}'.format(nk, ecut)))
+
     input_params = PWscf_inparam({
         'CONTROL': {
             'calculation': 'scf',
@@ -38,7 +40,8 @@ def scf_calculation(struc, nk, ecut, dirname):
 
 def relax_calculation(struc, nk, ecut, forc_conv_thr, press_conv_thr, dirname):
     kpts = Kpoints(gridsize=[nk, nk, nk], option='automatic', offset=False)
-    runpath = Dir(path=os.path.join(os.environ['WORKDIR'], 'RemLabs', 'nnb', dirname))
+    runpath = Dir(path=os.path.join(os.environ['WORKDIR'], 'RemLabs', 'nnb',
+                                    dirname, 'nk{}_ecut{}_fct{}_pct{}'.format(nk, ecut, forc_conv_thr, press_conv_thr)))
     input_params = PWscf_inparam({
         'CONTROL': {
             'calculation': 'vc-relax',
@@ -77,13 +80,24 @@ def relax_calculation(struc, nk, ecut, forc_conv_thr, press_conv_thr, dirname):
     output = parse_qe_pwscf_output(outfile=output_file)
     return output
 
+def test_ecut_convergence_unitcell():
+    ecut_list = np.arange(10, 41, 5)
+
+    struc = make_initial_unitcell_state()
+    nk = 4
+
+    for ecut in ecut_list:
+        output = scf_calculation(struc, nk, ecut, 'ecut_convergence_test')
+
+
 def test_scf_calculation():
-    #struc = make_initial_unitcell_state()
-    struc = make_initial_2x2x2_neb_state()
+    struc = make_initial_unitcell_state()
+    #struc = make_initial_2x2x2_neb_state()
     nk = 2
     ecut = 10
-    dirname = 'test_scf_2'
-    scf_calculation(struc, nk, ecut, dirname)
+    dirname = 'test_scf_print_output'
+    output = scf_calculation(struc, nk, ecut, dirname)
+    print(output)
 
 
 def test_relax_calculation():
@@ -97,4 +111,4 @@ def test_relax_calculation():
 
 
 if __name__ == '__main__':
-    test_relax_calculation()
+    test_scf_calculation()
