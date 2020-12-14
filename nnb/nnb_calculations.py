@@ -87,7 +87,7 @@ def test_scf_calculation():
     struc = make_initial_unitcell_state()
     #struc = make_initial_2x2x2_neb_state()
     nk = 2
-    ecut = 10
+    ecut = 25
     dirname = 'test_scf_delete'
     output = scf_calculation(struc, nk, ecut, dirname)
     print(output)
@@ -96,10 +96,10 @@ def test_scf_calculation():
 def test_relax_calculation():
     struc = make_initial_unitcell_state()
     nk = 2
-    ecut = 10
+    ecut = 25
     forc_conv_thr = 0.001
     press_conv_thr = 0.1
-    dirname = 'test_relax_unitcell'
+    dirname = 'relax_unitcell'
     relax_calculation(struc, nk, ecut, forc_conv_thr, press_conv_thr, dirname)
 
 
@@ -134,7 +134,7 @@ def test_nk_convergence_unitcell():
 
     for nk in nk_list:
         calc = scf_calculation(struc, nk, ecut, dirname)
-        output.append([ecut, calc['energy'], calc['force'], calc['pressure']])
+        output.append([nk, calc['energy'], calc['force'], calc['pressure']])
         final_calc = [calc['energy'], calc['force'], calc['pressure']]
 
     for entry in output:
@@ -146,6 +146,7 @@ def test_nk_convergence_unitcell():
 
 
 if __name__ == '__main__':
-    test_ecut_convergence_unitcell()
-    test_nk_convergence_unitcell()
+    #test_ecut_convergence_unitcell()
+    #test_nk_convergence_unitcell()
     #test_scf_calculation()
+    test_relax_calculation()
