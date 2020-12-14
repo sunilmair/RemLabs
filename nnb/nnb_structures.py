@@ -111,6 +111,38 @@ def make_nnb_relaxed_structure_ase(write_file=False):
 
     return nnb_relaxed_unitcell
 
+def make_nnb_relaxed_structure_2_ase(write_file=False):
+    name = 'Na2NH2BH4'
+    Na1_pos = (2.126845646, 0.027255500, 2.021437822)
+    Na2_pos = (-0.030716908, 2.199824696, 2.075527861)
+
+    N_pos = (2.110284350, 2.235160446, 1.278166977)
+    NH1_pos = (2.657228411, 1.691358084, 0.592610032)
+    NH2_pos = (1.588207029, 2.792272903, 0.583835092)
+
+    B_pos = (0.000000000, 0.000000000, 0.000000000)
+    BH1_pos = (1.161388732, 0.031772517, -0.325051421)
+    BH2_pos = (-0.584702037, 0.976547059, -0.421391252)
+    BH3_pos = (-0.576965713, -0.999650076, -0.373722808)
+    BH4_pos = (-0.057832071, 0.020226134, 1.214530881)
+
+    positions = [Na1_pos, Na2_pos,
+                 N_pos, NH1_pos, NH2_pos,
+                 B_pos, BH1_pos, BH2_pos, BH3_pos, BH4_pos]
+
+    cell = [[4.381420580, 0.055575440, -0.085954569],
+            [0.066295472, 4.400713833 , 0.022225508],
+            [-0.127729288, -0.001064441, 4.128830213]]
+
+    nnb_relaxed_unitcell = Atoms(name,
+                                 positions=positions,
+                                 cell=cell,
+                                 pbc=[1,1,1])
+
+    if write_file: write(structures_folder_path + 'nnb_relaxed_unitcell.cif', nnb_relaxed_unitcell)
+
+    return nnb_relaxed_unitcell
+
 
 if __name__ == '__main__':
-    make_nnb_relaxed_structure_ase(True)
+    make_nnb_relaxed_structure_2_ase(True)
