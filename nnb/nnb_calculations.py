@@ -1,5 +1,6 @@
 from nnb_structures import *
 from labutil.src.plugins.pwscf import *
+import csv
 
 pseudopots = {'Na': PseudoPotential(element='Na', name='na_pbe_v1.5.uspp.F.UPF'),
               'N': PseudoPotential(element='N', name='N.pbe-n-radius_5.UPF'),
@@ -32,8 +33,7 @@ def scf_calculation(struc, nk, ecut, dirname):
         'IONS': {},
         'CELL': {},
     })
-    output_file = run_qe_pwscf(runpath=runpath, struc=struc, pseudopots=pseudopots,
-                               params=input_params, kpoints=kpts)
+    output_file = run_qe_pwscf(runpath=runpath, struc=struc, pseudopots=pseudopots, params=input_params, kpoints=kpts)
     output = parse_qe_pwscf_output(outfile=output_file)
     return output
 
@@ -81,13 +81,23 @@ def relax_calculation(struc, nk, ecut, forc_conv_thr, press_conv_thr, dirname):
     return output
 
 def test_ecut_convergence_unitcell():
-    ecut_list = np.arange(10, 41, 5)
+    ecut_list = range(10, 46, 5)
+    output = []
 
     struc = make_initial_unitcell_state()
-    nk = 4
+    nk = 2
 
     for ecut in ecut_list:
-        output = scf_calculation(struc, nk, ecut, 'ecut_convergence_test')
+        calc = scf_calculation(struc, nk, ecut, 'ecut_convergence_test')
+        output.append([ecut, calc['energy'], calc['force'], calc['pressure']])
+        final_calc = [calc['energy'], calc['force'], calc['pressure']]
+
+    for entry in output:
+        entry.extend([entry[1] - final_calc[0], entry[2] - final_calc[1], entry[3] - final_calc[2]])
+
+    with open('ecut_convergence_test/test.csv', 'w', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerows(output)
 
 
 def test_scf_calculation():
@@ -95,7 +105,7 @@ def test_scf_calculation():
     #struc = make_initial_2x2x2_neb_state()
     nk = 2
     ecut = 10
-    dirname = 'test_scf_print_output'
+    dirname = 'test_scf_delete'
     output = scf_calculation(struc, nk, ecut, dirname)
     print(output)
 
@@ -111,4 +121,5 @@ def test_relax_calculation():
 
 
 if __name__ == '__main__':
-    test_scf_calculation()
+    test_ecut_convergence_unitcell()
+    #test_scf_calculation()
