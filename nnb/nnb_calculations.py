@@ -78,10 +78,11 @@ def relax_calculation(struc, nk, ecut, forc_conv_thr, press_conv_thr, dirname):
     return output
 
 def test_scf_calculation():
-    struc = make_initial_unitcell_state()
+    #struc = make_initial_unitcell_state()
+    struc = make_initial_2x2x2_neb_state()
     nk = 2
     ecut = 10
-    dirname = 'test_scf'
+    dirname = 'test_scf_2'
     scf_calculation(struc, nk, ecut, dirname)
 
 
