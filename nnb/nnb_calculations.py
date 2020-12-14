@@ -1,17 +1,47 @@
 from nnb_structures import *
 from labutil.src.plugins.pwscf import *
 
-def relax_calculation(struc, nk, ecut, forc_conv_thr, press_conv_thr, dirname):
-    pseudopots = {'Na' : PseudoPotential(element='Na', name='na_pbe_v1.5.uspp.F.UPF'),
-                  'N' : PseudoPotential(element='N', name='N.pbe-n-radius_5.UPF'),
-                  'H' : PseudoPotential(element='H', name='H.pbe-rrkjus_psl.1.0.0.UPF'),
-                  'B' : PseudoPotential(element='B', name='b_pbe_v1.4.uspp.F.UPF')}
+pseudopots = {'Na': PseudoPotential(element='Na', name='na_pbe_v1.5.uspp.F.UPF'),
+              'N': PseudoPotential(element='N', name='N.pbe-n-radius_5.UPF'),
+              'H': PseudoPotential(element='H', name='H.pbe-rrkjus_psl.1.0.0.UPF'),
+              'B': PseudoPotential(element='B', name='b_pbe_v1.4.uspp.F.UPF')}
 
+
+def scf_calculation(struc, nk, ecut, dirname):
     kpts = Kpoints(gridsize=[nk, nk, nk], option='automatic', offset=False)
-    runpath = Dir(path=os.path.join(os.environ['WORKDIR'], dirname))
+    runpath = Dir(path=os.path.join(os.environ['WORKDIR'], 'RemLabs', 'nnb', dirname))
     input_params = PWscf_inparam({
         'CONTROL': {
             'calculation': 'scf',
+            'pseudo_dir': os.environ['ESPRESSO_PSEUDO'],
+            'outdir': runpath.path,
+            'tstress': True,
+            'tprnfor': True,
+            'disk_io': 'none',
+        },
+        'SYSTEM': {
+            'ecutwfc': ecut,
+        },
+        'ELECTRONS': {
+            'diagonalization': 'david',
+            'mixing_beta': 0.5,
+            'conv_thr': 1e-7,
+        },
+        'IONS': {},
+        'CELL': {},
+    })
+    output_file = run_qe_pwscf(runpath=runpath, struc=struc, pseudopots=pseudopots,
+                               params=input_params, kpoints=kpts)
+    output = parse_qe_pwscf_output(outfile=output_file)
+    return output
+
+
+def relax_calculation(struc, nk, ecut, forc_conv_thr, press_conv_thr, dirname):
+    kpts = Kpoints(gridsize=[nk, nk, nk], option='automatic', offset=False)
+    runpath = Dir(path=os.path.join(os.environ['WORKDIR'], 'RemLabs', 'nnb', dirname))
+    input_params = PWscf_inparam({
+        'CONTROL': {
+            'calculation': 'vc-relax',
             'forc_conv_thr': forc_conv_thr,
             'pseudo_dir': os.environ['ESPRESSO_PSEUDO'],
             'outdir': runpath.path,
@@ -47,6 +77,14 @@ def relax_calculation(struc, nk, ecut, forc_conv_thr, press_conv_thr, dirname):
     output = parse_qe_pwscf_output(outfile=output_file)
     return output
 
+def test_scf_calculation():
+    struc = make_initial_unitcell_state()
+    nk = 2
+    ecut = 10
+    dirname = 'test_scf'
+    scf_calculation(struc, nk, ecut, dirname)
+
+
 def test_relax_calculation():
     struc = make_initial_state()
     nk = 2
@@ -58,4 +96,4 @@ def test_relax_calculation():
 
 
 if __name__ == '__main__':
-    test_relax_calculation()
+    test_scf_calculation()

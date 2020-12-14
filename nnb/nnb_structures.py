@@ -22,7 +22,7 @@ def get_tetrahedron_coords(bond_len):
     return [[bond_len*coord for coord in vertex] for vertex in unit_tetrahedron]
 
 
-def make_na2_nh2_bh4_unitcell(write_file=False):
+def make_na2_nh2_bh4_unitcell_ase(write_file=False):
 
     name = 'Na2NH2BH4'
     BH4_tetrahedron = get_tetrahedron_coords(BH4_bond_length/nnb_lattice_parameter)
@@ -59,22 +59,25 @@ def make_na2_nh2_bh4_unitcell(write_file=False):
     return nnb_unitcell
 
 
-def make_na2_nh2_bh4_nxnxn(n, write_file=False):
-    nnb_unitcell = make_na2_nh2_bh4_unitcell()
+def make_na2_nh2_bh4_nxnxn_ase(n, write_file=False):
+    nnb_unitcell = make_na2_nh2_bh4_unitcell_ase()
     nnb_nxnxn = make_supercell(nnb_unitcell, np.identity(3)*n)
     if write_file: write(structures_folder_path + 'nnb_'+str(n)+'x'+str(n)+'x'+str(n)+'.cif', nnb_nxnxn)
     return nnb_nxnxn
 
+def make_initial_unitcell_state():
+    return Struc(ase2struc(make_na2_nh2_bh4_unitcell_ase()))
 
-def make_initial_state():
-    return Struc(ase2struc(make_na2_nh2_bh4_nxnxn(2)))
+
+def make_initial_2x2x2_neb_state():
+    return Struc(ase2struc(make_na2_nh2_bh4_nxnxn_ase(2)))
 
 
-def make_final_state():
-    final_state = make_na2_nh2_bh4_nxnxn(2)
+def make_final_2x2x2_neb_state():
+    final_state = make_na2_nh2_bh4_nxnxn_ase(2)
     final_state.positions[0] = [nnb_lattice_parameter*coord for coord in [0.5, 0.5, 0]]
     return Struc(ase2struc(final_state))
 
 
 if __name__ == '__main__':
-    make_na2_nh2_bh4_nxnxn(2, True)
+    make_na2_nh2_bh4_nxnxn_ase(2, True)
